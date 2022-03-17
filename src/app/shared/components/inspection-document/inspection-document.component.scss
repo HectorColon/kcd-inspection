@@ -1,0 +1,60 @@
+inspection-document {
+     width: 100% !important;
+    .document {
+        padding: 24px;
+
+        .paper {
+            .header {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .tg {
+              border-collapse: collapse;
+              border-spacing: 0;
+            }
+
+            .tg td {
+              border-color: black;
+              border-style: solid;
+              border-width: 1px;
+              font-family: Arial, sans-serif;
+              font-size: 14px;
+              overflow: hidden;
+              padding: 10px 5px;
+              word-break: normal;
+            }
+
+            .tg th {
+              border-color: black;
+              border-style: solid;
+              border-width: 1px;
+              font-family: Arial, sans-serif;
+              font-size: 14px;
+              font-weight: normal;
+              overflow: hidden;
+              padding: 10px 5px;
+              word-break: normal;
+            }
+
+            .tg .tg-zv4m {
+              border-color: #000000;
+              text-align: left;
+              vertical-align: top
+            }
+
+            .tg .tg-srtl {
+              background-color: #7BB9F2;
+              border-color: #000000;
+              text-align: left;
+              vertical-align: top
+            }
+
+            .note {
+                border-bottom: 1px solid;
+            }
+        }
+    }
+
+}

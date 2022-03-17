@@ -1,0 +1,94 @@
+<div class="document" *ngIf="carInspection" fxLayout="row" fxLayoutAlign="end center">
+  <div class="paper">
+    <table class="tg">
+      <thead>
+        <tr>
+          <th class="tg-zv4m" colspan="2" style="text-align:center">
+            <div> <img style="width: 200px;" src="../../../../assets/images/kcd_logo.png"></div>
+            <strong>
+              <h2 style="margin-top: -32px;">Inspección</h2>
+            </strong>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th class="tg-srtl" colspan="2"><strong>Información General</strong></th>
+        </tr>
+        <tr>
+          <td class="tg-zv4m">Fecha: <strong>{{inspectionDate}}</strong></td>
+          <td class="tg-zv4m">Hora: <strong>{{inspectionDateTime }}</strong></td>
+        </tr>
+        <tr>
+          <td class="tg-zv4m">Nombre del Cliente: <span><strong>{{carInspection.clientFullName}}</strong></span></td>
+          <td class="tg-zv4m">Telefono: <span><strong>{{carInspection.clientPhoneNumber}}</strong></span></td>
+        </tr>
+        <tr>
+          <td class="tg-zv4m" colspan="2">Correo Electrónico:
+            <span><strong>{{carInspection.clientEmail}}</strong></span></td>
+        </tr>
+        <tr>
+          <td class="tg-srtl" colspan="2"><strong>Inspección del Vehiculo</strong>
+          </td>
+        </tr>
+        <tr>
+          <td class="tg-zv4m" colspan="2">
+            <div style="padding-bottom: 8px; font-size: 12px;" fxLayout="row" fxLayoutAlign="space-between center">
+              <span><strong>Leyenda:</strong></span>
+              <br>
+              <span><strong>WS</strong> (“Water Spot”) | <strong>O</strong> (Oxidación) | <strong>DA</strong> (Daño
+                de
+                Aros) | <strong>R</strong> (Rayados) | <strong>CD</strong> (Clear Dañado) | <strong>CR</strong>
+                (Cristal
+                Roto) | <strong>C</strong> (Choque)</span>
+            </div>
+            <div fxLayout="column">
+              <div>
+                <img [src]="carInspection.inspectionDrawing">
+              </div>
+              <div style="padding-bottom: 8px;">
+                <span><strong>Nota:</strong></span>
+              </div>
+              <div class="note">
+                {{carInspection.inspectionNote}}
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="tg-srtl" colspan="2"><strong>Terminos y Condiciones</strong></td>
+        </tr>
+        <tr>
+          <td class="tg-zv4m" colspan="2">
+            <div [innerHtml]="termsAndConditions" style="font-size: 12px;"></div>
+            <div fxLayout="row">
+              <div>
+                <mat-icon *ngIf="carInspection.termsAndConditionAccepted" style="border-bottom: 1px solid;">done
+                </mat-icon>
+                <mat-icon color="" *ngIf="!carInspection.termsAndConditionAccepted" style="border-bottom: 1px solid;">
+                  close</mat-icon>
+                <span style="padding-left: 8px;">Aceptó términos y condiciones</span>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="tg-srtl" colspan="2"><strong><strong>Firma del Cliente</strong></strong>
+          </td>
+        </tr>
+        <tr>
+          <td class="tg-zv4m" colspan="2">
+            <div fxLayout="row" fxLayoutAlign="start center">
+              <mat-icon color="">close</mat-icon>
+              <img [src]="carInspection.clientSignature" style="border-bottom: 1px solid;">
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+      <button mat-button color="accent" (click)="close()">Cerrar</button>
+      <button mat-button color="accent" (click)="convertToPDF()" [disabled]="true">Convertir a PDF</button>
+  </div>
+</div>

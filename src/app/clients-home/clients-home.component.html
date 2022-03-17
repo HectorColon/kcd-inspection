@@ -1,0 +1,54 @@
+<div class="component-spacing">
+  <div *ngIf="isLoading" class="loader-spacing">
+    <loader></loader>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="space-around center" *ngIf="!isLoading && clientList && clientList.length > 0">
+    <table mat-table #clientTable [dataSource]="dataSource">
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="clientFullName">
+        <th mat-header-cell *matHeaderCellDef> Nombre del Cliente </th>
+        <td mat-cell *matCellDef="let client"> {{client.clientFullName}} </td>
+      </ng-container>
+
+      <!-- phone Column -->
+      <ng-container matColumnDef="clientPhoneNumber">
+        <th mat-header-cell *matHeaderCellDef> Telefono del Cliente </th>
+        <td mat-cell *matCellDef="let client"> {{client.clientPhoneNumber}} </td>
+      </ng-container>
+
+      <!-- email Column -->
+      <ng-container matColumnDef="clientEmail">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let client"> {{client.clientEmail}} </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let client" style="width: 125px;">
+          <div>
+            <button mat-icon-button (click)="deleteClient(client.clientId)">
+              <mat-icon matTooltip="Borrar Cliente">delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>
+
+<!-- EMPTY DISPLAY -->
+<div *ngIf="!isLoading && clientList.length <= 0" class="empty-display">
+  <div fxLayout="column" fxLayoutAlign="space-around center">
+    <div><img style="width: 350px;" src="../../../../assets/images/kcd_logo.png"></div>
+    <div style="margin-top: -75px; display: flex; justify-content: center; align-items: center;">
+      <strong>
+        <h3>No hay clientes disponibles</h3>
+      </strong></div>
+  </div>
+</div>
+<!-- / EMPTY DISPLAY -->

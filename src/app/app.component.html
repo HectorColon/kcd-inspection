@@ -1,0 +1,10 @@
+<!-- Toolbar -->
+<div class="toolbar" role="banner">
+  <div style="padding: 8px;">
+    <button mat-button [routerLink]="['/inspection-home']" [routerLinkActive]="'is-active'">Home</button>
+    <button mat-button [routerLink]="['/inspections-list']" [routerLinkActive]="'is-active'">Inspecciones</button>
+    <button mat-button [routerLink]="['/clients-home']" [routerLinkActive]="'is-active'">Clientes</button>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

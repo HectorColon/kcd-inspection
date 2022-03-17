@@ -1,0 +1,74 @@
+<div class="component-spacing">
+  <div *ngIf="isLoading" class="loader-spacing">
+    <loader></loader>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="space-around center"
+    *ngIf="!isLoading && inspectionsList && inspectionsList.length > 0">
+    <table mat-table #inspectionTable [dataSource]="dataSource">
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="clientFullName">
+        <th mat-header-cell *matHeaderCellDef> Nombre del Cliente </th>
+        <td mat-cell *matCellDef="let inspection"> {{inspection.clientFullName}} </td>
+      </ng-container>
+
+      <!-- date Column -->
+      <ng-container matColumnDef="dateTime">
+        <th mat-header-cell *matHeaderCellDef> Fecha de Inspección </th>
+        <td mat-cell *matCellDef="let inspection"> {{inspection.dateTime}} </td>
+      </ng-container>
+
+      <!-- inspection Column -->
+      <ng-container matColumnDef="inspectionDrawing">
+        <th mat-header-cell *matHeaderCellDef> Inspección </th>
+        <td mat-cell *matCellDef="let inspection">
+          <ng-container #template>
+            <img style="width: 100px;" [src]="inspection.inspectionDrawing">
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <!-- termsAndConditions Column -->
+      <ng-container matColumnDef="termsAndConditionAccepted">
+        <th mat-header-cell *matHeaderCellDef> Terminos y Condiciones </th>
+        <td mat-cell *matCellDef="let inspection">
+          <mat-icon color="accent" *ngIf="inspection.termsAndConditionAccepted">done</mat-icon>
+          <mat-icon color="" *ngIf="!inspection.termsAndConditionAccepted">close</mat-icon>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let inspection" style="width: 125px;">
+          <div>
+            <button mat-icon-button (click)="openTransactionDocument(inspection)">
+              <mat-icon matTooltip="Ver Inspección">description</mat-icon>
+            </button>
+            <button mat-icon-button [disabled]="true">
+              <mat-icon matTooltip="Enviar Inspección">send</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteInspection(inspection.inspectionId)">
+              <mat-icon matTooltip="Borrar Inspección">delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>
+
+<!-- EMPTY DISPLAY -->
+<div *ngIf="!isLoading && inspectionsList.length <= 0" class="empty-display">
+  <div fxLayout="column" fxLayoutAlign="space-around center">
+    <div style="margin-left: 32px;"><img style="width: 350px;" src="../../../../assets/images/kcd_logo.png"></div>
+    <div style="margin-top: -75px;">
+      <strong>
+        <h3>No hay inspecciones disponibles</h3>
+      </strong></div>
+  </div>
+</div>
+<!-- / EMPTY DISPLAY -->
