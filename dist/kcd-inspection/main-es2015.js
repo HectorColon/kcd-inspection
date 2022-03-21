@@ -1095,7 +1095,7 @@ let ClientsHomeComponent = class ClientsHomeComponent {
     }
 };
 ClientsHomeComponent.ctorParameters = () => [
-    { type: _services_carwash_service_service__WEBPACK_IMPORTED_MODULE_5__["CarWashServiceService"] }
+    { type: _services_carwash_service_service__WEBPACK_IMPORTED_MODULE_5__["CarWashService"] }
 ];
 ClientsHomeComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -1340,7 +1340,7 @@ let InspectionHomeComponent = class InspectionHomeComponent {
 };
 InspectionHomeComponent.ctorParameters = () => [
     { type: _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"] },
-    { type: _services_carwash_service_service__WEBPACK_IMPORTED_MODULE_9__["CarWashServiceService"] },
+    { type: _services_carwash_service_service__WEBPACK_IMPORTED_MODULE_9__["CarWashService"] },
     { type: ng_whiteboard__WEBPACK_IMPORTED_MODULE_5__["NgWhiteboardService"] },
     { type: ngx_toastr__WEBPACK_IMPORTED_MODULE_6__["ToastrService"] },
     { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"] }
@@ -1429,7 +1429,7 @@ let InspectionsListComponent = class InspectionsListComponent {
     }
 };
 InspectionsListComponent.ctorParameters = () => [
-    { type: _services_carwash_service_service__WEBPACK_IMPORTED_MODULE_5__["CarWashServiceService"] }
+    { type: _services_carwash_service_service__WEBPACK_IMPORTED_MODULE_5__["CarWashService"] }
 ];
 InspectionsListComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -1448,19 +1448,19 @@ InspectionsListComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*!*****************************************************!*\
   !*** ./src/app/services/carwash-service.service.ts ***!
   \*****************************************************/
-/*! exports provided: CarWashServiceService */
+/*! exports provided: CarWashService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CarWashServiceService", function() { return CarWashServiceService; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CarWashService", function() { return CarWashService; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/fire/firestore */ "./node_modules/@angular/fire/fesm2015/angular-fire-firestore.js");
 
 
 
-let CarWashServiceService = class CarWashServiceService {
+let CarWashService = class CarWashService {
     constructor(firestore) {
         this.firestore = firestore;
     }
@@ -1496,14 +1496,14 @@ let CarWashServiceService = class CarWashServiceService {
         this.firestore.collection('Client').doc(clientId).delete();
     }
 };
-CarWashServiceService.ctorParameters = () => [
+CarWashService.ctorParameters = () => [
     { type: _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_2__["AngularFirestore"] }
 ];
-CarWashServiceService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+CarWashService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
         providedIn: 'root'
     })
-], CarWashServiceService);
+], CarWashService);
 
 
 

@@ -1,15 +1,20 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AfterViewInit, Component, OnChanges, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material';
+import { Router } from '@angular/router';
 import * as _moment from 'moment';
 import { FormatType, NgWhiteboardService, WhiteboardOptions } from 'ng-whiteboard';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { CarWashServiceService } from '../services/carwash-service.service';
+import { CarWashService } from '../services/carwash.service';
+import { EmailService } from '../services/email.service';
+import { UserLoginComponent } from '../shared/components/user-login/user-login.component';
 import { CarInspection } from '../shared/models/carInspection.model';
 import { Client } from '../shared/models/client.model';
 import { termsAndConditions } from '../shared/models/constants/terms-and-conditions.const';
+import { User } from '../shared/models/user.model';
 
 @Component({
     selector: 'inspection-home',
@@ -17,7 +22,7 @@ import { termsAndConditions } from '../shared/models/constants/terms-and-conditi
     styleUrls: ['./inspection-home.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class InspectionHomeComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
+export class InspectionHomeComponent implements OnInit, OnDestroy {
 
     carInspectionForm: FormGroup;
     inspectionDate = new Date;
@@ -26,10 +31,11 @@ export class InspectionHomeComponent implements OnInit, OnChanges, OnDestroy, Af
     filteredClientList: Client[] = [];
     termsAndConditions = termsAndConditions;
     isClientSelected: boolean = false; //To create the Client Object
-    isInspectionDrawingSaved: boolean = false; //To create the Client Object
-    isSignatureDrawingSaved: boolean = false; //To create the Client Object
+    isInspectionDrawingSaved: boolean = false;
+    isSignatureDrawingSaved: boolean = false;
     selectedClientName: string = '';
     isLoading: boolean = true;
+    
     whiteBoardOptions: WhiteboardOptions = {
         color: '#000000',
         backgroundColor: '#ffffff',
@@ -38,19 +44,68 @@ export class InspectionHomeComponent implements OnInit, OnChanges, OnDestroy, Af
         linecap: 'round'
     }
 
-    httpOptions = {
-        headers: new HttpHeaders({ 'Content-type': 'application/json' })
-    }
+    httpOptions = { headers: new HttpHeaders({ 'Content-type': 'application/json' })}
 
     private _unsubscribeAll = new Subject();
 
     constructor(private _formBuilder: FormBuilder,
-        private _carWashService: CarWashServiceService,
+        private _carWashService: CarWashService,
         private _whiteboardService: NgWhiteboardService,
         private _ngxToastrService: ToastrService,
-        private _httpClient: HttpClient) { this._unsubscribeAll }
+        private _httpClient: HttpClient,
+        private _emailService: EmailService,
+        private _dialog: MatDialog,
+        private _route: Router) { this._unsubscribeAll }
 
     ngOnInit() {
+        // OPEN PIN PAD IF THE USER IS LOGGED OUT
+        if (!this._carWashService.isLoggedIn) {
+            this.initPinPad();
+        } else {
+            this.initProgram();
+        }
+
+        // LOGGOUT EVENT TO OPEN PINPAD
+        this._carWashService.logout.subscribe(() => {
+            this.initPinPad();
+            this._carWashService.isLoggedIn = false;
+            this.carInspectionForm.reset();
+            this.setCarInspectionForm();
+            this.isClientSelected = false;
+            this.isLoading = false;
+
+            // RESET CANVAS IMAGE
+            this.onClear();
+            this.isInspectionDrawingSaved = false;
+            this.isSignatureDrawingSaved = false;
+            this._route.navigate(['/inspection-home']);
+        });
+    }
+
+    ngOnDestroy() {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
+    initPinPad(): void {
+        const dialogRef = this._dialog.open(UserLoginComponent, {
+            width: '350px',
+            height: '485px',
+            disableClose: true
+        });
+
+        dialogRef.afterClosed().subscribe(user => {
+            this._carWashService.user.next(user);
+            this._ngxToastrService.success('Inicio de sección completado');
+            this._carWashService.isLoggedIn = true;
+            this.initProgram(); //START INSPECTION PROGRAM
+            let userLogged: User = user;
+            userLogged.isLoggedIn = true;
+            this._carWashService.updateUserStatus(userLogged);
+        });
+    }
+
+    initProgram(): void {
         //INITIALIZE CAR INSPECTION FORM
         this.setCarInspectionForm();
 
@@ -68,17 +123,6 @@ export class InspectionHomeComponent implements OnInit, OnChanges, OnDestroy, Af
         }, 3500);
 
         this.subscribeToField();
-    }
-
-    ngOnDestroy() {
-        this._unsubscribeAll.next();
-        this._unsubscribeAll.complete();
-    }
-
-    ngOnChanges(): void {
-    }
-
-    public ngAfterViewInit() {
     }
 
     subscribeToField(): void {
@@ -131,10 +175,8 @@ export class InspectionHomeComponent implements OnInit, OnChanges, OnDestroy, Af
     }
 
     swapImage(model: string): void {
-        
         this._whiteboardService.erase();
         this.setCanvasImage(model);
-        
         this.isInspectionDrawingSaved = false;
     }
 
@@ -166,7 +208,7 @@ export class InspectionHomeComponent implements OnInit, OnChanges, OnDestroy, Af
             termsAndConditionAccepted: this.carInspectionForm.get('termsAndConditionAccepted').value,
             clientSignature: this.carInspectionForm.get('clientSignature').value,
         }
-        console.log(carInspectionRequest);
+
         // CREATE CAR INSPECTION
         this._carWashService.addInspection(carInspectionRequest);
 
@@ -190,29 +232,8 @@ export class InspectionHomeComponent implements OnInit, OnChanges, OnDestroy, Af
         }
 
         if (action === 'send') {
-            let message = {
-                from: "kathycarwashanddetailing@gmail.com",
-                to: carInspectionRequest.clientEmail,
-                subject: "Message title",
-                text: "Plaintext version of the message",
-                html: `
-                        <div class="dcf-overflow-x-auto" tabindex="0">
-            <table class="dcf-table dcf-w-100%">
-                <thead>
-                    <tr>
-                        <td></td>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table></div>`
-            };
-
+            this._ngxToastrService.info('Enviando inspección...');
+            this._emailService.sendEmail(carInspectionRequest);
         } else {
             this._ngxToastrService.success('Formulario Guardado exitosamente');
         }

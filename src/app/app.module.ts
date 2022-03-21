@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { ClientsHomeComponent } from './clients-home/clients-home.component';
 import { InspectionHomeComponent } from './inspection-home/inspection-home.component';
 import { InspectionsListComponent } from './inspections-list/inspections-list.component';
+import { CarWashService } from './services/carwash.service';
 import { SharedModule } from './shared/shared.model';
 
 @NgModule({

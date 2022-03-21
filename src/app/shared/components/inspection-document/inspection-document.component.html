@@ -1,4 +1,4 @@
-<div class="document" *ngIf="carInspection" fxLayout="row" fxLayoutAlign="end center">
+<div class="document" *ngIf="carInspection" fxLayout="column">
   <div class="paper">
     <table class="tg">
       <thead>
@@ -89,6 +89,6 @@
   </div>
   <div>
       <button mat-button color="accent" (click)="close()">Cerrar</button>
-      <button mat-button color="accent" (click)="convertToPDF()" [disabled]="true">Convertir a PDF</button>
+      <button mat-button color="accent" (click)="convertToPDF()" [disabled]="true" *ngIf="false">Convertir a PDF</button>
   </div>
 </div>

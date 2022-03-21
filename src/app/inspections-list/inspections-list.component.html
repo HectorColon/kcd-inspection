@@ -45,7 +45,7 @@
             <button mat-icon-button (click)="openTransactionDocument(inspection)">
               <mat-icon matTooltip="Ver Inspección">description</mat-icon>
             </button>
-            <button mat-icon-button [disabled]="true">
+            <button mat-icon-button (click)="sendInspection(inspection)">
               <mat-icon matTooltip="Enviar Inspección">send</mat-icon>
             </button>
             <button mat-icon-button (click)="deleteInspection(inspection.inspectionId)">

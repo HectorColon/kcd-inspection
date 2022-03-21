@@ -1,10 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { CarWashServiceService } from '../services/carwash-service.service';
+import { CarWashService } from '../services/carwash.service';
+import { EmailService } from '../services/email.service';
 import { InspectionDocumentComponent } from '../shared/components/inspection-document/inspection-document.component';
 import { CarInspection } from '../shared/models/carInspection.model';
 
@@ -24,15 +26,17 @@ export class InspectionsListComponent implements OnInit, OnDestroy {
     isLoading: boolean = true;
     private _unsubscribeAll = new Subject();
 
-    constructor(private _carWashService: CarWashServiceService,
+    constructor(private _carWashService: CarWashService,
                 private _ngxToastrService: ToastrService,
-                private _dialog: MatDialog) { this._unsubscribeAll }
+                private _dialog: MatDialog,
+                private _emailService: EmailService,
+                private _route: Router) { this._unsubscribeAll }
 
     ngOnInit(): void {
+        if (!this._carWashService.isLoggedIn) { this._route.navigate(['/inspection-home']); return; }
         this._carWashService.getInspections().pipe(take(1), takeUntil(this._unsubscribeAll)).subscribe(res => {
             this.inspectionsList = res.filter(x => x.inspectionId != 'dummy');
             this.dataSource = new MatTableDataSource(this.inspectionsList);
-            console.log('', this.inspectionsList)
             setTimeout(() => {
                 this.isLoading = false;
             }, 3000);
@@ -55,7 +59,7 @@ export class InspectionsListComponent implements OnInit, OnDestroy {
         this._ngxToastrService.success('Inspección eliminada exitosamente');
         this.inspectionTable.renderRows();
         this.dataSource = new MatTableDataSource(this.inspectionsList);
-        // this._carWashService.deleteInspection(inspectionId);
+        this._carWashService.deleteInspection(inspectionId);
     }
 
     openTransactionDocument(carInspection: CarInspection): void {
@@ -66,5 +70,10 @@ export class InspectionsListComponent implements OnInit, OnDestroy {
         });
 
         dialogRef.afterClosed().subscribe();
+    }
+
+    sendInspection(carInspection: CarInspection): void {
+        this._ngxToastrService.info('Enviando inspección...');
+        this._emailService.sendEmail(carInspection);
     }
 }

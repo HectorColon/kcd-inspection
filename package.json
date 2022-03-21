@@ -26,6 +26,7 @@
     "@angular/router": "~8.2.14",
     "@ng-plus/signature-pad": "^0.0.5",
     "firebase": "^7.23.0",
+    "lz-string": "^1.4.4",
     "moment": "^2.29.1",
     "ng-whiteboard": "^1.5.0",
     "ngx-mask": "^6.0.0",

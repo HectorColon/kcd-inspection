@@ -1,15 +1,15 @@
-<div *ngIf="isLoading" class="loader-spacing">
+<div *ngIf="isLoading && _carWashService.isLoggedIn" class="loader-spacing">
   <loader></loader>
 </div>
 <div fxLayout="column" fxLayoutAlign="space-around center" class="inspection-home"
-  *ngIf="carInspectionForm && !isLoading">
+  *ngIf="carInspectionForm && !isLoading && _carWashService.isLoggedIn">
   <mat-card style="width: 650px">
     <form name="carInspectionForm" [formGroup]="carInspectionForm">
-      <div fxLayout="column" fxLayoutAlign="space-around center">
-        <div class='section' fxLayout="row" fxLayoutAlign="space-evenly center">
+      <div>
+        <div class='section' fxLayout="column">
           <h3>Informacion General</h3>
           <div fxLayout="row" fxFlex>
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" style="width: 320px;">
               <mat-label>Fecha</mat-label>
               <input matInput [matDatepicker]="picker" disabled [value]="inspectionDate">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -17,7 +17,7 @@
             </mat-form-field>
           </div>
           <div fxLayout="row">
-            <mat-form-field class="example-full-width" appearance="fill">
+            <mat-form-field class="example-full-width" appearance="fill" style="width: 320px;">
               <mat-label>Nombre Completo del Cliente</mat-label>
               <input type="text" matInput formControlName="clientFullName" placeholder="Ej. Juan Del Pueblo"
                 [matAutocomplete]="auto">
@@ -31,7 +31,7 @@
             </mat-form-field>
           </div>
           <div fxLayout="row" fxFlex>
-            <mat-form-field class="example-full-width" appearance="fill">
+            <mat-form-field class="example-full-width" appearance="fill" style="width: 320px;">
               <mat-label>Telefono</mat-label>
               <input matInput placeholder="Ej. (787) 555-5555" formControlName="clientPhoneNumber"
                 mask="(000) 000 - 0000">
@@ -39,7 +39,7 @@
             </mat-form-field>
           </div>
           <div fxLayout="row">
-            <mat-form-field class="example-full-width" appearance="fill">
+            <mat-form-field class="example-full-width" appearance="fill" style="width: 320px;">
               <mat-label>Correo Electrónico (email)</mat-label>
               <input matInput placeholder="Ej. juandelpueblo@example.com" formControlName="clientEmail">
               <mat-error>Correo Electrónico invalido</mat-error>
@@ -49,7 +49,7 @@
         <mat-divider></mat-divider>
         <div class='section'>
           <h3>Inspección del Vehiculo</h3>
-          <div style="padding-bottom: 8px;" fxLayout="row" fxLayoutAlign="space-between center">
+          <div style="padding-bottom: 8px;">
             <span><strong>Leyenda:</strong></span>
             <br>
             <span><strong>WS</strong> (“Water Spot”) | <strong>O</strong> (Oxidación) | <strong>DA</strong> (Daño
@@ -86,7 +86,7 @@
               <mat-icon matTooltip="PickUp">local_shipping</mat-icon>
             </button>
           </div>
-          <mat-form-field appearance="fill">
+          <mat-form-field appearance="fill" style="width: 320px;">
             <mat-label>Nota de Inspección</mat-label>
             <textarea matInput placeholder="Ej. Tiene rayado en..." formControlName="inspectionNote"></textarea>
           </mat-form-field>

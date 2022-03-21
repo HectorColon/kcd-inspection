@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FlexModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SignaturePadModule } from '@ng-plus/signature-pad';
 import { NgWhiteboardModule, NgWhiteboardService } from 'ng-whiteboard';
@@ -7,6 +8,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { AngularMaterialModule } from '../app-material.module';
 import { InspectionDocumentComponent } from './components/inspection-document/inspection-document.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { UserLoginComponent } from './components/user-login/user-login.component';
 
 @NgModule({
     imports: [
@@ -20,6 +22,7 @@ import { LoaderComponent } from './components/loader/loader.component';
             preventDuplicates: true,
         }), // ToastrModule added
         BrowserAnimationsModule, // required animations module
+        FlexModule
     ],
     exports: [
         AngularMaterialModule,
@@ -29,10 +32,12 @@ import { LoaderComponent } from './components/loader/loader.component';
         ToastrModule,
         BrowserAnimationsModule, // required animations module
         LoaderComponent,
-        InspectionDocumentComponent
+        InspectionDocumentComponent,
+        UserLoginComponent,
+        FlexModule
     ],
     providers: [NgWhiteboardService],
-    declarations: [LoaderComponent, InspectionDocumentComponent],
-    entryComponents: [InspectionDocumentComponent]
+    declarations: [LoaderComponent, InspectionDocumentComponent, UserLoginComponent],
+    entryComponents: [InspectionDocumentComponent, UserLoginComponent]
 })
 export class SharedModule { }

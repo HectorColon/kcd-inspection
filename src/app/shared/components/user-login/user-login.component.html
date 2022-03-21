@@ -1,0 +1,130 @@
+<div style="padding: 32px;" fxLayout="column" fxLayoutAlign="space-around center">
+    <div>
+        <mat-form-field appearance="fill" style="width:100%;">
+            <mat-label>PIN</mat-label>
+            <input type="number" matInput formControl="passwordFormControl" [value]="passwordFormControl.value" readonly>
+        </mat-form-field>
+    </div>
+    <div *ngIf="isPasswordIncorrect" style="margin-top: -12px;">
+        <span style="font-size: 12px; color: red;">PIN Incorrecto</span>
+    </div>
+    <div>
+        <style type="text/css">
+            .tg {
+                width: 100%;
+                border-collapse: collapse;
+                border-spacing: 0;
+            }
+
+            .tg td {
+                border-color: black;
+                border-style: solid;
+                border-width: 1px;
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+                overflow: hidden;
+                padding: 10px 5px;
+                word-break: normal;
+            }
+
+            .tg th {
+                border-color: black;
+                border-style: solid;
+                border-width: 1px;
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+                font-weight: normal;
+                overflow: hidden;
+                padding: 10px 5px;
+                word-break: normal;
+            }
+
+            .tg .tg-zv4m {
+                border-color: #ffffff;
+                text-align: left;
+                vertical-align: top
+            }
+        </style>
+        <table class="tg">
+            <thead>
+                <tr>
+                    <th class="tg-zv4m">
+                        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" (click)="createPin('7')">
+                            7
+                        </button>
+                    </th>
+                    <th class="tg-zv4m">
+                        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" (click)="createPin('8')">
+                            8
+                        </button>
+                    </th>
+                    <th class="tg-zv4m">
+                        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" (click)="createPin('9')">
+                            9
+                        </button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="tg-zv4m">
+                        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
+                            (click)="createPin('4')">
+                            4
+                        </button>
+                    </td>
+                    <td class="tg-zv4m">
+                        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
+                            (click)="createPin('5')">
+                            5
+                        </button>
+                    </td>
+                    <td class="tg-zv4m">
+                        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
+                            (click)="createPin('7')">
+                            6
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tg-zv4m">
+                        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
+                            (click)="createPin('1')">
+                            1
+                        </button>
+                    </td>
+                    <td class="tg-zv4m">
+                        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
+                            (click)="createPin('2')">
+                            2
+                        </button>
+                    </td>
+                    <td class="tg-zv4m">
+                        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
+                            (click)="createPin('3')">
+                           3
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tg-zv4m"></td>
+                    <td class="tg-zv4m">
+                        <button mat-mini-fab color="primary"
+                            aria-label="Example icon button with a menu icon" (click)="createPin('0')">
+                            0
+                        </button>
+                    </td>
+                    <td class="tg-zv4m">
+                        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
+                            (click)="createPin()">
+                            <mat-icon style="height: 16px; width: 16px; font-size: 16px;">backspace</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+ <div>
+     <button mat-flat-button color="primary" (click)="login()">Entrar</button>
+ </div>

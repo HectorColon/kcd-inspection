@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { CarWashServiceService } from '../services/carwash-service.service';
+import { CarWashService } from '../services/carwash.service';
 import { Client } from '../shared/models/client.model';
 
 @Component({
@@ -20,14 +21,16 @@ export class ClientsHomeComponent implements OnInit, OnDestroy {
     displayedColumns: string[] = ['clientFullName', 'clientPhoneNumber', 'clientEmail', 'actions'];
     dataSource = new MatTableDataSource<Client>(this.clientList);
     isLoading: boolean = true;
-    
+
     private _unsubscribeAll = new Subject();
 
-    constructor(private _carWashService: CarWashServiceService,
-                private _ngxToastrService: ToastrService) { this._unsubscribeAll }
+    constructor(private _carWashService: CarWashService,
+        private _ngxToastrService: ToastrService,
+        private _route: Router) { this._unsubscribeAll }
 
     ngOnInit(): void {
-        this._carWashService.getClients().pipe(take(1),takeUntil(this._unsubscribeAll)).subscribe(res => {
+        if (!this._carWashService.isLoggedIn) { this._route.navigate(['/inspection-home']); return; }
+        this._carWashService.getClients().pipe(take(1), takeUntil(this._unsubscribeAll)).subscribe(res => {
             this.clientList = res.filter(x => x.clientId != 'dummy');
             this.dataSource = new MatTableDataSource(this.clientList);
             setTimeout(() => {
@@ -52,6 +55,6 @@ export class ClientsHomeComponent implements OnInit, OnDestroy {
         this._ngxToastrService.success('Cliente eliminado exitosamente');
         this.clientTable.renderRows();
         this.dataSource = new MatTableDataSource(this.clientList);
-        // this._carWashService.deleteClient(clientId);
+        this._carWashService.deleteClient(clientId);
     }
 }

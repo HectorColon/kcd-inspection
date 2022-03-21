@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { CarInspection } from '../shared/models/carInspection.model';
 import { Client } from '../shared/models/client.model';
+import { User } from '../shared/models/user.model';
 
 @Injectable({
     providedIn: 'root'
 })
-export class CarWashServiceService {
+export class CarWashService {
+    public isLoggedIn: boolean = false;
+    
+    user = new Subject<User>();
+    logout = new Subject<any>();
 
     constructor(private firestore: AngularFirestore) { }
 
@@ -39,6 +44,10 @@ export class CarWashServiceService {
         return this.firestore.collection("Client").valueChanges({ idField: 'clientId' });
     }
 
+    getUsers(): Observable<User[]> {
+        return this.firestore.collection("Users").valueChanges({ idField: 'userId' });
+    }
+
     //DELETE
     deleteInspection(inspectionId: string): void {
         this.firestore.collection('CarInspection').doc(inspectionId).delete();
@@ -49,4 +58,7 @@ export class CarWashServiceService {
     }
 
     //UPDATE
+    updateUserStatus(user: User): void {
+      this.firestore.collection('Users').doc(user.userId).update({isLoggedIn: user.isLoggedIn});
+    }
 }
