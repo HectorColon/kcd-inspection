@@ -1,8 +1,8 @@
-<div *ngIf="isLoading && _carWashService.isLoggedIn" class="loader-spacing">
+<div *ngIf="isLoading && isLoggedIn" class="loader-spacing">
   <loader></loader>
 </div>
 <div fxLayout="column" fxLayoutAlign="space-around center" class="inspection-home"
-  *ngIf="carInspectionForm && !isLoading && _carWashService.isLoggedIn">
+  *ngIf="carInspectionForm && !isLoading && isLoggedIn">
   <mat-card style="width: 650px">
     <form name="carInspectionForm" [formGroup]="carInspectionForm">
       <div>

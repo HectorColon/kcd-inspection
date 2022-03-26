@@ -34,7 +34,7 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
     isSignatureDrawingSaved: boolean = false;
     selectedClientName: string = '';
     isLoading: boolean = true;
-    
+    isLoggedIn: boolean = false;
     whiteBoardOptions: WhiteboardOptions = {
         color: '#000000',
         backgroundColor: '#ffffff',
@@ -46,6 +46,10 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
     httpOptions = { headers: new HttpHeaders({ 'Content-type': 'application/json' })}
 
     private _unsubscribeAll = new Subject();
+
+    private getIsLoggedIn(): any {
+        return this._carWashService.isLoggedIn;
+    }
 
     constructor(private _formBuilder: FormBuilder,
         private _carWashService: CarWashService,
@@ -74,6 +78,7 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
             this.setCarInspectionForm();
             this.isClientSelected = false;
             this.isLoading = false;
+            this.isLoggedIn = false;
 
             // RESET CANVAS IMAGE
             this.onClear();
@@ -108,6 +113,7 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
     initProgram(): void {
         //INITIALIZE CAR INSPECTION FORM
         this.setCarInspectionForm();
+        this.isLoggedIn = true;
 
         //GET THE CLIENT'S LIST (NEED IMPROVEMENTS)
         this._carWashService.getClients().pipe(take(1), takeUntil(this._unsubscribeAll)).subscribe(res => {
@@ -207,7 +213,7 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
         this.carInspectionForm.get('clientSignature').setValue(e);
     }
 
-    createCarInspection(action: string): void {
+    createCarInspection(action?: string): void {
         let carInspectionRequest: CarInspection = {
             dateTime: _moment(this.inspectionDate).format('MM-DD-YYYYTHH:mm:ss'),
             clientFullName: this.carInspectionForm.get('clientFullName').value && this.carInspectionForm.get('clientFullName').value.clientFullName ? this.carInspectionForm.get('clientFullName').value.clientFullName : this.carInspectionForm.get('clientFullName').value,

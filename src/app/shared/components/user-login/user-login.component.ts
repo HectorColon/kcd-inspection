@@ -49,7 +49,7 @@ export class UserLoginComponent implements OnInit {
         });
     }
 
-    createPin(number: string): void {
+    createPin(number?: string): void {
         if (number) {
             let pin = this.passwordFormControl.value;
             pin += number;
