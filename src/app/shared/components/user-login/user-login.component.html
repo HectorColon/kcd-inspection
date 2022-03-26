@@ -81,7 +81,7 @@
                     </td>
                     <td class="tg-zv4m">
                         <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
-                            (click)="createPin('7')">
+                            (click)="createPin('6')">
                             6
                         </button>
                     </td>
@@ -125,6 +125,11 @@
         </table>
     </div>
 </div>
- <div>
-     <button mat-flat-button color="primary" (click)="login()">Entrar</button>
+ <div fxLayout="row" fxLayoutAlign="space-around center">
+    <div>
+         <button mat-flat-button color="primary" (click)="login()">Entrar</button>
+    </div>
+    <div>
+        <mat-checkbox (change)="remember.setValue($event.checked)">Recordar sessión</mat-checkbox>
+    </div>
  </div>

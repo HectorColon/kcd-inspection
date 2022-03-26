@@ -371,7 +371,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<!-- Toolbar -->\n<div class=\"toolbar\" role=\"banner\">\n  <div style=\"padding: 8px;\">\n    <button mat-button [routerLink]=\"['/inspection-home']\" [routerLinkActive]=\"'is-active'\">Home</button>\n    <button mat-button [routerLink]=\"['/clients-home']\" [routerLinkActive]=\"'is-active'\">Clientes</button>\n    <button mat-button [routerLink]=\"['/inspections-list']\" [routerLinkActive]=\"'is-active'\">Lista de Inspecciones</button>\n  </div>\n</div>\n\n<router-outlet></router-outlet>";
+    __webpack_exports__["default"] = "<!-- Toolbar -->\n<div class=\"toolbar\" role=\"banner\" fxLayout=\"row\" fxLayoutAlign=\"space-between center\">\n  <div style=\"padding: 8px;\">\n    <button mat-button [routerLink]=\"['/inspection-home']\" [routerLinkActive]=\"'is-active'\">Home</button>\n    <button mat-button [routerLink]=\"['/inspections-list']\" [routerLinkActive]=\"'is-active'\">Inspecciones</button>\n    <button mat-button [routerLink]=\"['/clients-home']\" [routerLinkActive]=\"'is-active'\">Clientes</button>\n  </div>\n  <div *ngIf=\"user\" style=\"margin-right: 24px;\">\n    <div fxLayout=\"row\" fxLayoutAlign=\"space-evenly center\">\n      <mat-icon>account_circle</mat-icon>\n      &nbsp;<span>{{user.userFullName}}</span>\n      &nbsp;\n      <button mat-icon-button (click)=\"logout()\">\n        <mat-icon matTooltip=\"Apagar sistema\">power_settings_new</mat-icon>\n      </button>\n    </div>\n  </div>\n\n</div>\n\n<router-outlet></router-outlet>";
     /***/
   },
 
@@ -391,7 +391,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<div class=\"component-spacing\">\n  <div *ngIf=\"isLoading\" class=\"loader-spacing\">\n    <loader></loader>\n  </div>\n  <div fxLayout=\"column\" fxLayoutAlign=\"space-around center\" *ngIf=\"!isLoading\">\n    <table mat-table [dataSource]=\"dataSource\">\n\n      <!-- Name Column -->\n      <ng-container matColumnDef=\"clientFullName\">\n        <th mat-header-cell *matHeaderCellDef> Nombre del Cliente </th>\n        <td mat-cell *matCellDef=\"let client\"> {{client.clientFullName}} </td>\n      </ng-container>\n\n      <!-- phone Column -->\n      <ng-container matColumnDef=\"clientPhoneNumber\">\n        <th mat-header-cell *matHeaderCellDef> Telefono del Cliente </th>\n        <td mat-cell *matCellDef=\"let client\"> {{client.clientPhoneNumber}} </td>\n      </ng-container>\n\n      <!-- email Column -->\n      <ng-container matColumnDef=\"clientEmail\">\n        <th mat-header-cell *matHeaderCellDef> Email </th>\n        <td mat-cell *matCellDef=\"let client\"> {{client.clientEmail}} </td>\n      </ng-container>\n\n      <!-- Actions Column -->\n      <ng-container matColumnDef=\"actions\">\n        <th mat-header-cell *matHeaderCellDef></th>\n        <td mat-cell *matCellDef=\"let client\">\n          <div>\n            <button mat-icon-button (click)=\"deleteClient(client.clientId)\">\n              <mat-icon>delete</mat-icon>\n            </button>\n          </div>\n        </td>\n      </ng-container>\n\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n    </table>\n  </div>\n</div>";
+    __webpack_exports__["default"] = "<div class=\"component-spacing\">\n  <div *ngIf=\"isLoading\" class=\"loader-spacing\">\n    <loader></loader>\n  </div>\n  <div fxLayout=\"column\" fxLayoutAlign=\"space-around center\" *ngIf=\"!isLoading && clientList && clientList.length > 0\">\n    <table mat-table #clientTable [dataSource]=\"dataSource\">\n\n      <!-- Name Column -->\n      <ng-container matColumnDef=\"clientFullName\">\n        <th mat-header-cell *matHeaderCellDef> Nombre del Cliente </th>\n        <td mat-cell *matCellDef=\"let client\"> {{client.clientFullName}} </td>\n      </ng-container>\n\n      <!-- phone Column -->\n      <ng-container matColumnDef=\"clientPhoneNumber\">\n        <th mat-header-cell *matHeaderCellDef> Telefono del Cliente </th>\n        <td mat-cell *matCellDef=\"let client\"> {{client.clientPhoneNumber}} </td>\n      </ng-container>\n\n      <!-- email Column -->\n      <ng-container matColumnDef=\"clientEmail\">\n        <th mat-header-cell *matHeaderCellDef> Email </th>\n        <td mat-cell *matCellDef=\"let client\"> {{client.clientEmail}} </td>\n      </ng-container>\n\n      <!-- Actions Column -->\n      <ng-container matColumnDef=\"actions\">\n        <th mat-header-cell *matHeaderCellDef></th>\n        <td mat-cell *matCellDef=\"let client\" style=\"width: 125px;\">\n          <div>\n            <button mat-icon-button (click)=\"deleteClient(client.clientId)\">\n              <mat-icon matTooltip=\"Borrar Cliente\">delete</mat-icon>\n            </button>\n          </div>\n        </td>\n      </ng-container>\n\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n    </table>\n  </div>\n</div>\n\n<!-- EMPTY DISPLAY -->\n<div *ngIf=\"!isLoading && clientList.length <= 0\" class=\"empty-display\">\n  <div fxLayout=\"column\" fxLayoutAlign=\"space-around center\">\n    <div><img style=\"width: 350px;\" src=\"../../../../assets/images/kcd_logo.png\"></div>\n    <div style=\"margin-top: -75px; display: flex; justify-content: center; align-items: center;\">\n      <strong>\n        <h3>No hay clientes disponibles</h3>\n      </strong></div>\n  </div>\n</div>\n<!-- / EMPTY DISPLAY -->";
     /***/
   },
 
@@ -411,7 +411,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<div fxLayout=\"column\" fxLayoutAlign=\"space-around center\" class=\"inspection-home\" *ngIf=\"carInspection\">\n  <mat-card style=\"width: 650px\">\n    <form name=\"carInspection\" [formGroup]=\"carInspection\">\n      <div fxLayout=\"column\" fxLayoutAlign=\"space-around center\">\n        <div class='section' fxLayout=\"row\" fxLayoutAlign=\"space-evenly center\">\n          <h3>Informacion General</h3>\n          <div fxLayout=\"row\" fxFlex>\n            <mat-form-field appearance=\"fill\">\n              <mat-label>Fecha</mat-label>\n              <input matInput [matDatepicker]=\"picker\" disabled [value]=\"inspectionDate\">\n              <mat-datepicker-toggle matSuffix [for]=\"picker\"></mat-datepicker-toggle>\n              <mat-datepicker #picker></mat-datepicker>\n            </mat-form-field>\n          </div>\n          <div fxLayout=\"row\">\n            <mat-form-field class=\"example-full-width\" appearance=\"fill\">\n              <mat-label>Nombre Completo del Cliente</mat-label>\n              <input type=\"text\" matInput formControlName=\"clientFullName\" placeholder=\"Ej. Juan Del Pueblo\"\n                [matAutocomplete]=\"auto\">\n              <mat-error>Nombre del cliente no debe ser vacio</mat-error>\n              <mat-autocomplete #auto=\"matAutocomplete\" (optionSelected)=\"selectedClient($event.option.value)\"\n                [displayWith]=\"displayWith\">\n                <mat-option *ngFor=\"let option of clientList\" [value]=\"option\">\n                  {{option.clientFullName}}\n                </mat-option>\n              </mat-autocomplete>\n            </mat-form-field>\n          </div>\n          <div fxLayout=\"row\" fxFlex>\n            <mat-form-field class=\"example-full-width\" appearance=\"fill\">\n              <mat-label>Telefono</mat-label>\n              <input matInput placeholder=\"Ej. (787) 555-5555\" formControlName=\"clientPhoneNumber\"\n                mask=\"(000) 000 - 0000\">\n              <mat-error>Número de telefono invalido</mat-error>\n            </mat-form-field>\n          </div>\n          <div fxLayout=\"row\">\n            <mat-form-field class=\"example-full-width\" appearance=\"fill\">\n              <mat-label>Correo Electronico (email)</mat-label>\n              <input matInput placeholder=\"Ej. juandelpueblo@example.com\" formControlName=\"clientEmail\">\n              <mat-error>Correo electronico invalido</mat-error>\n            </mat-form-field>\n          </div>\n        </div>\n        <mat-divider></mat-divider>\n        <div class='section'>\n          <h3>Inspeccion del Vehiculo</h3>\n          <div style=\"padding-bottom: 8px;\" fxLayout=\"row\" fxLayoutAlign=\"space-between center\">\n            <span><strong>Leyenda:</strong></span>\n            <br>\n            <span><strong>WS</strong> (“Water Spot”) | <strong>O</strong> (Oxidación) | <strong>DA</strong> (Daño\n              de\n              Aros) | <strong>R</strong> (Rayados) | <strong>CD</strong> (Clear Dañado) | <strong>CR</strong>\n              (Cristal\n              Roto) | <strong>C</strong> (Choque)</span>\n          </div>\n          <div class=\"white-board\">\n            <ng-whiteboard [color]=\"'#000000'\" [backgroundColor]=\"'#FFFFFF'\" [size]=\"'2.5px'\" (save)=\"onSave($event)\">\n            </ng-whiteboard>\n          </div>\n          <div style=\"padding-bottom: 16px; padding-top: 8px;\">\n            <button mat-icon-button (click)=\"onSaveButton();\">\n              <mat-icon>save</mat-icon>\n            </button>\n            <button mat-icon-button (click)=\"onUndo()\">\n              <mat-icon>undo</mat-icon>\n            </button>\n            <button mat-icon-button (click)=\"onRedo()\">\n              <mat-icon>redo</mat-icon>\n            </button>\n            <button mat-icon-button (click)=\"onClear()\">\n              <mat-icon>delete</mat-icon>\n            </button>\n            <button mat-button color=\"accent\" (click)=\"swapImage()\">\n              <mat-icon>swap_horiz</mat-icon>\n              <span style=\"padding-left: 8px;\">{{!isSwaped ? 'Cambiar a SUV' : 'Cambiar a carro'}}</span>\n            </button>\n          </div>\n          <mat-form-field appearance=\"fill\">\n            <mat-label>Nota de Inspección</mat-label>\n            <textarea matInput placeholder=\"Ex. It makes me feel...\" formControlName=\"inspectionNote\"></textarea>\n          </mat-form-field>\n        </div>\n        <mat-divider></mat-divider>\n        <div class='section'>\n          <h3>Terminos y Condiciones</h3>\n          <div [innerHtml]=\"termsAndConditions\" style=\"height: 250px; overflow: auto;\"></div>\n          <div style=\"padding-top: 8px;\">\n            <mat-checkbox class=\"example-margin\" [checked]=\"carInspection.get('termsAndConditionAccepted').value\"\n              (change)=\"carInspection.get('termsAndConditionAccepted').setValue($event.checked)\">acepto terminos y\n              condiciones</mat-checkbox>\n          </div>\n        </div>\n        <mat-divider></mat-divider>\n        <div class='section'>\n          <h3>Firma del Cliente</h3>\n          <ng-signature-pad style=\"height: 150px !important;\" format=\"base64\" doneButtonText=\"Completar firma\" clearButtonText=\"Borrar firma\"\n            (done)=\"saveSignatureImage($event)\">\n          </ng-signature-pad>\n        </div>\n        <mat-divider></mat-divider>\n        <div class='section'>\n          <button mat-button color=\"accent\" (click)=\"createCarInspection('send')\"\n            [disabled]=\"!carInspection.valid || !isInspectionDrawingSaved || !isSignatureDrawingSaved\">Guardar y\n            Enviar</button>\n          <button mat-button color=\"accent\" (click)=\"createCarInspection()\"\n            [disabled]=\"!carInspection.valid || !isInspectionDrawingSaved || !isSignatureDrawingSaved\">Guardar</button>\n          <button mat-button color=\"accent\" (click)=\"resteInspectionForm()\">Anular Formulario</button>\n        </div>\n      </div>\n    </form>\n  </mat-card>\n</div>\n";
+    __webpack_exports__["default"] = "<div *ngIf=\"isLoading && _carWashService.isLoggedIn\" class=\"loader-spacing\">\n  <loader></loader>\n</div>\n<div fxLayout=\"column\" fxLayoutAlign=\"space-around center\" class=\"inspection-home\"\n  *ngIf=\"carInspectionForm && !isLoading && _carWashService.isLoggedIn\">\n  <mat-card style=\"width: 650px\">\n    <form name=\"carInspectionForm\" [formGroup]=\"carInspectionForm\">\n      <div>\n        <div class='section' fxLayout=\"column\">\n          <h3>Informacion General</h3>\n          <div fxLayout=\"row\" fxFlex>\n            <mat-form-field appearance=\"fill\" style=\"width: 320px;\">\n              <mat-label>Fecha</mat-label>\n              <input matInput [matDatepicker]=\"picker\" disabled [value]=\"inspectionDate\">\n              <mat-datepicker-toggle matSuffix [for]=\"picker\"></mat-datepicker-toggle>\n              <mat-datepicker #picker></mat-datepicker>\n            </mat-form-field>\n          </div>\n          <div fxLayout=\"row\">\n            <mat-form-field class=\"example-full-width\" appearance=\"fill\" style=\"width: 320px;\">\n              <mat-label>Nombre Completo del Cliente</mat-label>\n              <input type=\"text\" matInput formControlName=\"clientFullName\" placeholder=\"Ej. Juan Del Pueblo\"\n                [matAutocomplete]=\"auto\">\n              <mat-error>Nombre del cliente no debe ser vacio</mat-error>\n              <mat-autocomplete #auto=\"matAutocomplete\" (optionSelected)=\"selectedClient($event.option.value)\"\n                [displayWith]=\"displayWith\">\n                <mat-option *ngIf=\"filteredClientList && filteredClientList.length <= 0\" [disabled]=\"true\">Cliente no existe</mat-option>\n                <mat-option *ngFor=\"let option of filteredClientList\" [value]=\"option\">\n                  {{option.clientFullName}}\n                </mat-option>\n              </mat-autocomplete>\n            </mat-form-field>\n          </div>\n          <div fxLayout=\"row\" fxFlex>\n            <mat-form-field class=\"example-full-width\" appearance=\"fill\" style=\"width: 320px;\">\n              <mat-label>Telefono</mat-label>\n              <input matInput placeholder=\"Ej. (787) 555-5555\" formControlName=\"clientPhoneNumber\"\n                mask=\"(000) 000 - 0000\">\n              <mat-error>Número de telefono invalido</mat-error>\n            </mat-form-field>\n          </div>\n          <div fxLayout=\"row\">\n            <mat-form-field class=\"example-full-width\" appearance=\"fill\" style=\"width: 320px;\">\n              <mat-label>Correo Electrónico (email)</mat-label>\n              <input matInput placeholder=\"Ej. juandelpueblo@example.com\" formControlName=\"clientEmail\">\n              <mat-error>Correo Electrónico invalido</mat-error>\n            </mat-form-field>\n          </div>\n        </div>\n        <mat-divider></mat-divider>\n        <div class='section'>\n          <h3>Inspección del Vehiculo</h3>\n          <div style=\"padding-bottom: 8px;\">\n            <span><strong>Leyenda:</strong></span>\n            <br>\n            <span><strong>WS</strong> (“Water Spot”) | <strong>O</strong> (Oxidación) | <strong>DA</strong> (Daño\n              de\n              Aros) | <strong>R</strong> (Rayados) | <strong>CD</strong> (Clear Dañado) | <strong>CR</strong>\n              (Cristal\n              Roto) | <strong>C</strong> (Choque)</span>\n          </div>\n          <div class=\"white-board\">\n            <ng-whiteboard [color]=\"'#000000'\" [backgroundColor]=\"'#FFFFFF'\" [size]=\"'2.5px'\" (save)=\"onSave($event)\">\n            </ng-whiteboard>\n          </div>\n          <div style=\"padding-bottom: 16px; padding-top: 8px;\">\n            <button mat-icon-button (click)=\"onSaveButton();\">\n              <mat-icon matTooltip=\"Guardar\">save</mat-icon>\n            </button>\n            <button mat-icon-button (click)=\"onUndo()\">\n              <mat-icon matTooltip=\"Undo\">undo</mat-icon>\n            </button>\n            <button mat-icon-button (click)=\"onRedo()\">\n              <mat-icon matTooltip=\"Redo\">redo</mat-icon>\n            </button>\n            <button mat-icon-button (click)=\"onClear()\">\n              <mat-icon matTooltip=\"Borrar\">delete</mat-icon>\n            </button>\n            |\n            <button mat-icon-button (click)=\"swapImage('car_model.jpg')\">\n              <mat-icon matTooltip=\"Carro\">directions_car</mat-icon>\n            </button>\n            <button mat-icon-button (click)=\"swapImage('suv_model.jpg')\">\n              <mat-icon matTooltip=\"SUV\">airport_shuttle</mat-icon>\n            </button>\n            <button mat-icon-button (click)=\"swapImage('pickup_model.jpeg')\">\n              <mat-icon matTooltip=\"PickUp\">local_shipping</mat-icon>\n            </button>\n          </div>\n          <mat-form-field appearance=\"fill\" style=\"width: 320px;\">\n            <mat-label>Nota de Inspección</mat-label>\n            <textarea matInput placeholder=\"Ej. Tiene rayado en...\" formControlName=\"inspectionNote\"></textarea>\n          </mat-form-field>\n        </div>\n        <mat-divider></mat-divider>\n        <div class='section'>\n          <h3>Terminos y Condiciones</h3>\n          <div [innerHtml]=\"termsAndConditions\" style=\"height: 250px; overflow: auto;\"></div>\n          <div style=\"padding-top: 8px;\">\n            <mat-checkbox class=\"example-margin\" [checked]=\"carInspectionForm.get('termsAndConditionAccepted').value\"\n              (change)=\"carInspectionForm.get('termsAndConditionAccepted').setValue($event.checked)\">acepto terminos y\n              condiciones</mat-checkbox>\n          </div>\n        </div>\n        <mat-divider></mat-divider>\n        <div class='section'>\n          <h3>Firma del Cliente</h3>\n          <ng-signature-pad #signaturePad style=\"height: 150px !important;\" format=\"base64\" doneButtonText=\"Completar firma\" clearButtonText=\"Borrar firma\"\n            (done)=\"saveSignatureImage($event)\">\n          </ng-signature-pad>\n        </div>\n        <mat-divider></mat-divider>\n        <div class='section'>\n          <button mat-button color=\"accent\" (click)=\"createCarInspection('send')\"\n            [disabled]=\"!carInspectionForm.valid || !isInspectionDrawingSaved || !isSignatureDrawingSaved\">Guardar y\n            Enviar</button>\n          <button mat-button color=\"accent\" (click)=\"createCarInspection()\"\n            [disabled]=\"!carInspectionForm.valid || !isInspectionDrawingSaved ||\n            !isSignatureDrawingSaved\">Guardar</button>\n          <button mat-button color=\"accent\" (click)=\"resetInspectionForm()\">Anular Formulario</button>\n        </div>\n      </div>\n    </form>\n  </mat-card>\n</div>\n";
     /***/
   },
 
@@ -431,7 +431,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<div class=\"component-spacing\">\n    <div *ngIf=\"isLoading\" class=\"loader-spacing\">\n      <loader></loader>\n    </div>\n    <div fxLayout=\"column\" fxLayoutAlign=\"space-around center\" *ngIf=\"!isLoading\">\n      <table mat-table [dataSource]=\"dataSource\">\n\n        <!-- Name Column -->\n        <ng-container matColumnDef=\"clientFullName\">\n          <th mat-header-cell *matHeaderCellDef> Nombre del Cliente </th>\n          <td mat-cell *matCellDef=\"let inspection\"> {{inspection.clientFullName}} </td>\n        </ng-container>\n\n        <!-- phone Column -->\n        <ng-container matColumnDef=\"clientPhoneNumber\">\n          <th mat-header-cell *matHeaderCellDef> Telefono del Cliente </th>\n          <td mat-cell *matCellDef=\"let inspection\"> {{inspection.clientPhoneNumber}} </td>\n        </ng-container>\n\n        <!-- email Column -->\n        <ng-container matColumnDef=\"clientEmail\">\n          <th mat-header-cell *matHeaderCellDef> Email </th>\n          <td mat-cell *matCellDef=\"let inspection\"> {{inspection.clientEmail}} </td>\n        </ng-container>\n\n        <!-- inspection Column -->\n        <ng-container matColumnDef=\"inspectionDrawing\">\n          <th mat-header-cell *matHeaderCellDef> Inspección </th>\n          <td mat-cell *matCellDef=\"let inspection\">\n            <ng-container #template>\n              <img style=\"width: 100px;\" [src]=\"inspection.inspectionDrawing\" ngxViewer>\n            </ng-container>\n          </td>\n        </ng-container>\n\n        <!-- termsAndConditions Column -->\n        <ng-container matColumnDef=\"termsAndConditionAccepted\">\n          <th mat-header-cell *matHeaderCellDef> Terminso y Condiciones </th>\n          <td mat-cell *matCellDef=\"let inspection\">\n            <mat-icon color=\"accent\" *ngIf=\"inspection.termsAndConditionAccepted\">done</mat-icon>\n            <mat-icon color=\"\" *ngIf=\"!inspection.termsAndConditionAccepted\">block</mat-icon>\n          </td>\n        </ng-container>\n\n        <!-- Actions Column -->\n        <ng-container matColumnDef=\"actions\">\n          <th mat-header-cell *matHeaderCellDef></th>\n          <td mat-cell *matCellDef=\"let inspection\" style=\"width: 125px;\">\n            <div>\n              <button mat-icon-button [disabled]=\"true\">\n                <mat-icon matTooltip=\"Ver Inspección\">description</mat-icon>\n              </button>\n              <button mat-icon-button [disabled]=\"true\">\n                <mat-icon matTooltip=\"Enviar Inspección\">send</mat-icon>\n              </button>\n              <button mat-icon-button (click)=\"deleteInspection(inspection.inspectionId)\">\n                <mat-icon matTooltip=\"Borrar Inspección\">delete</mat-icon>\n              </button>\n            </div>\n          </td>\n        </ng-container>\n\n        <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n        <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n      </table>\n    </div>\n</div>";
+    __webpack_exports__["default"] = "<div class=\"component-spacing\">\n  <div *ngIf=\"isLoading\" class=\"loader-spacing\">\n    <loader></loader>\n  </div>\n  <div fxLayout=\"column\" fxLayoutAlign=\"space-around center\"\n    *ngIf=\"!isLoading && inspectionsList && inspectionsList.length > 0\">\n    <table mat-table #inspectionTable [dataSource]=\"dataSource\">\n\n      <!-- Name Column -->\n      <ng-container matColumnDef=\"clientFullName\">\n        <th mat-header-cell *matHeaderCellDef> Nombre del Cliente </th>\n        <td mat-cell *matCellDef=\"let inspection\"> {{inspection.clientFullName}} </td>\n      </ng-container>\n\n      <!-- date Column -->\n      <ng-container matColumnDef=\"dateTime\">\n        <th mat-header-cell *matHeaderCellDef> Fecha de Inspección </th>\n        <td mat-cell *matCellDef=\"let inspection\"> {{inspection.dateTime}} </td>\n      </ng-container>\n\n      <!-- inspection Column -->\n      <ng-container matColumnDef=\"inspectionDrawing\">\n        <th mat-header-cell *matHeaderCellDef> Inspección </th>\n        <td mat-cell *matCellDef=\"let inspection\">\n          <ng-container #template>\n            <img style=\"width: 100px;\" [src]=\"inspection.inspectionDrawing\">\n          </ng-container>\n        </td>\n      </ng-container>\n\n      <!-- termsAndConditions Column -->\n      <ng-container matColumnDef=\"termsAndConditionAccepted\">\n        <th mat-header-cell *matHeaderCellDef> Terminos y Condiciones </th>\n        <td mat-cell *matCellDef=\"let inspection\">\n          <mat-icon color=\"accent\" *ngIf=\"inspection.termsAndConditionAccepted\">done</mat-icon>\n          <mat-icon color=\"\" *ngIf=\"!inspection.termsAndConditionAccepted\">close</mat-icon>\n        </td>\n      </ng-container>\n\n      <!-- Actions Column -->\n      <ng-container matColumnDef=\"actions\">\n        <th mat-header-cell *matHeaderCellDef></th>\n        <td mat-cell *matCellDef=\"let inspection\" style=\"width: 125px;\">\n          <div>\n            <button mat-icon-button (click)=\"openTransactionDocument(inspection)\">\n              <mat-icon matTooltip=\"Ver Inspección\">description</mat-icon>\n            </button>\n            <button mat-icon-button (click)=\"sendInspection(inspection)\">\n              <mat-icon matTooltip=\"Enviar Inspección\">send</mat-icon>\n            </button>\n            <button mat-icon-button (click)=\"deleteInspection(inspection.inspectionId)\">\n              <mat-icon matTooltip=\"Borrar Inspección\">delete</mat-icon>\n            </button>\n          </div>\n        </td>\n      </ng-container>\n\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n    </table>\n  </div>\n</div>\n\n<!-- EMPTY DISPLAY -->\n<div *ngIf=\"!isLoading && inspectionsList.length <= 0\" class=\"empty-display\">\n  <div fxLayout=\"column\" fxLayoutAlign=\"space-around center\">\n    <div style=\"margin-left: 32px;\"><img style=\"width: 350px;\" src=\"../../../../assets/images/kcd_logo.png\"></div>\n    <div style=\"margin-top: -75px;\">\n      <strong>\n        <h3>No hay inspecciones disponibles</h3>\n      </strong></div>\n  </div>\n</div>\n<!-- / EMPTY DISPLAY -->";
     /***/
   },
 
@@ -451,7 +451,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<p>inspection-document works!</p>\n";
+    __webpack_exports__["default"] = "<div class=\"document\" *ngIf=\"carInspection\" fxLayout=\"column\">\n  <div class=\"paper\">\n    <table class=\"tg\">\n      <thead>\n        <tr>\n          <th class=\"tg-zv4m\" colspan=\"2\" style=\"text-align:center\">\n            <div> <img style=\"width: 200px;\" src=\"../../../../assets/images/kcd_logo.png\"></div>\n            <strong>\n              <h2 style=\"margin-top: -32px;\">Inspección</h2>\n            </strong>\n          </th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <th class=\"tg-srtl\" colspan=\"2\"><strong>Información General</strong></th>\n        </tr>\n        <tr>\n          <td class=\"tg-zv4m\">Fecha: <strong>{{inspectionDate}}</strong></td>\n          <td class=\"tg-zv4m\">Hora: <strong>{{inspectionDateTime }}</strong></td>\n        </tr>\n        <tr>\n          <td class=\"tg-zv4m\">Nombre del Cliente: <span><strong>{{carInspection.clientFullName}}</strong></span></td>\n          <td class=\"tg-zv4m\">Telefono: <span><strong>{{carInspection.clientPhoneNumber}}</strong></span></td>\n        </tr>\n        <tr>\n          <td class=\"tg-zv4m\" colspan=\"2\">Correo Electrónico:\n            <span><strong>{{carInspection.clientEmail}}</strong></span></td>\n        </tr>\n        <tr>\n          <td class=\"tg-srtl\" colspan=\"2\"><strong>Inspección del Vehiculo</strong>\n          </td>\n        </tr>\n        <tr>\n          <td class=\"tg-zv4m\" colspan=\"2\">\n            <div style=\"padding-bottom: 8px; font-size: 12px;\" fxLayout=\"row\" fxLayoutAlign=\"space-between center\">\n              <span><strong>Leyenda:</strong></span>\n              <br>\n              <span><strong>WS</strong> (“Water Spot”) | <strong>O</strong> (Oxidación) | <strong>DA</strong> (Daño\n                de\n                Aros) | <strong>R</strong> (Rayados) | <strong>CD</strong> (Clear Dañado) | <strong>CR</strong>\n                (Cristal\n                Roto) | <strong>C</strong> (Choque)</span>\n            </div>\n            <div fxLayout=\"column\">\n              <div>\n                <img [src]=\"carInspection.inspectionDrawing\">\n              </div>\n              <div style=\"padding-bottom: 8px;\">\n                <span><strong>Nota:</strong></span>\n              </div>\n              <div class=\"note\">\n                {{carInspection.inspectionNote}}\n              </div>\n            </div>\n          </td>\n        </tr>\n        <tr>\n          <td class=\"tg-srtl\" colspan=\"2\"><strong>Terminos y Condiciones</strong></td>\n        </tr>\n        <tr>\n          <td class=\"tg-zv4m\" colspan=\"2\">\n            <div [innerHtml]=\"termsAndConditions\" style=\"font-size: 12px;\"></div>\n            <div fxLayout=\"row\">\n              <div>\n                <mat-icon *ngIf=\"carInspection.termsAndConditionAccepted\" style=\"border-bottom: 1px solid;\">done\n                </mat-icon>\n                <mat-icon color=\"\" *ngIf=\"!carInspection.termsAndConditionAccepted\" style=\"border-bottom: 1px solid;\">\n                  close</mat-icon>\n                <span style=\"padding-left: 8px;\">Aceptó términos y condiciones</span>\n              </div>\n            </div>\n          </td>\n        </tr>\n        <tr>\n          <td class=\"tg-srtl\" colspan=\"2\"><strong><strong>Firma del Cliente</strong></strong>\n          </td>\n        </tr>\n        <tr>\n          <td class=\"tg-zv4m\" colspan=\"2\">\n            <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n              <mat-icon color=\"\">close</mat-icon>\n              <img [src]=\"carInspection.clientSignature\" style=\"border-bottom: 1px solid;\">\n            </div>\n          </td>\n        </tr>\n      </tbody>\n    </table>\n  </div>\n  <div>\n      <button mat-button color=\"accent\" (click)=\"close()\">Cerrar</button>\n      <button mat-button color=\"accent\" (click)=\"convertToPDF()\" [disabled]=\"true\" *ngIf=\"false\">Convertir a PDF</button>\n  </div>\n</div>";
     /***/
   },
 
@@ -472,6 +472,26 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 
     __webpack_exports__["default"] = "<div fxLayout=\"column\" fxLayoutAlign=\"space-around center\">\n  <div class=\"logo\"> <img style=\"width: 350px;\" src=\"../../../../assets/images/kcd_logo.png\"></div>\n  <div fxLayoutGap=\"16px\" class=\"loader\">\n  </div>\n</div>";
+    /***/
+  },
+
+  /***/
+  "./node_modules/raw-loader/dist/cjs.js!./src/app/shared/components/user-login/user-login.component.html":
+  /*!**************************************************************************************************************!*\
+    !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/shared/components/user-login/user-login.component.html ***!
+    \**************************************************************************************************************/
+
+  /*! exports provided: default */
+
+  /***/
+  function node_modulesRawLoaderDistCjsJsSrcAppSharedComponentsUserLoginUserLoginComponentHtml(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+
+    __webpack_require__.r(__webpack_exports__);
+    /* harmony default export */
+
+
+    __webpack_exports__["default"] = "<div style=\"padding: 32px;\" fxLayout=\"column\" fxLayoutAlign=\"space-around center\">\n    <div>\n        <mat-form-field appearance=\"fill\" style=\"width:100%;\">\n            <mat-label>PIN</mat-label>\n            <input type=\"number\" matInput formControl=\"passwordFormControl\" [value]=\"passwordFormControl.value\" readonly>\n        </mat-form-field>\n    </div>\n    <div *ngIf=\"isPasswordIncorrect\" style=\"margin-top: -12px;\">\n        <span style=\"font-size: 12px; color: red;\">PIN Incorrecto</span>\n    </div>\n    <div>\n        <style type=\"text/css\">\n            .tg {\n                width: 100%;\n                border-collapse: collapse;\n                border-spacing: 0;\n            }\n\n            .tg td {\n                border-color: black;\n                border-style: solid;\n                border-width: 1px;\n                font-family: Arial, sans-serif;\n                font-size: 14px;\n                overflow: hidden;\n                padding: 10px 5px;\n                word-break: normal;\n            }\n\n            .tg th {\n                border-color: black;\n                border-style: solid;\n                border-width: 1px;\n                font-family: Arial, sans-serif;\n                font-size: 14px;\n                font-weight: normal;\n                overflow: hidden;\n                padding: 10px 5px;\n                word-break: normal;\n            }\n\n            .tg .tg-zv4m {\n                border-color: #ffffff;\n                text-align: left;\n                vertical-align: top\n            }\n        </style>\n        <table class=\"tg\">\n            <thead>\n                <tr>\n                    <th class=\"tg-zv4m\">\n                        <button mat-mini-fab color=\"primary\" aria-label=\"Example icon button with a menu icon\" (click)=\"createPin('7')\">\n                            7\n                        </button>\n                    </th>\n                    <th class=\"tg-zv4m\">\n                        <button mat-mini-fab color=\"primary\" aria-label=\"Example icon button with a menu icon\" (click)=\"createPin('8')\">\n                            8\n                        </button>\n                    </th>\n                    <th class=\"tg-zv4m\">\n                        <button mat-mini-fab color=\"primary\" aria-label=\"Example icon button with a menu icon\" (click)=\"createPin('9')\">\n                            9\n                        </button>\n                    </th>\n                </tr>\n            </thead>\n            <tbody>\n                <tr>\n                    <td class=\"tg-zv4m\">\n                        <button mat-mini-fab color=\"primary\" aria-label=\"Example icon button with a menu icon\"\n                            (click)=\"createPin('4')\">\n                            4\n                        </button>\n                    </td>\n                    <td class=\"tg-zv4m\">\n                        <button mat-mini-fab color=\"primary\" aria-label=\"Example icon button with a menu icon\"\n                            (click)=\"createPin('5')\">\n                            5\n                        </button>\n                    </td>\n                    <td class=\"tg-zv4m\">\n                        <button mat-mini-fab color=\"primary\" aria-label=\"Example icon button with a menu icon\"\n                            (click)=\"createPin('6')\">\n                            6\n                        </button>\n                    </td>\n                </tr>\n                <tr>\n                    <td class=\"tg-zv4m\">\n                        <button mat-mini-fab color=\"primary\" aria-label=\"Example icon button with a menu icon\"\n                            (click)=\"createPin('1')\">\n                            1\n                        </button>\n                    </td>\n                    <td class=\"tg-zv4m\">\n                        <button mat-mini-fab color=\"primary\" aria-label=\"Example icon button with a menu icon\"\n                            (click)=\"createPin('2')\">\n                            2\n                        </button>\n                    </td>\n                    <td class=\"tg-zv4m\">\n                        <button mat-mini-fab color=\"primary\" aria-label=\"Example icon button with a menu icon\"\n                            (click)=\"createPin('3')\">\n                           3\n                        </button>\n                    </td>\n                </tr>\n                <tr>\n                    <td class=\"tg-zv4m\"></td>\n                    <td class=\"tg-zv4m\">\n                        <button mat-mini-fab color=\"primary\"\n                            aria-label=\"Example icon button with a menu icon\" (click)=\"createPin('0')\">\n                            0\n                        </button>\n                    </td>\n                    <td class=\"tg-zv4m\">\n                        <button mat-mini-fab color=\"primary\" aria-label=\"Example icon button with a menu icon\"\n                            (click)=\"createPin()\">\n                            <mat-icon style=\"height: 16px; width: 16px; font-size: 16px;\">backspace</mat-icon>\n                        </button>\n                    </td>\n                </tr>\n            </tbody>\n        </table>\n    </div>\n</div>\n <div fxLayout=\"row\" fxLayoutAlign=\"space-around center\">\n    <div>\n         <button mat-flat-button color=\"primary\" (click)=\"login()\">Entrar</button>\n    </div>\n    <div>\n        <mat-checkbox (change)=\"remember.setValue($event.checked)\">Recordar sessión</mat-checkbox>\n    </div>\n </div>";
     /***/
   },
 
@@ -1477,7 +1497,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "app-root .toolbar {\n  height: 60px;\n  margin: -8px;\n  display: flex;\n  align-items: center;\n  background-color: #1976d2;\n  color: white;\n  font-weight: 600;\n}\napp-root .accent {\n  color: cadetblue !important;\n}\napp-root .loader-spacing {\n  padding-top: 120px !important;\n}\napp-root .component-spacing {\n  padding: 24px !important;\n}\napp-root .is-active {\n  color: black;\n}\napp-root .mat-button.mat-accent,\napp-root .mat-icon-button.mat-accent,\napp-root .mat-stroked-button.mat-accent {\n  color: #1976d2;\n}\napp-root .mat-button.mat-primary,\napp-root .mat-icon-button.mat-primary,\napp-root .mat-stroked-button.mat-primary {\n  color: #7BB9F2;\n}\napp-root .mat-button.mat-primary .mat-button-focus-overlay {\n  background-color: #7BB9F2;\n}\napp-root .mat-button.mat-accent .mat-button-focus-overlay {\n  background-color: #7BB9F2;\n}\napp-root .mat-button .mat-ripple-element {\n  background-color: #7BB9F2 !important;\n}\napp-root .mat-checkbox-checked.mat-accent .mat-checkbox-background {\n  background-color: #1976d2 !important;\n}\napp-root .mat-checkbox-ripple .mat-ripple-element {\n  background-color: #7BB9F2 !important;\n}\napp-root .mat-form-field .mat-input-element {\n  color: #1976d2;\n}\napp-root .mat-form-field .mat-input-element:disabled {\n  color: rgba(0, 0, 0, 0.26);\n}\napp-root .mat-form-field .mat-form-field-label {\n  color: #1976d2;\n}\napp-root .mat-form-field .mat-form-field-underline {\n  background-color: #1976d2;\n}\napp-root .mat-form-field .mat-form-field-ripple {\n  background-color: #1976d2;\n}\napp-root .mat-form-field .mat-form-field-required-marker {\n  color: #1976d2;\n}\napp-root .mat-form-field.mat-focused .mat-form-field-label {\n  color: #7BB9F2;\n}\napp-root .mat-form-field.mat-focused .mat-form-field-ripple {\n  background-color: #7BB9F2;\n}\napp-root .mat-form-field.mat-focused .mat-form-field-required-marker {\n  color: #7BB9F2;\n}\napp-root .mat-form-field.mat-focused .mat-input-element {\n  color: #7BB9F2;\n}\napp-root .mat-form-field.mat-form-field-invalid .mat-input-element {\n  color: red;\n}\napp-root .mat-form-field.mat-form-field-invalid .mat-form-field-label {\n  color: red;\n}\napp-root .mat-form-field.mat-form-field-invalid .mat-form-field-label .mat-form-field-required-marker {\n  color: red;\n}\napp-root .mat-form-field.mat-form-field-invalid .mat-form-field-ripple {\n  background-color: red;\n}\napp-root .mat-icon.mat-accent {\n  color: #1976d2;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oZWN0b3Jjb2xvbi9SZXBvc2l0b3JpZXMva2F0aHktY2Fyd2FzaC1kZXRhaWxpbmcvc3JjL2FwcC9hcHAuY29tcG9uZW50LnNjc3MiLCJzcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFDRTtFQUNFLFlBQUE7RUFDQSxZQUFBO0VBQ0EsYUFBQTtFQUNBLG1CQUFBO0VBQ0EseUJBQUE7RUFDQSxZQUFBO0VBQ0EsZ0JBQUE7QUNBSjtBREdFO0VBQ0UsMkJBQUE7QUNESjtBRElFO0VBQ0UsNkJBQUE7QUNGSjtBREtFO0VBQ0Usd0JBQUE7QUNISjtBRE1FO0VBQ0UsWUFBQTtBQ0pKO0FET0U7OztFQUdFLGNBQUE7QUNMSjtBRFFFOzs7RUFHRSxjQUFBO0FDTko7QURTRTtFQUNFLHlCQUFBO0FDUEo7QURXRTtFQUNFLHlCQUFBO0FDVEo7QURhRTtFQUNFLG9DQUFBO0FDWEo7QURjRTtFQUNFLG9DQUFBO0FDWko7QURlRTtFQUNFLG9DQUFBO0FDYko7QURrQkk7RUFDRSxjQUFBO0FDaEJOO0FEbUJJO0VBQ0UsMEJBQUE7QUNqQk47QURvQkk7RUFDRSxjQUFBO0FDbEJOO0FEcUJJO0VBQ0UseUJBQUE7QUNuQk47QURzQkk7RUFDRSx5QkFBQTtBQ3BCTjtBRHVCSTtFQUNFLGNBQUE7QUNyQk47QUQyQkk7RUFDRSxjQUFBO0FDekJOO0FENEJJO0VBQ0UseUJBQUE7QUMxQk47QUQ2Qkk7RUFDRSxjQUFBO0FDM0JOO0FEOEJJO0VBQ0UsY0FBQTtBQzVCTjtBRGtDSTtFQUNFLFVBQUE7QUNoQ047QURtQ0k7RUFDRSxVQUFBO0FDakNOO0FEbUNNO0VBQ0UsVUFBQTtBQ2pDUjtBRHFDSTtFQUNFLHFCQUFBO0FDbkNOO0FEdUNFO0VBQ0UsY0FBQTtBQ3JDSiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbImFwcC1yb290IHtcbiAgLnRvb2xiYXIge1xuICAgIGhlaWdodDogNjBweDtcbiAgICBtYXJnaW46IC04cHg7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgIGJhY2tncm91bmQtY29sb3I6ICMxOTc2ZDI7XG4gICAgY29sb3I6IHdoaXRlO1xuICAgIGZvbnQtd2VpZ2h0OiA2MDA7XG4gIH1cblxuICAuYWNjZW50IHtcbiAgICBjb2xvcjogY2FkZXRibHVlICFpbXBvcnRhbnQ7XG4gIH1cblxuICAubG9hZGVyLXNwYWNpbmcge1xuICAgIHBhZGRpbmctdG9wOiAxMjBweCAhaW1wb3J0YW50O1xuICB9XG5cbiAgLmNvbXBvbmVudC1zcGFjaW5nIHtcbiAgICBwYWRkaW5nOiAyNHB4ICFpbXBvcnRhbnQ7XG4gIH1cblxuICAuaXMtYWN0aXZlIHtcbiAgICBjb2xvcjogYmxhY2s7XG4gIH1cblxuICAubWF0LWJ1dHRvbi5tYXQtYWNjZW50LFxuICAubWF0LWljb24tYnV0dG9uLm1hdC1hY2NlbnQsXG4gIC5tYXQtc3Ryb2tlZC1idXR0b24ubWF0LWFjY2VudCB7XG4gICAgY29sb3I6ICMxOTc2ZDI7XG4gIH1cblxuICAubWF0LWJ1dHRvbi5tYXQtcHJpbWFyeSxcbiAgLm1hdC1pY29uLWJ1dHRvbi5tYXQtcHJpbWFyeSxcbiAgLm1hdC1zdHJva2VkLWJ1dHRvbi5tYXQtcHJpbWFyeSB7XG4gICAgY29sb3I6ICM3QkI5RjI7XG4gIH1cblxuICAubWF0LWJ1dHRvbi5tYXQtcHJpbWFyeSAubWF0LWJ1dHRvbi1mb2N1cy1vdmVybGF5IHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjN0JCOUYyO1xuICAgIDtcbiAgfVxuXG4gIC5tYXQtYnV0dG9uLm1hdC1hY2NlbnQgLm1hdC1idXR0b24tZm9jdXMtb3ZlcmxheSB7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogIzdCQjlGMjtcbiAgICA7XG4gIH1cblxuICAubWF0LWJ1dHRvbiAubWF0LXJpcHBsZS1lbGVtZW50IHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjN0JCOUYyICFpbXBvcnRhbnQ7XG4gIH1cblxuICAubWF0LWNoZWNrYm94LWNoZWNrZWQubWF0LWFjY2VudCAubWF0LWNoZWNrYm94LWJhY2tncm91bmQge1xuICAgIGJhY2tncm91bmQtY29sb3I6ICMxOTc2ZDIgIWltcG9ydGFudDtcbiAgfVxuXG4gIC5tYXQtY2hlY2tib3gtcmlwcGxlIC5tYXQtcmlwcGxlLWVsZW1lbnQge1xuICAgIGJhY2tncm91bmQtY29sb3I6ICM3QkI5RjIgIWltcG9ydGFudDtcbiAgfVxuXG4gIC8vU1RBTkRBUlxuICAubWF0LWZvcm0tZmllbGQge1xuICAgIC5tYXQtaW5wdXQtZWxlbWVudCB7XG4gICAgICBjb2xvcjogIzE5NzZkMjtcbiAgICB9XG5cbiAgICAubWF0LWlucHV0LWVsZW1lbnQ6ZGlzYWJsZWQge1xuICAgICAgY29sb3I6IHJnYmEoMCwgMCwgMCwgLjI2KTs7XG4gICAgfVxuXG4gICAgLm1hdC1mb3JtLWZpZWxkLWxhYmVsIHtcbiAgICAgIGNvbG9yOiAjMTk3NmQyO1xuICAgIH1cblxuICAgIC5tYXQtZm9ybS1maWVsZC11bmRlcmxpbmUge1xuICAgICAgYmFja2dyb3VuZC1jb2xvcjogIzE5NzZkMjtcbiAgICB9XG5cbiAgICAubWF0LWZvcm0tZmllbGQtcmlwcGxlIHtcbiAgICAgIGJhY2tncm91bmQtY29sb3I6ICMxOTc2ZDI7XG4gICAgfVxuXG4gICAgLm1hdC1mb3JtLWZpZWxkLXJlcXVpcmVkLW1hcmtlciB7XG4gICAgICBjb2xvcjogIzE5NzZkMjtcbiAgICB9XG4gIH1cblxuICAvL0ZPQ1VTRURcbiAgLm1hdC1mb3JtLWZpZWxkLm1hdC1mb2N1c2VkIHtcbiAgICAubWF0LWZvcm0tZmllbGQtbGFiZWwge1xuICAgICAgY29sb3I6ICM3QkI5RjI7XG4gICAgfVxuXG4gICAgLm1hdC1mb3JtLWZpZWxkLXJpcHBsZSB7XG4gICAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjN0JCOUYyO1xuICAgIH1cblxuICAgIC5tYXQtZm9ybS1maWVsZC1yZXF1aXJlZC1tYXJrZXIge1xuICAgICAgY29sb3I6ICM3QkI5RjI7XG4gICAgfVxuXG4gICAgLm1hdC1pbnB1dC1lbGVtZW50IHtcbiAgICAgIGNvbG9yOiAjN0JCOUYyO1xuICAgIH1cbiAgfVxuXG4gIC8vSU5WQUxJRFxuICAubWF0LWZvcm0tZmllbGQubWF0LWZvcm0tZmllbGQtaW52YWxpZCB7XG4gICAgLm1hdC1pbnB1dC1lbGVtZW50IHtcbiAgICAgIGNvbG9yOiByZWQ7XG4gICAgfVxuXG4gICAgLm1hdC1mb3JtLWZpZWxkLWxhYmVsIHtcbiAgICAgIGNvbG9yOiByZWQ7XG5cbiAgICAgIC5tYXQtZm9ybS1maWVsZC1yZXF1aXJlZC1tYXJrZXIge1xuICAgICAgICBjb2xvcjogcmVkO1xuICAgICAgfVxuICAgIH1cblxuICAgIC5tYXQtZm9ybS1maWVsZC1yaXBwbGUge1xuICAgICAgYmFja2dyb3VuZC1jb2xvcjogcmVkO1xuICAgIH1cbiAgfVxuXG4gIC5tYXQtaWNvbi5tYXQtYWNjZW50IHtcbiAgICBjb2xvcjogIzE5NzZkMjtcbiAgfVxufSIsImFwcC1yb290IC50b29sYmFyIHtcbiAgaGVpZ2h0OiA2MHB4O1xuICBtYXJnaW46IC04cHg7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIGJhY2tncm91bmQtY29sb3I6ICMxOTc2ZDI7XG4gIGNvbG9yOiB3aGl0ZTtcbiAgZm9udC13ZWlnaHQ6IDYwMDtcbn1cbmFwcC1yb290IC5hY2NlbnQge1xuICBjb2xvcjogY2FkZXRibHVlICFpbXBvcnRhbnQ7XG59XG5hcHAtcm9vdCAubG9hZGVyLXNwYWNpbmcge1xuICBwYWRkaW5nLXRvcDogMTIwcHggIWltcG9ydGFudDtcbn1cbmFwcC1yb290IC5jb21wb25lbnQtc3BhY2luZyB7XG4gIHBhZGRpbmc6IDI0cHggIWltcG9ydGFudDtcbn1cbmFwcC1yb290IC5pcy1hY3RpdmUge1xuICBjb2xvcjogYmxhY2s7XG59XG5hcHAtcm9vdCAubWF0LWJ1dHRvbi5tYXQtYWNjZW50LFxuYXBwLXJvb3QgLm1hdC1pY29uLWJ1dHRvbi5tYXQtYWNjZW50LFxuYXBwLXJvb3QgLm1hdC1zdHJva2VkLWJ1dHRvbi5tYXQtYWNjZW50IHtcbiAgY29sb3I6ICMxOTc2ZDI7XG59XG5hcHAtcm9vdCAubWF0LWJ1dHRvbi5tYXQtcHJpbWFyeSxcbmFwcC1yb290IC5tYXQtaWNvbi1idXR0b24ubWF0LXByaW1hcnksXG5hcHAtcm9vdCAubWF0LXN0cm9rZWQtYnV0dG9uLm1hdC1wcmltYXJ5IHtcbiAgY29sb3I6ICM3QkI5RjI7XG59XG5hcHAtcm9vdCAubWF0LWJ1dHRvbi5tYXQtcHJpbWFyeSAubWF0LWJ1dHRvbi1mb2N1cy1vdmVybGF5IHtcbiAgYmFja2dyb3VuZC1jb2xvcjogIzdCQjlGMjtcbn1cbmFwcC1yb290IC5tYXQtYnV0dG9uLm1hdC1hY2NlbnQgLm1hdC1idXR0b24tZm9jdXMtb3ZlcmxheSB7XG4gIGJhY2tncm91bmQtY29sb3I6ICM3QkI5RjI7XG59XG5hcHAtcm9vdCAubWF0LWJ1dHRvbiAubWF0LXJpcHBsZS1lbGVtZW50IHtcbiAgYmFja2dyb3VuZC1jb2xvcjogIzdCQjlGMiAhaW1wb3J0YW50O1xufVxuYXBwLXJvb3QgLm1hdC1jaGVja2JveC1jaGVja2VkLm1hdC1hY2NlbnQgLm1hdC1jaGVja2JveC1iYWNrZ3JvdW5kIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogIzE5NzZkMiAhaW1wb3J0YW50O1xufVxuYXBwLXJvb3QgLm1hdC1jaGVja2JveC1yaXBwbGUgLm1hdC1yaXBwbGUtZWxlbWVudCB7XG4gIGJhY2tncm91bmQtY29sb3I6ICM3QkI5RjIgIWltcG9ydGFudDtcbn1cbmFwcC1yb290IC5tYXQtZm9ybS1maWVsZCAubWF0LWlucHV0LWVsZW1lbnQge1xuICBjb2xvcjogIzE5NzZkMjtcbn1cbmFwcC1yb290IC5tYXQtZm9ybS1maWVsZCAubWF0LWlucHV0LWVsZW1lbnQ6ZGlzYWJsZWQge1xuICBjb2xvcjogcmdiYSgwLCAwLCAwLCAwLjI2KTtcbn1cbmFwcC1yb290IC5tYXQtZm9ybS1maWVsZCAubWF0LWZvcm0tZmllbGQtbGFiZWwge1xuICBjb2xvcjogIzE5NzZkMjtcbn1cbmFwcC1yb290IC5tYXQtZm9ybS1maWVsZCAubWF0LWZvcm0tZmllbGQtdW5kZXJsaW5lIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogIzE5NzZkMjtcbn1cbmFwcC1yb290IC5tYXQtZm9ybS1maWVsZCAubWF0LWZvcm0tZmllbGQtcmlwcGxlIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogIzE5NzZkMjtcbn1cbmFwcC1yb290IC5tYXQtZm9ybS1maWVsZCAubWF0LWZvcm0tZmllbGQtcmVxdWlyZWQtbWFya2VyIHtcbiAgY29sb3I6ICMxOTc2ZDI7XG59XG5hcHAtcm9vdCAubWF0LWZvcm0tZmllbGQubWF0LWZvY3VzZWQgLm1hdC1mb3JtLWZpZWxkLWxhYmVsIHtcbiAgY29sb3I6ICM3QkI5RjI7XG59XG5hcHAtcm9vdCAubWF0LWZvcm0tZmllbGQubWF0LWZvY3VzZWQgLm1hdC1mb3JtLWZpZWxkLXJpcHBsZSB7XG4gIGJhY2tncm91bmQtY29sb3I6ICM3QkI5RjI7XG59XG5hcHAtcm9vdCAubWF0LWZvcm0tZmllbGQubWF0LWZvY3VzZWQgLm1hdC1mb3JtLWZpZWxkLXJlcXVpcmVkLW1hcmtlciB7XG4gIGNvbG9yOiAjN0JCOUYyO1xufVxuYXBwLXJvb3QgLm1hdC1mb3JtLWZpZWxkLm1hdC1mb2N1c2VkIC5tYXQtaW5wdXQtZWxlbWVudCB7XG4gIGNvbG9yOiAjN0JCOUYyO1xufVxuYXBwLXJvb3QgLm1hdC1mb3JtLWZpZWxkLm1hdC1mb3JtLWZpZWxkLWludmFsaWQgLm1hdC1pbnB1dC1lbGVtZW50IHtcbiAgY29sb3I6IHJlZDtcbn1cbmFwcC1yb290IC5tYXQtZm9ybS1maWVsZC5tYXQtZm9ybS1maWVsZC1pbnZhbGlkIC5tYXQtZm9ybS1maWVsZC1sYWJlbCB7XG4gIGNvbG9yOiByZWQ7XG59XG5hcHAtcm9vdCAubWF0LWZvcm0tZmllbGQubWF0LWZvcm0tZmllbGQtaW52YWxpZCAubWF0LWZvcm0tZmllbGQtbGFiZWwgLm1hdC1mb3JtLWZpZWxkLXJlcXVpcmVkLW1hcmtlciB7XG4gIGNvbG9yOiByZWQ7XG59XG5hcHAtcm9vdCAubWF0LWZvcm0tZmllbGQubWF0LWZvcm0tZmllbGQtaW52YWxpZCAubWF0LWZvcm0tZmllbGQtcmlwcGxlIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogcmVkO1xufVxuYXBwLXJvb3QgLm1hdC1pY29uLm1hdC1hY2NlbnQge1xuICBjb2xvcjogIzE5NzZkMjtcbn0iXX0= */";
+    __webpack_exports__["default"] = "app-root .toolbar {\n  height: 60px;\n  margin: -8px;\n  display: flex;\n  align-items: center;\n  background-color: #1976d2;\n  color: white;\n  font-weight: 600;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oZWN0b3Jjb2xvbi9Eb2N1bWVudHMvZ2l0aHViLXJlcG8va2NkLWluc3BlY3Rpb24vc3JjL2FwcC9hcHAuY29tcG9uZW50LnNjc3MiLCJzcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFDRTtFQUNFLFlBQUE7RUFDQSxZQUFBO0VBQ0EsYUFBQTtFQUNBLG1CQUFBO0VBQ0EseUJBQUE7RUFDQSxZQUFBO0VBQ0EsZ0JBQUE7QUNBSiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbImFwcC1yb290IHtcbiAgLnRvb2xiYXIge1xuICAgIGhlaWdodDogNjBweDtcbiAgICBtYXJnaW46IC04cHg7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgIGJhY2tncm91bmQtY29sb3I6ICMxOTc2ZDI7XG4gICAgY29sb3I6IHdoaXRlO1xuICAgIGZvbnQtd2VpZ2h0OiA2MDA7XG4gIH1cbn0iLCJhcHAtcm9vdCAudG9vbGJhciB7XG4gIGhlaWdodDogNjBweDtcbiAgbWFyZ2luOiAtOHB4O1xuICBkaXNwbGF5OiBmbGV4O1xuICBhbGlnbi1pdGVtczogY2VudGVyO1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjMTk3NmQyO1xuICBjb2xvcjogd2hpdGU7XG4gIGZvbnQtd2VpZ2h0OiA2MDA7XG59Il19 */";
     /***/
   },
 
@@ -1509,22 +1529,115 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony import */
 
 
-    var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+    var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+    /*! @angular/common/http */
+    "./node_modules/@angular/common/fesm2015/http.js");
+    /* harmony import */
+
+
+    var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
     /*! @angular/core */
     "./node_modules/@angular/core/fesm2015/core.js");
+    /* harmony import */
 
-    var AppComponent = /*#__PURE__*/_createClass(function AppComponent() {
-      _classCallCheck(this, AppComponent);
 
-      this.title = "Kathy's Car Was and Detailing";
-    });
+    var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    /*! rxjs/operators */
+    "./node_modules/rxjs/_esm2015/operators/index.js");
+    /* harmony import */
 
-    AppComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+
+    var _services_carwash_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    /*! ./services/carwash.service */
+    "./src/app/services/carwash.service.ts");
+    /* harmony import */
+
+
+    var lz_string__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+    /*! lz-string */
+    "./node_modules/lz-string/libs/lz-string.js");
+    /* harmony import */
+
+
+    var lz_string__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lz_string__WEBPACK_IMPORTED_MODULE_5__);
+
+    var AppComponent = /*#__PURE__*/function () {
+      function AppComponent(_carWashService, _http) {
+        _classCallCheck(this, AppComponent);
+
+        this._carWashService = _carWashService;
+        this._http = _http;
+        this.title = "Kathy's Car Was and Detailing";
+      }
+
+      _createClass(AppComponent, [{
+        key: "getIP",
+        value: function getIP() {
+          return this._http.get("http://api.ipify.org/?format=json");
+        }
+      }, {
+        key: "ngOnInit",
+        value: function ngOnInit() {
+          var _this = this;
+
+          this._carWashService.user.subscribe(function (res) {
+            _this.user = res;
+          }); // GET IP ADDRESS
+
+
+          this.getIP().subscribe(function (res) {
+            _this.currentIP = res.ip;
+          }); // USER LOGGED
+
+          this._carWashService.getUsers().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["take"])(1)).subscribe(function (res) {
+            var userLogged = res.find(function (x) {
+              return lz_string__WEBPACK_IMPORTED_MODULE_5__["decompressFromBase64"](x.ip) === _this.currentIP && x.isLoggedIn === true;
+            });
+
+            if (userLogged) {
+              _this.user = userLogged;
+
+              _this._carWashService.logged.next(true);
+
+              _this._carWashService.isLoggedIn = true;
+            } else {
+              _this._carWashService.logged.next(false);
+
+              _this._carWashService.isLoggedIn = false;
+            }
+          });
+        }
+      }, {
+        key: "logout",
+        value: function logout() {
+          this._carWashService.logout.next();
+
+          this.user.ip = '';
+          this.user.isLoggedIn = false;
+
+          this._carWashService.updateUserStatus(this.user);
+
+          this.user = undefined;
+        }
+      }]);
+
+      return AppComponent;
+    }();
+
+    AppComponent.ctorParameters = function () {
+      return [{
+        type: _services_carwash_service__WEBPACK_IMPORTED_MODULE_4__["CarWashService"]
+      }, {
+        type: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]
+      }];
+    };
+
+    AppComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
       selector: 'app-root',
       template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
       /*! raw-loader!./app.component.html */
       "./node_modules/raw-loader/dist/cjs.js!./src/app/app.component.html"))["default"],
-      encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewEncapsulation"].None,
+      encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_2__["ViewEncapsulation"].None,
       styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
       /*! ./app.component.scss */
       "./src/app/app.component.scss"))["default"]]
@@ -1666,7 +1779,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["NgModule"])({
       declarations: [_app_component__WEBPACK_IMPORTED_MODULE_13__["AppComponent"], _inspection_home_inspection_home_component__WEBPACK_IMPORTED_MODULE_15__["InspectionHomeComponent"], _clients_home_clients_home_component__WEBPACK_IMPORTED_MODULE_14__["ClientsHomeComponent"], _inspections_list_inspections_list_component__WEBPACK_IMPORTED_MODULE_16__["InspectionsListComponent"]],
-      imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_9__["BrowserModule"], _shared_shared_model__WEBPACK_IMPORTED_MODULE_17__["SharedModule"], _app_routing_module__WEBPACK_IMPORTED_MODULE_12__["AppRoutingModule"], _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_10__["BrowserAnimationsModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_8__["FormsModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_8__["ReactiveFormsModule"], _angular_fire__WEBPACK_IMPORTED_MODULE_4__["AngularFireModule"].initializeApp(_environments_environment__WEBPACK_IMPORTED_MODULE_11__["environment"].firebaseConfig, 'mytestapp'), _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_6__["AngularFirestoreModule"], _angular_fire_auth__WEBPACK_IMPORTED_MODULE_5__["AngularFireAuthModule"], _angular_fire_storage__WEBPACK_IMPORTED_MODULE_7__["AngularFireStorageModule"], _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"], _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"]],
+      imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_9__["BrowserModule"], _shared_shared_model__WEBPACK_IMPORTED_MODULE_17__["SharedModule"], _app_routing_module__WEBPACK_IMPORTED_MODULE_12__["AppRoutingModule"], _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_10__["BrowserAnimationsModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_8__["FormsModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_8__["ReactiveFormsModule"], _angular_fire__WEBPACK_IMPORTED_MODULE_4__["AngularFireModule"].initializeApp(_environments_environment__WEBPACK_IMPORTED_MODULE_11__["environment"].firebaseConfig, 'kcd-inspection'), _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_6__["AngularFirestoreModule"], _angular_fire_auth__WEBPACK_IMPORTED_MODULE_5__["AngularFireAuthModule"], _angular_fire_storage__WEBPACK_IMPORTED_MODULE_7__["AngularFireStorageModule"], _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"], _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClientModule"]],
       providers: [],
       bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_13__["AppComponent"]],
       schemas: [_angular_core__WEBPACK_IMPORTED_MODULE_3__["CUSTOM_ELEMENTS_SCHEMA"]]
@@ -1690,7 +1803,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "clients-home {\n  padding-top: 24px;\n}\nclients-home table {\n  width: 100%;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oZWN0b3Jjb2xvbi9SZXBvc2l0b3JpZXMva2F0aHktY2Fyd2FzaC1kZXRhaWxpbmcvc3JjL2FwcC9jbGllbnRzLWhvbWUvY2xpZW50cy1ob21lLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9jbGllbnRzLWhvbWUvY2xpZW50cy1ob21lLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBS0UsaUJBQUE7QUNIRjtBRERFO0VBQ0UsV0FBQTtBQ0dKIiwiZmlsZSI6InNyYy9hcHAvY2xpZW50cy1ob21lL2NsaWVudHMtaG9tZS5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbImNsaWVudHMtaG9tZSB7XG4gIHRhYmxlIHtcbiAgICB3aWR0aDogMTAwJTtcbiAgfVxuXG4gIHBhZGRpbmctdG9wOiAyNHB4O1xufSIsImNsaWVudHMtaG9tZSB7XG4gIHBhZGRpbmctdG9wOiAyNHB4O1xufVxuY2xpZW50cy1ob21lIHRhYmxlIHtcbiAgd2lkdGg6IDEwMCU7XG59Il19 */";
+    __webpack_exports__["default"] = "clients-home table {\n  width: 100%;\n}\nclients-home .empty-display {\n  padding-top: 120px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oZWN0b3Jjb2xvbi9Eb2N1bWVudHMvZ2l0aHViLXJlcG8va2NkLWluc3BlY3Rpb24vc3JjL2FwcC9jbGllbnRzLWhvbWUvY2xpZW50cy1ob21lLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9jbGllbnRzLWhvbWUvY2xpZW50cy1ob21lLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUNFO0VBQ0UsV0FBQTtBQ0FKO0FER0U7RUFDRSxrQkFBQTtFQUNBLGFBQUE7RUFDQSx1QkFBQTtFQUNBLG1CQUFBO0FDREoiLCJmaWxlIjoic3JjL2FwcC9jbGllbnRzLWhvbWUvY2xpZW50cy1ob21lLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiY2xpZW50cy1ob21lIHtcbiAgdGFibGUge1xuICAgIHdpZHRoOiAxMDAlO1xuICB9XG5cbiAgLmVtcHR5LWRpc3BsYXkge1xuICAgIHBhZGRpbmctdG9wOiAxMjBweDtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIH1cbn0iLCJjbGllbnRzLWhvbWUgdGFibGUge1xuICB3aWR0aDogMTAwJTtcbn1cbmNsaWVudHMtaG9tZSAuZW1wdHktZGlzcGxheSB7XG4gIHBhZGRpbmctdG9wOiAxMjBweDtcbiAgZGlzcGxheTogZmxleDtcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG59Il19 */";
     /***/
   },
 
@@ -1728,53 +1841,73 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony import */
 
 
-    var _angular_material_table__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
-    /*! @angular/material/table */
-    "./node_modules/@angular/material/esm2015/table.js");
+    var _angular_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+    /*! @angular/material */
+    "./node_modules/@angular/material/esm2015/material.js");
     /* harmony import */
 
 
-    var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    /*! @angular/router */
+    "./node_modules/@angular/router/fesm2015/router.js");
+    /* harmony import */
+
+
+    var ngx_toastr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    /*! ngx-toastr */
+    "./node_modules/ngx-toastr/fesm2015/ngx-toastr.js");
+    /* harmony import */
+
+
+    var rxjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
     /*! rxjs */
     "./node_modules/rxjs/_esm2015/index.js");
     /* harmony import */
 
 
-    var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    var rxjs_operators__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
     /*! rxjs/operators */
     "./node_modules/rxjs/_esm2015/operators/index.js");
     /* harmony import */
 
 
-    var _services_carwash_service_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
-    /*! ../services/carwash-service.service */
-    "./src/app/services/carwash-service.service.ts");
+    var _services_carwash_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
+    /*! ../services/carwash.service */
+    "./src/app/services/carwash.service.ts");
 
     var ClientsHomeComponent = /*#__PURE__*/function () {
-      function ClientsHomeComponent(_carWashService) {
+      function ClientsHomeComponent(_carWashService, _ngxToastrService, _route) {
         _classCallCheck(this, ClientsHomeComponent);
 
         this._carWashService = _carWashService;
+        this._ngxToastrService = _ngxToastrService;
+        this._route = _route;
         this.clientList = [];
         this.displayedColumns = ['clientFullName', 'clientPhoneNumber', 'clientEmail', 'actions'];
-        this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_2__["MatTableDataSource"](this.clientList);
+        this.dataSource = new _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatTableDataSource"](this.clientList);
         this.isLoading = true;
-        this._unsubscribeAll = new rxjs__WEBPACK_IMPORTED_MODULE_3__["Subject"]();
+        this._unsubscribeAll = new rxjs__WEBPACK_IMPORTED_MODULE_5__["Subject"]();
         this._unsubscribeAll;
       }
 
       _createClass(ClientsHomeComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          var _this = this;
+          var _this2 = this;
 
-          this._carWashService.getClients().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["takeUntil"])(this._unsubscribeAll)).subscribe(function (res) {
-            _this.clientList = res.filter(function (x) {
+          if (!this._carWashService.isLoggedIn) {
+            this._route.navigate(['/inspection-home']);
+
+            return;
+          }
+
+          this._carWashService.getClients().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["takeUntil"])(this._unsubscribeAll)).subscribe(function (res) {
+            _this2.clientList = res.filter(function (x) {
               return x.clientId != 'dummy';
             });
-            _this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_2__["MatTableDataSource"](_this.clientList);
+            _this2.dataSource = new _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatTableDataSource"](_this2.clientList);
             setTimeout(function () {
-              _this.isLoading = false;
+              _this2.isLoading = false;
             }, 3000);
           });
         }
@@ -1798,6 +1931,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           list.splice(index, 1);
           this.clientList = list;
 
+          this._ngxToastrService.success('Cliente eliminado exitosamente');
+
+          this.clientTable.renderRows();
+          this.dataSource = new _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatTableDataSource"](this.clientList);
+
           this._carWashService.deleteClient(clientId);
         }
       }]);
@@ -1807,10 +1945,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     ClientsHomeComponent.ctorParameters = function () {
       return [{
-        type: _services_carwash_service_service__WEBPACK_IMPORTED_MODULE_5__["CarWashService"]
+        type: _services_carwash_service__WEBPACK_IMPORTED_MODULE_7__["CarWashService"]
+      }, {
+        type: ngx_toastr__WEBPACK_IMPORTED_MODULE_4__["ToastrService"]
+      }, {
+        type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]
       }];
     };
 
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('clientTable', {
+      "static": false
+    })], ClientsHomeComponent.prototype, "clientTable", void 0);
     ClientsHomeComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
       selector: 'clients-home',
       template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
@@ -1840,7 +1985,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = ".inspection-home {\n  height: 100%;\n  overflow: auto;\n  padding-top: 24px;\n  padding-bottom: 24px;\n  padding-right: 12px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.inspection-home .section {\n  padding: 16px;\n}\n.inspection-home mat-form-field {\n  width: 600px !important;\n}\n.inspection-home .white-board {\n  width: 600px;\n  height: 500px;\n  background: #fff;\n  overflow: hidden;\n  border: 1px solid;\n  border-radius: 5px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oZWN0b3Jjb2xvbi9SZXBvc2l0b3JpZXMva2F0aHktY2Fyd2FzaC1kZXRhaWxpbmcvc3JjL2FwcC9pbnNwZWN0aW9uLWhvbWUvaW5zcGVjdGlvbi1ob21lLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9pbnNwZWN0aW9uLWhvbWUvaW5zcGVjdGlvbi1ob21lLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsWUFBQTtFQUNBLGNBQUE7RUFDQSxpQkFBQTtFQUNBLG9CQUFBO0VBQ0EsbUJBQUE7RUFFQSxhQUFBO0VBQ0EsdUJBQUE7RUFDQSxtQkFBQTtBQ0FGO0FERUU7RUFDRSxhQUFBO0FDQUo7QURHRTtFQUNFLHVCQUFBO0FDREo7QURJRTtFQUNFLFlBQUE7RUFDQSxhQUFBO0VBQ0EsZ0JBQUE7RUFDQSxnQkFBQTtFQUNBLGlCQUFBO0VBQ0Esa0JBQUE7QUNGSiIsImZpbGUiOiJzcmMvYXBwL2luc3BlY3Rpb24taG9tZS9pbnNwZWN0aW9uLWhvbWUuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuaW5zcGVjdGlvbi1ob21lIHtcbiAgaGVpZ2h0OiAxMDAlO1xuICBvdmVyZmxvdzogYXV0bztcbiAgcGFkZGluZy10b3A6IDI0cHg7XG4gIHBhZGRpbmctYm90dG9tOiAyNHB4O1xuICBwYWRkaW5nLXJpZ2h0OiAxMnB4O1xuXG4gIGRpc3BsYXk6IGZsZXg7XG4gIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICBhbGlnbi1pdGVtczogY2VudGVyO1xuXG4gIC5zZWN0aW9uIHtcbiAgICBwYWRkaW5nOiAxNnB4O1xuICB9XG5cbiAgbWF0LWZvcm0tZmllbGQge1xuICAgIHdpZHRoOiA2MDBweCAhaW1wb3J0YW50O1xuICB9XG5cbiAgLndoaXRlLWJvYXJkIHtcbiAgICB3aWR0aDogNjAwcHg7XG4gICAgaGVpZ2h0OiA1MDBweDtcbiAgICBiYWNrZ3JvdW5kOiAjZmZmO1xuICAgIG92ZXJmbG93OiBoaWRkZW47XG4gICAgYm9yZGVyOiAxcHggc29saWQ7XG4gICAgYm9yZGVyLXJhZGl1czogNXB4O1xuICB9XG59IiwiLmluc3BlY3Rpb24taG9tZSB7XG4gIGhlaWdodDogMTAwJTtcbiAgb3ZlcmZsb3c6IGF1dG87XG4gIHBhZGRpbmctdG9wOiAyNHB4O1xuICBwYWRkaW5nLWJvdHRvbTogMjRweDtcbiAgcGFkZGluZy1yaWdodDogMTJweDtcbiAgZGlzcGxheTogZmxleDtcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG59XG4uaW5zcGVjdGlvbi1ob21lIC5zZWN0aW9uIHtcbiAgcGFkZGluZzogMTZweDtcbn1cbi5pbnNwZWN0aW9uLWhvbWUgbWF0LWZvcm0tZmllbGQge1xuICB3aWR0aDogNjAwcHggIWltcG9ydGFudDtcbn1cbi5pbnNwZWN0aW9uLWhvbWUgLndoaXRlLWJvYXJkIHtcbiAgd2lkdGg6IDYwMHB4O1xuICBoZWlnaHQ6IDUwMHB4O1xuICBiYWNrZ3JvdW5kOiAjZmZmO1xuICBvdmVyZmxvdzogaGlkZGVuO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xufSJdfQ== */";
+    __webpack_exports__["default"] = ".inspection-home {\n  height: 100%;\n  overflow: auto;\n  padding-top: 24px;\n  padding-bottom: 24px;\n  padding-right: 12px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.inspection-home .section {\n  padding: 16px;\n}\n.inspection-home mat-form-field {\n  width: 600px !important;\n}\n.inspection-home .white-board {\n  width: 600px;\n  height: 500px;\n  background: #fff;\n  overflow: hidden;\n  border: 1px solid;\n  border-radius: 5px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oZWN0b3Jjb2xvbi9Eb2N1bWVudHMvZ2l0aHViLXJlcG8va2NkLWluc3BlY3Rpb24vc3JjL2FwcC9pbnNwZWN0aW9uLWhvbWUvaW5zcGVjdGlvbi1ob21lLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9pbnNwZWN0aW9uLWhvbWUvaW5zcGVjdGlvbi1ob21lLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsWUFBQTtFQUNBLGNBQUE7RUFDQSxpQkFBQTtFQUNBLG9CQUFBO0VBQ0EsbUJBQUE7RUFFQSxhQUFBO0VBQ0EsdUJBQUE7RUFDQSxtQkFBQTtBQ0FGO0FERUU7RUFDRSxhQUFBO0FDQUo7QURHRTtFQUNFLHVCQUFBO0FDREo7QURJRTtFQUNFLFlBQUE7RUFDQSxhQUFBO0VBQ0EsZ0JBQUE7RUFDQSxnQkFBQTtFQUNBLGlCQUFBO0VBQ0Esa0JBQUE7QUNGSiIsImZpbGUiOiJzcmMvYXBwL2luc3BlY3Rpb24taG9tZS9pbnNwZWN0aW9uLWhvbWUuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuaW5zcGVjdGlvbi1ob21lIHtcbiAgaGVpZ2h0OiAxMDAlO1xuICBvdmVyZmxvdzogYXV0bztcbiAgcGFkZGluZy10b3A6IDI0cHg7XG4gIHBhZGRpbmctYm90dG9tOiAyNHB4O1xuICBwYWRkaW5nLXJpZ2h0OiAxMnB4O1xuXG4gIGRpc3BsYXk6IGZsZXg7XG4gIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICBhbGlnbi1pdGVtczogY2VudGVyO1xuXG4gIC5zZWN0aW9uIHtcbiAgICBwYWRkaW5nOiAxNnB4O1xuICB9XG5cbiAgbWF0LWZvcm0tZmllbGQge1xuICAgIHdpZHRoOiA2MDBweCAhaW1wb3J0YW50O1xuICB9XG5cbiAgLndoaXRlLWJvYXJkIHtcbiAgICB3aWR0aDogNjAwcHg7XG4gICAgaGVpZ2h0OiA1MDBweDtcbiAgICBiYWNrZ3JvdW5kOiAjZmZmO1xuICAgIG92ZXJmbG93OiBoaWRkZW47XG4gICAgYm9yZGVyOiAxcHggc29saWQ7XG4gICAgYm9yZGVyLXJhZGl1czogNXB4O1xuICB9XG59IiwiLmluc3BlY3Rpb24taG9tZSB7XG4gIGhlaWdodDogMTAwJTtcbiAgb3ZlcmZsb3c6IGF1dG87XG4gIHBhZGRpbmctdG9wOiAyNHB4O1xuICBwYWRkaW5nLWJvdHRvbTogMjRweDtcbiAgcGFkZGluZy1yaWdodDogMTJweDtcbiAgZGlzcGxheTogZmxleDtcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG59XG4uaW5zcGVjdGlvbi1ob21lIC5zZWN0aW9uIHtcbiAgcGFkZGluZzogMTZweDtcbn1cbi5pbnNwZWN0aW9uLWhvbWUgbWF0LWZvcm0tZmllbGQge1xuICB3aWR0aDogNjAwcHggIWltcG9ydGFudDtcbn1cbi5pbnNwZWN0aW9uLWhvbWUgLndoaXRlLWJvYXJkIHtcbiAgd2lkdGg6IDYwMHB4O1xuICBoZWlnaHQ6IDUwMHB4O1xuICBiYWNrZ3JvdW5kOiAjZmZmO1xuICBvdmVyZmxvdzogaGlkZGVuO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xufSJdfQ== */";
     /***/
   },
 
@@ -1890,52 +2035,70 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony import */
 
 
-    var moment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    var _angular_material__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    /*! @angular/material */
+    "./node_modules/@angular/material/esm2015/material.js");
+    /* harmony import */
+
+
+    var moment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
     /*! moment */
     "./node_modules/moment/moment.js");
     /* harmony import */
 
 
-    var moment__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_4__);
+    var moment__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_5__);
     /* harmony import */
 
 
-    var ng_whiteboard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+    var ng_whiteboard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
     /*! ng-whiteboard */
     "./node_modules/ng-whiteboard/fesm2015/ng-whiteboard.js");
     /* harmony import */
 
 
-    var ngx_toastr__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+    var ngx_toastr__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
     /*! ngx-toastr */
     "./node_modules/ngx-toastr/fesm2015/ngx-toastr.js");
     /* harmony import */
 
 
-    var rxjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
+    var rxjs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
     /*! rxjs */
     "./node_modules/rxjs/_esm2015/index.js");
     /* harmony import */
 
 
-    var rxjs_operators__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
+    var rxjs_operators__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(
     /*! rxjs/operators */
     "./node_modules/rxjs/_esm2015/operators/index.js");
     /* harmony import */
 
 
-    var _services_carwash_service_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(
-    /*! ../services/carwash-service.service */
-    "./src/app/services/carwash-service.service.ts");
+    var _services_carwash_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(
+    /*! ../services/carwash.service */
+    "./src/app/services/carwash.service.ts");
     /* harmony import */
 
 
-    var _shared_models_constants_terms_and_conditions_const__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(
+    var _services_email_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(
+    /*! ../services/email.service */
+    "./src/app/services/email.service.ts");
+    /* harmony import */
+
+
+    var _shared_components_user_login_user_login_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(
+    /*! ../shared/components/user-login/user-login.component */
+    "./src/app/shared/components/user-login/user-login.component.ts");
+    /* harmony import */
+
+
+    var _shared_models_constants_terms_and_conditions_const__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(
     /*! ../shared/models/constants/terms-and-conditions.const */
     "./src/app/shared/models/constants/terms-and-conditions.const.ts");
 
     var InspectionHomeComponent = /*#__PURE__*/function () {
-      function InspectionHomeComponent(_formBuilder, _carWashService, _whiteboardService, _ngxToastrService, _httpClient) {
+      function InspectionHomeComponent(_formBuilder, _carWashService, _whiteboardService, _ngxToastrService, _httpClient, _emailService, _dialog, _http) {
         _classCallCheck(this, InspectionHomeComponent);
 
         this._formBuilder = _formBuilder;
@@ -1943,16 +2106,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this._whiteboardService = _whiteboardService;
         this._ngxToastrService = _ngxToastrService;
         this._httpClient = _httpClient;
+        this._emailService = _emailService;
+        this._dialog = _dialog;
+        this._http = _http;
         this.inspectionDate = new Date();
         this.clientList = [];
-        this.termsAndConditions = _shared_models_constants_terms_and_conditions_const__WEBPACK_IMPORTED_MODULE_10__["termsAndConditions"];
+        this.clientDefaultList = [];
+        this.filteredClientList = [];
+        this.termsAndConditions = _shared_models_constants_terms_and_conditions_const__WEBPACK_IMPORTED_MODULE_13__["termsAndConditions"];
         this.isClientSelected = false; //To create the Client Object
 
-        this.isInspectionDrawingSaved = false; //To create the Client Object
-
-        this.isSignatureDrawingSaved = false; //To create the Client Object
-
+        this.isInspectionDrawingSaved = false;
+        this.isSignatureDrawingSaved = false;
         this.selectedClientName = '';
+        this.isLoading = true;
         this.whiteBoardOptions = {
           color: '#000000',
           backgroundColor: '#ffffff',
@@ -1960,33 +2127,47 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           linejoin: 'round',
           linecap: 'round'
         };
-        this.isSwaped = false; // To swap Car/SUV model photo
-
         this.httpOptions = {
           headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({
             'Content-type': 'application/json'
           })
         };
-        this._unsubscribeAll = new rxjs__WEBPACK_IMPORTED_MODULE_7__["Subject"]();
+        this._unsubscribeAll = new rxjs__WEBPACK_IMPORTED_MODULE_8__["Subject"]();
         this._unsubscribeAll;
       }
 
       _createClass(InspectionHomeComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          var _this2 = this;
+          var _this3 = this;
 
-          //INITIALIZE CAR INSPECTION FORM
-          this.setCarInspectionForm(); //GET THE CLIENT'S LIST (NEED IMPROVEMENTS)
+          this._carWashService.logged.subscribe(function (logged) {
+            // OPEN PIN PAD IF THE USER IS LOGGED OUT
+            if (!logged) {
+              _this3.initPinPad();
+            } else {
+              _this3.initProgram();
+            }
+          }); // LOGGOUT EVENT TO OPEN PINPAD
 
-          this._carWashService.getClients().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_8__["takeUntil"])(this._unsubscribeAll)).subscribe(function (res) {
-            _this2.clientList = res.filter(function (x) {
-              return x.clientId != 'dummy';
-            });
-          }); // SET CANVAS IMAGE
 
+          this._carWashService.logout.subscribe(function () {
+            _this3.initPinPad();
 
-          this.setCanvasImage(this.isSwaped);
+            _this3._carWashService.isLoggedIn = false;
+
+            _this3.carInspectionForm.reset();
+
+            _this3.setCarInspectionForm();
+
+            _this3.isClientSelected = false;
+            _this3.isLoading = false; // RESET CANVAS IMAGE
+
+            _this3.onClear();
+
+            _this3.isInspectionDrawingSaved = false;
+            _this3.isSignatureDrawingSaved = false;
+          });
         }
       }, {
         key: "ngOnDestroy",
@@ -1996,16 +2177,84 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           this._unsubscribeAll.complete();
         }
       }, {
-        key: "ngOnChanges",
-        value: function ngOnChanges() {}
+        key: "initPinPad",
+        value: function initPinPad() {
+          var _this4 = this;
+
+          var dialogRef = this._dialog.open(_shared_components_user_login_user_login_component__WEBPACK_IMPORTED_MODULE_12__["UserLoginComponent"], {
+            width: '350px',
+            height: '485px',
+            disableClose: true
+          });
+
+          dialogRef.afterClosed().subscribe(function (user) {
+            _this4._carWashService.user.next(user);
+
+            _this4._ngxToastrService.success('Inicio de sección completado');
+
+            _this4._carWashService.isLoggedIn = true;
+
+            _this4.initProgram(); //START INSPECTION PROGRAM
+
+
+            _this4._carWashService.updateUserStatus(user);
+
+            _this4.isLoading = true;
+          });
+        }
       }, {
-        key: "ngAfterViewInit",
-        value: function ngAfterViewInit() {}
+        key: "initProgram",
+        value: function initProgram() {
+          var _this5 = this;
+
+          //INITIALIZE CAR INSPECTION FORM
+          this.setCarInspectionForm(); //GET THE CLIENT'S LIST (NEED IMPROVEMENTS)
+
+          this._carWashService.getClients().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_9__["take"])(1), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_9__["takeUntil"])(this._unsubscribeAll)).subscribe(function (res) {
+            _this5.clientList = res.filter(function (x) {
+              return x.clientId != 'dummy';
+            });
+            _this5.clientDefaultList = _toConsumableArray(res.filter(function (x) {
+              return x.clientId != 'dummy';
+            }));
+            _this5.filteredClientList = _toConsumableArray(res.filter(function (x) {
+              return x.clientId != 'dummy';
+            }));
+          });
+
+          setTimeout(function () {
+            _this5.isLoading = false; // SET CANVAS IMAGE
+
+            _this5.setCanvasImage('car_model.jpg');
+          }, 3500);
+          this.subscribeToField();
+        }
+      }, {
+        key: "subscribeToField",
+        value: function subscribeToField() {
+          var _this6 = this;
+
+          this.carInspectionForm.get('clientFullName').valueChanges.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_9__["takeUntil"])(this._unsubscribeAll)).subscribe(function (formValue) {
+            if (formValue && formValue != '') {
+              _this6.filteredClientList = _this6._filter(formValue);
+            } else {
+              _this6.filteredClientList = _this6.clientDefaultList;
+            }
+          });
+        }
+      }, {
+        key: "_filter",
+        value: function _filter(value) {
+          var filterValue = value.toLowerCase();
+          return this.filteredClientList.filter(function (option) {
+            return option.clientFullName.toLowerCase().includes(filterValue);
+          });
+        }
       }, {
         key: "setCarInspectionForm",
         value: function setCarInspectionForm() {
-          this.carInspection = this._formBuilder.group({
-            inspectionDate: [moment__WEBPACK_IMPORTED_MODULE_4__(this.inspectionDate).format('MM/DD/YYYY')],
+          this.carInspectionForm = this._formBuilder.group({
+            inspectionDate: [moment__WEBPACK_IMPORTED_MODULE_5__(this.inspectionDate).format('MM/DD/YYYY')],
             clientFullName: [''],
             clientPhoneNumber: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
             clientEmail: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].email]],
@@ -2025,9 +2274,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function selectedClient(c) {
           if (c) {
             this.isClientSelected = true;
-            this.carInspection.get('clientFullName').setValue(c);
-            this.carInspection.get('clientPhoneNumber').setValue(c.clientPhoneNumber);
-            this.carInspection.get('clientEmail').setValue(c.clientEmail);
+            this.carInspectionForm.get('clientFullName').setValue(c);
+            this.carInspectionForm.get('clientPhoneNumber').setValue(c.clientPhoneNumber);
+            this.carInspectionForm.get('clientEmail').setValue(c.clientEmail);
             this.selectedClientName = c.clientFullName;
           }
         } // WHITEBOARD-HELPERS
@@ -2038,7 +2287,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           this._whiteboardService.erase(); // SET CANVAS IMAGE
 
 
-          this.setCanvasImage(this.isSwaped);
+          this.setCanvasImage('car_model.jpg');
           this.isInspectionDrawingSaved = false;
         }
       }, {
@@ -2053,18 +2302,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
       }, {
         key: "swapImage",
-        value: function swapImage() {
-          this.isSwaped = !this.isSwaped;
-
+        value: function swapImage(model) {
           this._whiteboardService.erase();
 
-          this.setCanvasImage(this.isSwaped);
+          this.setCanvasImage(model);
           this.isInspectionDrawingSaved = false;
         }
       }, {
         key: "onSaveButton",
         value: function onSaveButton() {
-          this._whiteboardService.save(ng_whiteboard__WEBPACK_IMPORTED_MODULE_5__["FormatType"].Base64);
+          this._whiteboardService.save(ng_whiteboard__WEBPACK_IMPORTED_MODULE_6__["FormatType"].Base64);
         }
       }, {
         key: "onSave",
@@ -2073,7 +2320,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
           this._ngxToastrService.success('Dibujo de inspección guardado exitosamente');
 
-          this.carInspection.get('inspectionDrawing').setValue(e);
+          this.carInspectionForm.get('inspectionDrawing').setValue(e);
         } // SIGNATURE HELPERS
 
       }, {
@@ -2083,68 +2330,68 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
           this._ngxToastrService.success('Firma del cliente guardado exitosamente');
 
-          this.carInspection.get('clientSignature').setValue(e);
+          this.carInspectionForm.get('clientSignature').setValue(e);
         }
       }, {
         key: "createCarInspection",
         value: function createCarInspection(action) {
           var carInspectionRequest = {
-            dateTime: moment__WEBPACK_IMPORTED_MODULE_4__(this.inspectionDate).format('MM-DD-YYYYTHH:mm:ss'),
-            clientFullName: this.carInspection.get('clientFullName').value && this.carInspection.get('clientFullName').value.clientFullName ? this.carInspection.get('clientFullName').value.clientFullName : this.carInspection.get('clientFullName').value,
-            clientPhoneNumber: this.carInspection.get('clientPhoneNumber').value,
-            clientEmail: this.carInspection.get('clientEmail').value,
-            inspectionNote: this.carInspection.get('inspectionNote').value,
-            inspectionDrawing: this.carInspection.get('inspectionDrawing').value,
-            termsAndConditionAccepted: this.carInspection.get('termsAndConditionAccepted').value,
-            clientSignature: this.carInspection.get('clientSignature').value
-          };
-          console.log(carInspectionRequest); // CREATE CAR INSPECTION
-          // this._carWashService.addInspection(carInspectionRequest);
-          //CREATE CLIENT IF IT'S NOT SELECTED FROM THE LIST
+            dateTime: moment__WEBPACK_IMPORTED_MODULE_5__(this.inspectionDate).format('MM-DD-YYYYTHH:mm:ss'),
+            clientFullName: this.carInspectionForm.get('clientFullName').value && this.carInspectionForm.get('clientFullName').value.clientFullName ? this.carInspectionForm.get('clientFullName').value.clientFullName : this.carInspectionForm.get('clientFullName').value,
+            clientPhoneNumber: this.carInspectionForm.get('clientPhoneNumber').value,
+            clientEmail: this.carInspectionForm.get('clientEmail').value,
+            inspectionNote: this.carInspectionForm.get('inspectionNote').value,
+            inspectionDrawing: this.carInspectionForm.get('inspectionDrawing').value,
+            termsAndConditionAccepted: this.carInspectionForm.get('termsAndConditionAccepted').value,
+            clientSignature: this.carInspectionForm.get('clientSignature').value
+          }; // CREATE CAR INSPECTION
+
+          this._carWashService.addInspection(carInspectionRequest); //CREATE CLIENT IF IT'S NOT SELECTED FROM THE LIST
+
 
           if (!this.isClientSelected) {
             this.isClientSelected = false; //RESTE VARIABLE TO THEIR ORIGINAL STATE
-            // this._carWashService.addClient({
-            //     clientFullName: this.carInspection.get('clientFullName').value,
-            //     clientPhoneNumber: this.carInspection.get('clientPhoneNumber').value,
-            //     clientEmail: this.carInspection.get('clientEmail').value,
-            // });
+
+            this._carWashService.addClient({
+              clientFullName: this.carInspectionForm.get('clientFullName').value,
+              clientPhoneNumber: this.carInspectionForm.get('clientPhoneNumber').value,
+              clientEmail: this.carInspectionForm.get('clientEmail').value
+            }); //ADD MANUALLY TO THE CLIENT LIST
+
+
+            this.clientList.push({
+              clientFullName: this.carInspectionForm.get('clientFullName').value,
+              clientPhoneNumber: this.carInspectionForm.get('clientPhoneNumber').value,
+              clientEmail: this.carInspectionForm.get('clientEmail').value
+            });
 
             this._ngxToastrService.success('Información del Cliente guardado correctamente');
           }
 
           if (action === 'send') {
-            var message = {
-              from: "kathycarwashanddetailing@gmail.com",
-              to: carInspectionRequest.clientEmail,
-              subject: "Message title",
-              text: "Plaintext version of the message",
-              html: "\n                        <div class=\"dcf-overflow-x-auto\" tabindex=\"0\">\n            <table class=\"dcf-table dcf-w-100%\">\n                <thead>\n                    <tr>\n                        <td></td>\n                        <th scope=\"col\"></th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr>\n                        <th scope=\"row\"></th>\n                        <td></td>\n                    </tr>\n                </tbody>\n            </table></div>"
-            };
-            console.log('', message);
+            this._ngxToastrService.info('Enviando inspección...');
 
-            this._ngxToastrService.success('Formulario Enviado y Guardado exitosamente');
+            this._emailService.sendEmail(carInspectionRequest);
           } else {
             this._ngxToastrService.success('Formulario Guardado exitosamente');
           }
 
-          this.resteInspectionForm(true);
+          this.resetInspectionForm(true);
         }
       }, {
         key: "setCanvasImage",
         value: function setCanvasImage() {
-          var _this3 = this;
+          var _this7 = this;
 
-          var isSwaped = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-          var asset = !isSwaped ? '../../assets/images/car_model.jpg' : '../../assets/images/suv_model.jpg';
+          var model = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'car_model.jpg';
 
-          this._httpClient.get(asset, {
+          this._httpClient.get("../../assets/images/".concat(model), {
             responseType: 'blob'
-          }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_8__["takeUntil"])(this._unsubscribeAll)).subscribe(function (res) {
+          }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_9__["takeUntil"])(this._unsubscribeAll)).subscribe(function (res) {
             var reader = new FileReader();
 
             reader.onloadend = function () {
-              _this3._whiteboardService.addImage(reader.result);
+              _this7._whiteboardService.addImage(reader.result);
             };
 
             if (res) {
@@ -2153,14 +2400,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           });
         }
       }, {
-        key: "resteInspectionForm",
-        value: function resteInspectionForm() {
+        key: "resetInspectionForm",
+        value: function resetInspectionForm() {
           var fromButton = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-          this.carInspection.reset();
+          this.carInspectionForm.reset();
           this.setCarInspectionForm();
           this.isClientSelected = false; // RESET CANVAS IMAGE
 
           this.onClear();
+          this.isInspectionDrawingSaved = false;
+          this.isSignatureDrawingSaved = false;
 
           if (!fromButton) {
             this._ngxToastrService.warning('Formulario ha sido anulado');
@@ -2175,11 +2424,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       return [{
         type: _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"]
       }, {
-        type: _services_carwash_service_service__WEBPACK_IMPORTED_MODULE_9__["CarWashService"]
+        type: _services_carwash_service__WEBPACK_IMPORTED_MODULE_10__["CarWashService"]
       }, {
-        type: ng_whiteboard__WEBPACK_IMPORTED_MODULE_5__["NgWhiteboardService"]
+        type: ng_whiteboard__WEBPACK_IMPORTED_MODULE_6__["NgWhiteboardService"]
       }, {
-        type: ngx_toastr__WEBPACK_IMPORTED_MODULE_6__["ToastrService"]
+        type: ngx_toastr__WEBPACK_IMPORTED_MODULE_7__["ToastrService"]
+      }, {
+        type: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]
+      }, {
+        type: _services_email_service__WEBPACK_IMPORTED_MODULE_11__["EmailService"]
+      }, {
+        type: _angular_material__WEBPACK_IMPORTED_MODULE_4__["MatDialog"]
       }, {
         type: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]
       }];
@@ -2214,7 +2469,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "inspections-list table {\n  width: 100%;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oZWN0b3Jjb2xvbi9SZXBvc2l0b3JpZXMva2F0aHktY2Fyd2FzaC1kZXRhaWxpbmcvc3JjL2FwcC9pbnNwZWN0aW9ucy1saXN0L2luc3BlY3Rpb25zLWxpc3QuY29tcG9uZW50LnNjc3MiLCJzcmMvYXBwL2luc3BlY3Rpb25zLWxpc3QvaW5zcGVjdGlvbnMtbGlzdC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFDRTtFQUNFLFdBQUE7QUNBSiIsImZpbGUiOiJzcmMvYXBwL2luc3BlY3Rpb25zLWxpc3QvaW5zcGVjdGlvbnMtbGlzdC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbImluc3BlY3Rpb25zLWxpc3Qge1xuICB0YWJsZSB7XG4gICAgd2lkdGg6IDEwMCU7XG4gIH1cbn0iLCJpbnNwZWN0aW9ucy1saXN0IHRhYmxlIHtcbiAgd2lkdGg6IDEwMCU7XG59Il19 */";
+    __webpack_exports__["default"] = "inspections-list table {\n  width: 100%;\n}\ninspections-list .empty-display {\n  padding-top: 120px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oZWN0b3Jjb2xvbi9Eb2N1bWVudHMvZ2l0aHViLXJlcG8va2NkLWluc3BlY3Rpb24vc3JjL2FwcC9pbnNwZWN0aW9ucy1saXN0L2luc3BlY3Rpb25zLWxpc3QuY29tcG9uZW50LnNjc3MiLCJzcmMvYXBwL2luc3BlY3Rpb25zLWxpc3QvaW5zcGVjdGlvbnMtbGlzdC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFDRTtFQUNFLFdBQUE7QUNBSjtBREdFO0VBQ0Usa0JBQUE7RUFDQSxhQUFBO0VBQ0EsdUJBQUE7RUFDQSxtQkFBQTtBQ0RKIiwiZmlsZSI6InNyYy9hcHAvaW5zcGVjdGlvbnMtbGlzdC9pbnNwZWN0aW9ucy1saXN0LmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiaW5zcGVjdGlvbnMtbGlzdCB7XG4gIHRhYmxlIHtcbiAgICB3aWR0aDogMTAwJTtcbiAgfVxuXG4gIC5lbXB0eS1kaXNwbGF5IHtcbiAgICBwYWRkaW5nLXRvcDogMTIwcHg7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICB9XG59IiwiaW5zcGVjdGlvbnMtbGlzdCB0YWJsZSB7XG4gIHdpZHRoOiAxMDAlO1xufVxuaW5zcGVjdGlvbnMtbGlzdCAuZW1wdHktZGlzcGxheSB7XG4gIHBhZGRpbmctdG9wOiAxMjBweDtcbiAgZGlzcGxheTogZmxleDtcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG59Il19 */";
     /***/
   },
 
@@ -2252,55 +2507,93 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony import */
 
 
-    var _angular_material_table__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+    var _angular_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+    /*! @angular/material */
+    "./node_modules/@angular/material/esm2015/material.js");
+    /* harmony import */
+
+
+    var _angular_material_table__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
     /*! @angular/material/table */
     "./node_modules/@angular/material/esm2015/table.js");
     /* harmony import */
 
 
-    var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    /*! @angular/router */
+    "./node_modules/@angular/router/fesm2015/router.js");
+    /* harmony import */
+
+
+    var ngx_toastr__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+    /*! ngx-toastr */
+    "./node_modules/ngx-toastr/fesm2015/ngx-toastr.js");
+    /* harmony import */
+
+
+    var rxjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
     /*! rxjs */
     "./node_modules/rxjs/_esm2015/index.js");
     /* harmony import */
 
 
-    var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    var rxjs_operators__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
     /*! rxjs/operators */
     "./node_modules/rxjs/_esm2015/operators/index.js");
     /* harmony import */
 
 
-    var _services_carwash_service_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
-    /*! ../services/carwash-service.service */
-    "./src/app/services/carwash-service.service.ts");
+    var _services_carwash_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
+    /*! ../services/carwash.service */
+    "./src/app/services/carwash.service.ts");
+    /* harmony import */
+
+
+    var _services_email_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(
+    /*! ../services/email.service */
+    "./src/app/services/email.service.ts");
+    /* harmony import */
+
+
+    var _shared_components_inspection_document_inspection_document_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(
+    /*! ../shared/components/inspection-document/inspection-document.component */
+    "./src/app/shared/components/inspection-document/inspection-document.component.ts");
 
     var InspectionsListComponent = /*#__PURE__*/function () {
-      function InspectionsListComponent(_carWashService) {
+      function InspectionsListComponent(_carWashService, _ngxToastrService, _dialog, _emailService, _route) {
         _classCallCheck(this, InspectionsListComponent);
 
         this._carWashService = _carWashService;
+        this._ngxToastrService = _ngxToastrService;
+        this._dialog = _dialog;
+        this._emailService = _emailService;
+        this._route = _route;
         this.inspectionsList = [];
-        this.displayedColumns = ['clientFullName', 'clientPhoneNumber', 'clientEmail', 'inspectionDrawing', 'termsAndConditionAccepted', 'actions']; //'date', 'inspectionNotes', 'inspectionDrawing', 'terms', 'signature'
-
-        this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_2__["MatTableDataSource"](this.inspectionsList);
+        this.displayedColumns = ['clientFullName', 'dateTime', 'inspectionDrawing', 'termsAndConditionAccepted', 'actions'];
+        this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.inspectionsList);
         this.isLoading = true;
-        this._unsubscribeAll = new rxjs__WEBPACK_IMPORTED_MODULE_3__["Subject"]();
+        this._unsubscribeAll = new rxjs__WEBPACK_IMPORTED_MODULE_6__["Subject"]();
         this._unsubscribeAll;
       }
 
       _createClass(InspectionsListComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          var _this4 = this;
+          var _this8 = this;
 
-          this._carWashService.getInspections().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["takeUntil"])(this._unsubscribeAll)).subscribe(function (res) {
-            _this4.inspectionsList = res.filter(function (x) {
+          if (!this._carWashService.isLoggedIn) {
+            this._route.navigate(['/inspection-home']);
+
+            return;
+          }
+
+          this._carWashService.getInspections().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_7__["take"])(1), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_7__["takeUntil"])(this._unsubscribeAll)).subscribe(function (res) {
+            _this8.inspectionsList = res.filter(function (x) {
               return x.inspectionId != 'dummy';
             });
-            _this4.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_2__["MatTableDataSource"](_this4.inspectionsList);
-            console.log('', _this4.inspectionsList);
+            _this8.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this8.inspectionsList);
             setTimeout(function () {
-              _this4.isLoading = false;
+              _this8.isLoading = false;
             }, 3000);
           });
         }
@@ -2324,7 +2617,33 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           list.splice(index, 1);
           this.inspectionsList = list;
 
+          this._ngxToastrService.success('Inspección eliminada exitosamente');
+
+          this.inspectionTable.renderRows();
+          this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.inspectionsList);
+
           this._carWashService.deleteInspection(inspectionId);
+        }
+      }, {
+        key: "openTransactionDocument",
+        value: function openTransactionDocument(carInspection) {
+          var dialogRef = this._dialog.open(_shared_components_inspection_document_inspection_document_component__WEBPACK_IMPORTED_MODULE_10__["InspectionDocumentComponent"], {
+            width: '816px',
+            height: '850px',
+            data: {
+              carInspection: carInspection
+            },
+            autoFocus: false
+          });
+
+          dialogRef.afterClosed().subscribe();
+        }
+      }, {
+        key: "sendInspection",
+        value: function sendInspection(carInspection) {
+          this._ngxToastrService.info('Enviando inspección...');
+
+          this._emailService.sendEmail(carInspection);
         }
       }]);
 
@@ -2333,10 +2652,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     InspectionsListComponent.ctorParameters = function () {
       return [{
-        type: _services_carwash_service_service__WEBPACK_IMPORTED_MODULE_5__["CarWashService"]
+        type: _services_carwash_service__WEBPACK_IMPORTED_MODULE_8__["CarWashService"]
+      }, {
+        type: ngx_toastr__WEBPACK_IMPORTED_MODULE_5__["ToastrService"]
+      }, {
+        type: _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialog"]
+      }, {
+        type: _services_email_service__WEBPACK_IMPORTED_MODULE_9__["EmailService"]
+      }, {
+        type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]
       }];
     };
 
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('inspectionTable', {
+      "static": false
+    })], InspectionsListComponent.prototype, "inspectionTable", void 0);
     InspectionsListComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
       selector: 'inspections-list',
       template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
@@ -2351,15 +2681,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   },
 
   /***/
-  "./src/app/services/carwash-service.service.ts":
-  /*!*****************************************************!*\
-    !*** ./src/app/services/carwash-service.service.ts ***!
-    \*****************************************************/
+  "./src/app/services/carwash.service.ts":
+  /*!*********************************************!*\
+    !*** ./src/app/services/carwash.service.ts ***!
+    \*********************************************/
 
   /*! exports provided: CarWashService */
 
   /***/
-  function srcAppServicesCarWashServiceTs(module, __webpack_exports__, __webpack_require__) {
+  function srcAppServicesCarwashServiceTs(module, __webpack_exports__, __webpack_require__) {
     "use strict";
 
     __webpack_require__.r(__webpack_exports__);
@@ -2387,22 +2717,32 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _angular_fire_firestore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
     /*! @angular/fire/firestore */
     "./node_modules/@angular/fire/fesm2015/angular-fire-firestore.js");
+    /* harmony import */
+
+
+    var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    /*! rxjs */
+    "./node_modules/rxjs/_esm2015/index.js");
 
     var CarWashService = /*#__PURE__*/function () {
       function CarWashService(firestore) {
         _classCallCheck(this, CarWashService);
 
         this.firestore = firestore;
+        this.isLoggedIn = false;
+        this.user = new rxjs__WEBPACK_IMPORTED_MODULE_3__["Subject"]();
+        this.logout = new rxjs__WEBPACK_IMPORTED_MODULE_3__["Subject"]();
+        this.logged = new rxjs__WEBPACK_IMPORTED_MODULE_3__["Subject"]();
       } // ADD
 
 
       _createClass(CarWashService, [{
         key: "addInspection",
         value: function addInspection(carInspection) {
-          var _this5 = this;
+          var _this9 = this;
 
           return new Promise(function (resolve, reject) {
-            _this5.firestore.collection("CarInspection").add(carInspection).then(function (res) {
+            _this9.firestore.collection("CarInspection").add(carInspection).then(function (res) {
               resolve(res);
             }, function (err) {
               return reject(err);
@@ -2412,10 +2752,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "addClient",
         value: function addClient(client) {
-          var _this6 = this;
+          var _this10 = this;
 
           return new Promise(function (resolve, reject) {
-            _this6.firestore.collection("Client").add(client).then(function (res) {
+            _this10.firestore.collection("Client").add(client).then(function (res) {
               resolve(res);
             }, function (err) {
               return reject(err);
@@ -2436,6 +2776,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           return this.firestore.collection("Client").valueChanges({
             idField: 'clientId'
           });
+        }
+      }, {
+        key: "getUsers",
+        value: function getUsers() {
+          return this.firestore.collection("Users").valueChanges({
+            idField: 'userId'
+          });
         } //DELETE
 
       }, {
@@ -2447,6 +2794,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         key: "deleteClient",
         value: function deleteClient(clientId) {
           this.firestore.collection('Client').doc(clientId)["delete"]();
+        } //UPDATE
+
+      }, {
+        key: "updateUserStatus",
+        value: function updateUserStatus(user) {
+          this.firestore.collection('Users').doc(user.userId).update({
+            isLoggedIn: user.isLoggedIn,
+            ip: user.ip
+          });
         }
       }]);
 
@@ -2466,6 +2822,120 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   },
 
   /***/
+  "./src/app/services/email.service.ts":
+  /*!*******************************************!*\
+    !*** ./src/app/services/email.service.ts ***!
+    \*******************************************/
+
+  /*! exports provided: EmailService */
+
+  /***/
+  function srcAppServicesEmailServiceTs(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+
+    __webpack_require__.r(__webpack_exports__);
+    /* harmony export (binding) */
+
+
+    __webpack_require__.d(__webpack_exports__, "EmailService", function () {
+      return EmailService;
+    });
+    /* harmony import */
+
+
+    var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+    /*! tslib */
+    "./node_modules/tslib/tslib.es6.js");
+    /* harmony import */
+
+
+    var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+    /*! @angular/core */
+    "./node_modules/@angular/core/fesm2015/core.js");
+    /* harmony import */
+
+
+    var _assets_js_smtp_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+    /*! ../../assets/js/smtp.js */
+    "./src/assets/js/smtp.js");
+    /* harmony import */
+
+
+    var _assets_js_smtp_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_assets_js_smtp_js__WEBPACK_IMPORTED_MODULE_2__);
+    /* harmony import */
+
+
+    var ngx_toastr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    /*! ngx-toastr */
+    "./node_modules/ngx-toastr/fesm2015/ngx-toastr.js");
+    /* harmony import */
+
+
+    var _shared_models_constants_terms_and_conditions_const__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    /*! ../shared/models/constants/terms-and-conditions.const */
+    "./src/app/shared/models/constants/terms-and-conditions.const.ts");
+    /* harmony import */
+
+
+    var moment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+    /*! moment */
+    "./node_modules/moment/moment.js");
+    /* harmony import */
+
+
+    var moment__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_5__);
+
+    var EmailService = /*#__PURE__*/function () {
+      function EmailService(_ngxToastrService) {
+        _classCallCheck(this, EmailService);
+
+        this._ngxToastrService = _ngxToastrService;
+        this.termsAndConditions = _shared_models_constants_terms_and_conditions_const__WEBPACK_IMPORTED_MODULE_4__["termsAndConditions"];
+      }
+
+      _createClass(EmailService, [{
+        key: "sendEmail",
+        value: function sendEmail(carInspection) {
+          var _this11 = this;
+
+          var date = moment__WEBPACK_IMPORTED_MODULE_5__(new Date(carInspection.dateTime.replace('T', ' '))).locale('es');
+          this.inspectionDate = date.format('LL');
+          this.inspectionDateTime = moment__WEBPACK_IMPORTED_MODULE_5__(new Date(carInspection.dateTime.replace('T', ' '))).format('h:mm:ss a');
+          Email.send({
+            Host: 'smtp.elasticemail.com',
+            Port: 2525,
+            Username: 'kathycarwashanddetailing@gmail.com',
+            Password: 'B684CD1EDC13E93B9A05C5C3611D2AA5374B',
+            To: carInspection.clientEmail,
+            From: 'kathycarwashanddetailing@gmail.com',
+            Subject: "Inspecci\xF3n Vehiculo de Motor | ".concat(carInspection.clientFullName),
+            Body: "\n            <!DOCTYPE html>\n                <html lang=\"en\">\n                <head>\n                <meta charset=\"utf-8\">\n                <title>Kathy's CarWash and Detailing</title>\n                <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n                <link rel=\"icon\" type=\"image/x-icon\" href=\"favicon.ico\">\n                <link href=\"https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap\" rel=\"stylesheet\">\n                <link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">\n                    <style type=\"text/css\">\n                            width: 100% !important;\n                    </style>\n                </head>\n                </html>\n                <body>\n                 <div fxLayout=\"row\" fxLayoutAlign=\"end center\" style=\"padding: 24px;\">\n            <div class=\"paper\">\n                <table style=\"border-collapse: collapse; border-spacing: 0;\">\n                <thead>\n                    <tr>\n                    <th colspan=\"2\" style=\"text-align:center, border-color: #000000; vertical-align: top border-color: black;\n                                    border-style: solid;\n                                    border-width: 1px;\n                                    font-family: Arial, sans-serif;\n                                    font-size: 14px;\n                                    font-weight: normal;\n                                    overflow: hidden;\n                                    padding: 10px 5px;\n                                    word-break: normal;\">\n                        <div> <img style=\"width: 200px;\" src=\"https://i.postimg.cc/XXS4SXXW/Untitled-design-3.png\"></div>\n                        <strong>\n                        <h2 style=\"margin-top: -32px;\">Inspecci\xF3n</h2>\n                        </strong>\n                    </th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr>\n                    <th colspan=\"2\" style=\"background-color: #7BB9F2; border-color: #000000; text-align: left; vertical-align: top;   border-style: solid;\n                                    border-width: 1px;\"><strong>Informaci\xF3n General</strong></th>\n                    </tr>\n                    <tr>\n                    <td style=\"border-color: #000000; text-align: left; vertical-align: top border-color: black; border-style: solid;\n                                    border-width: 1px;\n                                    font-family: Arial, sans-serif;\n                                    font-size: 14px;\n                                    overflow: hidden;\n                                    padding: 10px 5px;\n                                    word-break: normal;\">Fecha: <strong>".concat(this.inspectionDate, "</strong></td>\n                    <td style=\"border-color: #000000; text-align: left; vertical-align: top border-color: black; border-style: solid;\n                                    border-width: 1px;\n                                    font-family: Arial, sans-serif;\n                                    font-size: 14px;\n                                    overflow: hidden;\n                                    padding: 10px 5px;\n                                    word-break: normal;\">Hora: <strong>").concat(this.inspectionDateTime, "</strong></td>\n                    </tr>\n                    <tr>\n                    <td style=\"border-color: #000000; text-align: left; vertical-align: top border-color: black; border-style: solid;\n                                    border-width: 1px;\n                                    font-family: Arial, sans-serif;\n                                    font-size: 14px;\n                                    overflow: hidden;\n                                    padding: 10px 5px;\n                                    word-break: normal;\">Nombre del Cliente: <span><strong>").concat(carInspection.clientFullName, "</strong></span></td>\n                    <td style=\"border-color: #000000; text-align: left; vertical-align: top border-color: black; border-style: solid;\n                                    border-width: 1px;\n                                    font-family: Arial, sans-serif;\n                                    font-size: 14px;\n                                    overflow: hidden;\n                                    padding: 10px 5px;\n                                    word-break: normal;\">Telefono: <span><strong>").concat(carInspection.clientPhoneNumber, "</strong></span></td>\n                    </tr>\n                    <tr>\n                    <td style=\"border-color: #000000; text-align: left; vertical-align: top border-color: black; border-style: solid;\n                                    border-width: 1px;\n                                    font-family: Arial, sans-serif;\n                                    font-size: 14px;\n                                    overflow: hidden;\n                                    padding: 10px 5px;\n                                    word-break: normal;\" colspan=\"2\">Correo Electr\xF3nico:\n                        <span><strong>").concat(carInspection.clientEmail, "</strong></span></td>\n                    </tr>\n                    <tr>\n                    <td colspan=\"2\" style=\"background-color: #7BB9F2; border-color: #000000; text-align: left; vertical-align: top; border-style: solid;\n                                    border-width: 1px;\"><strong>Inspecci\xF3n del Vehiculo</strong>\n                    </td>\n                    </tr>\n                    <tr>\n                    <td style=\"border-color: #000000; text-align: left; vertical-align: top border-color: black; border-style: solid;\n                                    border-width: 1px;\n                                    font-family: Arial, sans-serif;\n                                    font-size: 14px;\n                                    overflow: hidden;\n                                    padding: 10px 5px;\n                                    word-break: normal;\" colspan=\"2\">\n                        <div style=\"padding-bottom: 8px; font-size: 12px;\" fxLayout=\"row\" fxLayoutAlign=\"space-between center\">\n                        <span><strong>Leyenda:</strong></span>\n                        <br>\n                        <span><strong>WS</strong> (\u201CWater Spot\u201D) | <strong>O</strong> (Oxidaci\xF3n) | <strong>DA</strong> (Da\xF1o\n                            de\n                            Aros) | <strong>R</strong> (Rayados) | <strong>CD</strong> (Clear Da\xF1ado) | <strong>CR</strong>\n                            (Cristal\n                            Roto) | <strong>C</strong> (Choque)</span>\n                        </div>\n                        <div fxLayout=\"column\">\n                        <div>\n                            <img src=\"").concat(carInspection.inspectionDrawing, "\" alt=\"img\">\n                        </div>\n                        <div style=\"padding-bottom: 8px;\">\n                            <span><strong>Nota:</strong></span>\n                        </div>\n                        <div style=\"border-bottom: 1px solid;\">\n                            ").concat(carInspection.inspectionNote, "\n                        </div>\n                        </div>\n                    </td>\n                    </tr>\n                    <tr>\n                    <td colspan=\"2\" style=\"background-color: #7BB9F2; border-color: #000000; text-align: left; vertical-align: top; border-style: solid;\n                                    border-width: 1px;\"><strong>Terminos y Condiciones</strong></td>\n                    </tr>\n                    <tr>\n                    <td style=\"border-color: #000000; text-align: left; vertical-align: top border-color: black; border-style: solid;\n                                    border-width: 1px;\n                                    font-family: Arial, sans-serif;\n                                    font-size: 14px;\n                                    overflow: hidden;\n                                    padding: 10px 5px;\n                                    word-break: normal;\" colspan=\"2\">\n                        <div style=\"font-size: 12px;\">\n                        <p><strong>Precios.</strong> Los precios de los paquetes y servicios que ofrece el \u201CCar Wash\u201D pueden cambiar sin aviso. No se f\xEDa ni se otorgan cr\xE9ditos. Pagos con ATH M\xF3vil se deber\xE1 presentar evidencia del pago. Se paga antes de otorgar el servicio o el <strong>50%</strong> del mismo. No todas las formas de pago ofertadas por \xE9l \u201CCar Wash\u201D estar\xE1n disponibles en todo momento. <strong><em>Servicios de Cita Previa</em></strong> deber\xE1n pagar un deposito no reembolsable a la cita ya pautada, el porciento de este depender\xE1 del servicio solicitado.</p>\n\n                        <p><strong>Descripci\xF3n</strong>. Los servicios ofertados por el \u201CCar Wash\u201D, no necesariamente corresponden con la descripci\xF3n de dicho servicio, si por alguna raz\xF3n no se pudiera dar el servicio completo se le otorgara al cliente un servicio por un valor equivalente al promocionado, si el cliente no lo desea; se le otorgara un cup\xF3n para canjearlo en otra fecha por la diferencia. \u201CCar Wash\u201D puede cambiar, modificar o cancelar sus servicios en cualquier momento.</p>\n\n                        <p><strong>Horario.</strong> El horario publicado en la pagina de Facebook como en cartelones en el establecimiento no necesariamente ser\xE1 en forzado, puede el \u201CCar Wash\u201D cerrar el servicio sin previo aviso durante d\xEDas festivos, fines de semana o cuando as\xED convenga sus intereses. El horario regular se publica de la pagina de Facebook.</p>\n\n                        <p><strong>Riesgos.</strong> El \u201CCar Wash\u201D utiliza maquinas a presi\xF3n, agua, qu\xEDmicos y aspiradoras, El cliente deber\xE1 de tomar sus precauciones e informar al lavador de cualquier condici\xF3n especial que tenga su autom\xF3vil.</p>\n\n                        <p><strong>\xC1reas.</strong> El \u201CCar Wash\u201D ofrece \xE1rea de espera adem\xE1s de el \xE1rea de enjuagado y secado. Las \xE1reas comunes del Car Wash son de uso exclusivo de sus empleados. Las \xE1reas de mantenimiento y de trabajo est\xE1n prohibidas para los clientes, estas \xE1reas no siempre est\xE1n marcadas.</p>\n\n                        <p>Si el cliente llegara a tener alg\xFAn accidente en estas \xE1reas, el \u201CCar Wash\u201D y sus empleados no se hace responsable de los da\xF1os que este pudiera llegar a tener.</p>\n\n                        <p><strong>Generalidades.</strong> El consumo de drogas y bebidas alcoh\xF3licas queda estrictamente prohibido y la administraci\xF3n se reserva el derecho de admisi\xF3n. Ni\xF1os menores de edad deber\xE1n de estar siempre acompa\xF1ados por padres o supervisor.</p>\n\n                        <p>No hay derecho de tanto ni preferencial a ning\xFAn cliente, el orden con el que lleguen ser\xE1 con el que ser\xE1n atendidos. Cualquier da\xF1o que el cliente genere a las instalaciones de, el \u201CCar Wash\u201D ser\xE1 responsabilidad del cliente.</p>\n\n                        <p>Caf\xE9 y agua gratuita que se otorga en la sala de espera se limita a 1 taza o su equivalente por cliente, el \u201CCar Wash\u201D no se obliga a tener disponible esta cortes\xEDa.</p>\n\n                        <p>Si alg\xFAn cliente se comporta de manera agresiva el servicio se cancelar\xE1 sin devoluci\xF3n al cliente.</p>\n\n                        <p><strong>Acerca del COVID-19</strong></p>\n\n                        <p><strong>Uso de mascarilla en el establecimiento es completamente obligatorio y mantener los 6 pies de distancia.</strong></p>\n\n                        </div>\n                        <div fxLayout=\"row\">\n                        <div>\n                            <span style=\"border-bottom: 1px solid;\">").concat(carInspection.termsAndConditionAccepted ? '✓' : 'x', "</span>\n                            <span style=\"padding-left: 8px;\">Acept\xF3 t\xE9rminos y condiciones</span>\n                        </div>\n                        </div>\n                    </td>\n                    </tr>\n                    <tr>\n                    <td colspan=\"2\" style=\"background-color: #7BB9F2; border-color: #000000; text-align: left; vertical-align: top; border-style: solid;\n                                    border-width: 1px;\"><strong><strong>Firma del Cliente</strong></strong>\n                    </td>\n                    </tr>\n                    <tr>\n                    <td style=\"border-color: #000000; text-align: left; vertical-align: top border-color: black; border-style: solid;\n                                    border-width: 1px;\n                                    font-family: Arial, sans-serif;\n                                    font-size: 14px; \n                                    overflow: hidden;\n                                    padding: 10px 5px;\n                                    word-break: normal;\" colspan=\"2\">\n                        <div fxLayout=\"row\" fxLayoutAlign=\"start center\">\n                        X\n                        <img src=\"").concat(carInspection.clientSignature, "\" style=\"border-bottom: 1px solid;\" alt=\"img\">\n                        </div>\n                         <div style=\"padding-top: 16px\">\n                          <div>\n                            El correo electr\xF3nico para hacer quejas y sugerencia ser\xE1  <a href=\"mailto:kathycarwashanddetailing@gmail.com\">kathycarwashanddetailing@gmail.com</a>\n                        </div>\n                        <div><a href=\"https://forms.gle/iWW5MQwEtkLx2GjXA\">Encuesta de Satisfacci\xF3n del Cliente</a></div>\n                         </div>\n                    </td>\n                    </tr>\n                </tbody>\n                </table>\n            </div>\n            </div>\n                </body>\n            ")
+          }).then(function (message) {
+            if (message === 'OK') {
+              _this11._ngxToastrService.success('Inspección enviada correctamente');
+            } else {
+              _this11._ngxToastrService.error(message);
+            }
+          });
+        }
+      }]);
+
+      return EmailService;
+    }();
+
+    EmailService.ctorParameters = function () {
+      return [{
+        type: ngx_toastr__WEBPACK_IMPORTED_MODULE_3__["ToastrService"]
+      }];
+    };
+
+    EmailService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+      providedIn: 'root'
+    })], EmailService);
+    /***/
+  },
+
+  /***/
   "./src/app/shared/components/inspection-document/inspection-document.component.scss":
   /*!******************************************************************************************!*\
     !*** ./src/app/shared/components/inspection-document/inspection-document.component.scss ***!
@@ -2481,7 +2951,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3NoYXJlZC9jb21wb25lbnRzL2luc3BlY3Rpb24tZG9jdW1lbnQvaW5zcGVjdGlvbi1kb2N1bWVudC5jb21wb25lbnQuc2NzcyJ9 */";
+    __webpack_exports__["default"] = "inspection-document {\n  width: 100% !important;\n}\ninspection-document .document {\n  padding: 24px;\n}\ninspection-document .document .paper .header {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\ninspection-document .document .paper .tg {\n  border-collapse: collapse;\n  border-spacing: 0;\n}\ninspection-document .document .paper .tg td {\n  border-color: black;\n  border-style: solid;\n  border-width: 1px;\n  font-family: Arial, sans-serif;\n  font-size: 14px;\n  overflow: hidden;\n  padding: 10px 5px;\n  word-break: normal;\n}\ninspection-document .document .paper .tg th {\n  border-color: black;\n  border-style: solid;\n  border-width: 1px;\n  font-family: Arial, sans-serif;\n  font-size: 14px;\n  font-weight: normal;\n  overflow: hidden;\n  padding: 10px 5px;\n  word-break: normal;\n}\ninspection-document .document .paper .tg .tg-zv4m {\n  border-color: #000000;\n  text-align: left;\n  vertical-align: top;\n}\ninspection-document .document .paper .tg .tg-srtl {\n  background-color: #7BB9F2;\n  border-color: #000000;\n  text-align: left;\n  vertical-align: top;\n}\ninspection-document .document .paper .note {\n  border-bottom: 1px solid;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oZWN0b3Jjb2xvbi9Eb2N1bWVudHMvZ2l0aHViLXJlcG8va2NkLWluc3BlY3Rpb24vc3JjL2FwcC9zaGFyZWQvY29tcG9uZW50cy9pbnNwZWN0aW9uLWRvY3VtZW50L2luc3BlY3Rpb24tZG9jdW1lbnQuY29tcG9uZW50LnNjc3MiLCJzcmMvYXBwL3NoYXJlZC9jb21wb25lbnRzL2luc3BlY3Rpb24tZG9jdW1lbnQvaW5zcGVjdGlvbi1kb2N1bWVudC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNLLHNCQUFBO0FDQ0w7QURBSTtFQUNJLGFBQUE7QUNFUjtBRENZO0VBQ0ksYUFBQTtFQUNBLHVCQUFBO0VBQ0EsbUJBQUE7QUNDaEI7QURFWTtFQUNFLHlCQUFBO0VBQ0EsaUJBQUE7QUNBZDtBREdZO0VBQ0UsbUJBQUE7RUFDQSxtQkFBQTtFQUNBLGlCQUFBO0VBQ0EsOEJBQUE7RUFDQSxlQUFBO0VBQ0EsZ0JBQUE7RUFDQSxpQkFBQTtFQUNBLGtCQUFBO0FDRGQ7QURJWTtFQUNFLG1CQUFBO0VBQ0EsbUJBQUE7RUFDQSxpQkFBQTtFQUNBLDhCQUFBO0VBQ0EsZUFBQTtFQUNBLG1CQUFBO0VBQ0EsZ0JBQUE7RUFDQSxpQkFBQTtFQUNBLGtCQUFBO0FDRmQ7QURLWTtFQUNFLHFCQUFBO0VBQ0EsZ0JBQUE7RUFDQSxtQkFBQTtBQ0hkO0FETVk7RUFDRSx5QkFBQTtFQUNBLHFCQUFBO0VBQ0EsZ0JBQUE7RUFDQSxtQkFBQTtBQ0pkO0FET1k7RUFDSSx3QkFBQTtBQ0xoQiIsImZpbGUiOiJzcmMvYXBwL3NoYXJlZC9jb21wb25lbnRzL2luc3BlY3Rpb24tZG9jdW1lbnQvaW5zcGVjdGlvbi1kb2N1bWVudC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbImluc3BlY3Rpb24tZG9jdW1lbnQge1xuICAgICB3aWR0aDogMTAwJSAhaW1wb3J0YW50O1xuICAgIC5kb2N1bWVudCB7XG4gICAgICAgIHBhZGRpbmc6IDI0cHg7XG5cbiAgICAgICAgLnBhcGVyIHtcbiAgICAgICAgICAgIC5oZWFkZXIge1xuICAgICAgICAgICAgICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgICAgICAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgICAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAgICAgIH1cbiAgICAgICAgICAgIFxuICAgICAgICAgICAgLnRnIHtcbiAgICAgICAgICAgICAgYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTtcbiAgICAgICAgICAgICAgYm9yZGVyLXNwYWNpbmc6IDA7XG4gICAgICAgICAgICB9XG5cbiAgICAgICAgICAgIC50ZyB0ZCB7XG4gICAgICAgICAgICAgIGJvcmRlci1jb2xvcjogYmxhY2s7XG4gICAgICAgICAgICAgIGJvcmRlci1zdHlsZTogc29saWQ7XG4gICAgICAgICAgICAgIGJvcmRlci13aWR0aDogMXB4O1xuICAgICAgICAgICAgICBmb250LWZhbWlseTogQXJpYWwsIHNhbnMtc2VyaWY7XG4gICAgICAgICAgICAgIGZvbnQtc2l6ZTogMTRweDtcbiAgICAgICAgICAgICAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgICAgICAgICAgICAgcGFkZGluZzogMTBweCA1cHg7XG4gICAgICAgICAgICAgIHdvcmQtYnJlYWs6IG5vcm1hbDtcbiAgICAgICAgICAgIH1cblxuICAgICAgICAgICAgLnRnIHRoIHtcbiAgICAgICAgICAgICAgYm9yZGVyLWNvbG9yOiBibGFjaztcbiAgICAgICAgICAgICAgYm9yZGVyLXN0eWxlOiBzb2xpZDtcbiAgICAgICAgICAgICAgYm9yZGVyLXdpZHRoOiAxcHg7XG4gICAgICAgICAgICAgIGZvbnQtZmFtaWx5OiBBcmlhbCwgc2Fucy1zZXJpZjtcbiAgICAgICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICAgICAgICBmb250LXdlaWdodDogbm9ybWFsO1xuICAgICAgICAgICAgICBvdmVyZmxvdzogaGlkZGVuO1xuICAgICAgICAgICAgICBwYWRkaW5nOiAxMHB4IDVweDtcbiAgICAgICAgICAgICAgd29yZC1icmVhazogbm9ybWFsO1xuICAgICAgICAgICAgfVxuXG4gICAgICAgICAgICAudGcgLnRnLXp2NG0ge1xuICAgICAgICAgICAgICBib3JkZXItY29sb3I6ICMwMDAwMDA7XG4gICAgICAgICAgICAgIHRleHQtYWxpZ246IGxlZnQ7XG4gICAgICAgICAgICAgIHZlcnRpY2FsLWFsaWduOiB0b3BcbiAgICAgICAgICAgIH1cblxuICAgICAgICAgICAgLnRnIC50Zy1zcnRsIHtcbiAgICAgICAgICAgICAgYmFja2dyb3VuZC1jb2xvcjogIzdCQjlGMjtcbiAgICAgICAgICAgICAgYm9yZGVyLWNvbG9yOiAjMDAwMDAwO1xuICAgICAgICAgICAgICB0ZXh0LWFsaWduOiBsZWZ0O1xuICAgICAgICAgICAgICB2ZXJ0aWNhbC1hbGlnbjogdG9wXG4gICAgICAgICAgICB9XG5cbiAgICAgICAgICAgIC5ub3RlIHtcbiAgICAgICAgICAgICAgICBib3JkZXItYm90dG9tOiAxcHggc29saWQ7XG4gICAgICAgICAgICB9XG4gICAgICAgIH1cbiAgICB9XG5cbn0iLCJpbnNwZWN0aW9uLWRvY3VtZW50IHtcbiAgd2lkdGg6IDEwMCUgIWltcG9ydGFudDtcbn1cbmluc3BlY3Rpb24tZG9jdW1lbnQgLmRvY3VtZW50IHtcbiAgcGFkZGluZzogMjRweDtcbn1cbmluc3BlY3Rpb24tZG9jdW1lbnQgLmRvY3VtZW50IC5wYXBlciAuaGVhZGVyIHtcbiAgZGlzcGxheTogZmxleDtcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG59XG5pbnNwZWN0aW9uLWRvY3VtZW50IC5kb2N1bWVudCAucGFwZXIgLnRnIHtcbiAgYm9yZGVyLWNvbGxhcHNlOiBjb2xsYXBzZTtcbiAgYm9yZGVyLXNwYWNpbmc6IDA7XG59XG5pbnNwZWN0aW9uLWRvY3VtZW50IC5kb2N1bWVudCAucGFwZXIgLnRnIHRkIHtcbiAgYm9yZGVyLWNvbG9yOiBibGFjaztcbiAgYm9yZGVyLXN0eWxlOiBzb2xpZDtcbiAgYm9yZGVyLXdpZHRoOiAxcHg7XG4gIGZvbnQtZmFtaWx5OiBBcmlhbCwgc2Fucy1zZXJpZjtcbiAgZm9udC1zaXplOiAxNHB4O1xuICBvdmVyZmxvdzogaGlkZGVuO1xuICBwYWRkaW5nOiAxMHB4IDVweDtcbiAgd29yZC1icmVhazogbm9ybWFsO1xufVxuaW5zcGVjdGlvbi1kb2N1bWVudCAuZG9jdW1lbnQgLnBhcGVyIC50ZyB0aCB7XG4gIGJvcmRlci1jb2xvcjogYmxhY2s7XG4gIGJvcmRlci1zdHlsZTogc29saWQ7XG4gIGJvcmRlci13aWR0aDogMXB4O1xuICBmb250LWZhbWlseTogQXJpYWwsIHNhbnMtc2VyaWY7XG4gIGZvbnQtc2l6ZTogMTRweDtcbiAgZm9udC13ZWlnaHQ6IG5vcm1hbDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgcGFkZGluZzogMTBweCA1cHg7XG4gIHdvcmQtYnJlYWs6IG5vcm1hbDtcbn1cbmluc3BlY3Rpb24tZG9jdW1lbnQgLmRvY3VtZW50IC5wYXBlciAudGcgLnRnLXp2NG0ge1xuICBib3JkZXItY29sb3I6ICMwMDAwMDA7XG4gIHRleHQtYWxpZ246IGxlZnQ7XG4gIHZlcnRpY2FsLWFsaWduOiB0b3A7XG59XG5pbnNwZWN0aW9uLWRvY3VtZW50IC5kb2N1bWVudCAucGFwZXIgLnRnIC50Zy1zcnRsIHtcbiAgYmFja2dyb3VuZC1jb2xvcjogIzdCQjlGMjtcbiAgYm9yZGVyLWNvbG9yOiAjMDAwMDAwO1xuICB0ZXh0LWFsaWduOiBsZWZ0O1xuICB2ZXJ0aWNhbC1hbGlnbjogdG9wO1xufVxuaW5zcGVjdGlvbi1kb2N1bWVudCAuZG9jdW1lbnQgLnBhcGVyIC5ub3RlIHtcbiAgYm9yZGVyLWJvdHRvbTogMXB4IHNvbGlkO1xufSJdfQ== */";
     /***/
   },
 
@@ -2513,32 +2983,92 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony import */
 
 
-    var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+    var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+    /*! @angular/common */
+    "./node_modules/@angular/common/fesm2015/common.js");
+    /* harmony import */
+
+
+    var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
     /*! @angular/core */
     "./node_modules/@angular/core/fesm2015/core.js");
+    /* harmony import */
+
+
+    var _angular_material__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    /*! @angular/material */
+    "./node_modules/@angular/material/esm2015/material.js");
+    /* harmony import */
+
+
+    var _models_constants_terms_and_conditions_const__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    /*! ../../models/constants/terms-and-conditions.const */
+    "./src/app/shared/models/constants/terms-and-conditions.const.ts");
+    /* harmony import */
+
+
+    var moment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+    /*! moment */
+    "./node_modules/moment/moment.js");
+    /* harmony import */
+
+
+    var moment__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_5__);
 
     var InspectionDocumentComponent = /*#__PURE__*/function () {
-      function InspectionDocumentComponent() {
+      function InspectionDocumentComponent(dialogRef, data) {
         _classCallCheck(this, InspectionDocumentComponent);
+
+        this.dialogRef = dialogRef;
+        this.data = data;
+        this.termsAndConditions = _models_constants_terms_and_conditions_const__WEBPACK_IMPORTED_MODULE_4__["termsAndConditions"];
       }
 
       _createClass(InspectionDocumentComponent, [{
         key: "ngOnInit",
-        value: function ngOnInit() {}
+        value: function ngOnInit() {
+          this.carInspection = this.data.carInspection;
+          var date = moment__WEBPACK_IMPORTED_MODULE_5__(new Date(this.carInspection.dateTime.replace('T', ' '))).locale('es');
+          this.inspectionDate = date.format('LL');
+          this.inspectionDateTime = moment__WEBPACK_IMPORTED_MODULE_5__(new Date(this.carInspection.dateTime.replace('T', ' '))).format('h:mm:ss a');
+        }
+      }, {
+        key: "close",
+        value: function close() {
+          this.dialogRef.close();
+        }
+      }, {
+        key: "convertToPDF",
+        value: function convertToPDF() {// TODO
+        }
       }]);
 
       return InspectionDocumentComponent;
     }();
 
-    InspectionDocumentComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
-      selector: 'app-inspection-document',
+    InspectionDocumentComponent.ctorParameters = function () {
+      return [{
+        type: _angular_material__WEBPACK_IMPORTED_MODULE_3__["MatDialogRef"]
+      }, {
+        type: undefined,
+        decorators: [{
+          type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Inject"],
+          args: [_angular_material__WEBPACK_IMPORTED_MODULE_3__["MAT_DIALOG_DATA"]]
+        }]
+      }];
+    };
+
+    InspectionDocumentComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
+      selector: 'inspection-document',
       template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
       /*! raw-loader!./inspection-document.component.html */
       "./node_modules/raw-loader/dist/cjs.js!./src/app/shared/components/inspection-document/inspection-document.component.html"))["default"],
+      encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_2__["ViewEncapsulation"].None,
+      providers: [_angular_common__WEBPACK_IMPORTED_MODULE_1__["DatePipe"]],
       styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
       /*! ./inspection-document.component.scss */
       "./src/app/shared/components/inspection-document/inspection-document.component.scss"))["default"]]
-    })], InspectionDocumentComponent);
+    }), tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_3__["MAT_DIALOG_DATA"]))], InspectionDocumentComponent);
     /***/
   },
 
@@ -2558,7 +3088,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = ".logo {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.loader,\n.loader:before,\n.loader:after {\n  border-radius: 50%;\n  width: 2.5em;\n  height: 2.5em;\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both;\n  -webkit-animation: load7 1.8s infinite ease-in-out;\n  animation: load7 1.8s infinite ease-in-out;\n}\n\n.loader {\n  color: #48A0F8;\n  font-size: 10px;\n  margin: -55px auto;\n  position: relative;\n  text-indent: -9999em;\n  transform: translateZ(0);\n  -webkit-animation-delay: -0.16s;\n  animation-delay: -0.16s;\n}\n\n.loader:before,\n.loader:after {\n  content: \"\";\n  position: absolute;\n  top: 0;\n}\n\n.loader:before {\n  left: -3.5em;\n  -webkit-animation-delay: -0.32s;\n  animation-delay: -0.32s;\n}\n\n.loader:after {\n  left: 3.5em;\n}\n\n@-webkit-keyframes load7 {\n  0%, 80%, 100% {\n    box-shadow: 0 2.5em 0 -1.3em;\n  }\n  40% {\n    box-shadow: 0 2.5em 0 0;\n  }\n}\n\n@keyframes load7 {\n  0%, 80%, 100% {\n    box-shadow: 0 2.5em 0 -1.3em;\n  }\n  40% {\n    box-shadow: 0 2.5em 0 0;\n  }\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oZWN0b3Jjb2xvbi9SZXBvc2l0b3JpZXMva2F0aHktY2Fyd2FzaC1kZXRhaWxpbmcvc3JjL2FwcC9zaGFyZWQvY29tcG9uZW50cy9sb2FkZXIvbG9hZGVyLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9zaGFyZWQvY29tcG9uZW50cy9sb2FkZXIvbG9hZGVyLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksYUFBQTtFQUNBLHVCQUFBO0VBQ0EsbUJBQUE7QUNDSjs7QURFQTs7O0VBR0Usa0JBQUE7RUFDQSxZQUFBO0VBQ0EsYUFBQTtFQUNBLGlDQUFBO0VBQ0EseUJBQUE7RUFDQSxrREFBQTtFQUNBLDBDQUFBO0FDQ0Y7O0FERUE7RUFDRSxjQUFBO0VBQ0EsZUFBQTtFQUNBLGtCQUFBO0VBQ0Esa0JBQUE7RUFDQSxvQkFBQTtFQUdBLHdCQUFBO0VBQ0EsK0JBQUE7RUFDQSx1QkFBQTtBQ0NGOztBREVBOztFQUVFLFdBQUE7RUFDQSxrQkFBQTtFQUNBLE1BQUE7QUNDRjs7QURFQTtFQUNFLFlBQUE7RUFDQSwrQkFBQTtFQUNBLHVCQUFBO0FDQ0Y7O0FERUE7RUFDRSxXQUFBO0FDQ0Y7O0FERUE7RUFFRTtJQUdFLDRCQUFBO0VDRkY7RURLQTtJQUNFLHVCQUFBO0VDSEY7QUFDRjs7QURNQTtFQUVFO0lBR0UsNEJBQUE7RUNQRjtFRFVBO0lBQ0UsdUJBQUE7RUNSRjtBQUNGIiwiZmlsZSI6InNyYy9hcHAvc2hhcmVkL2NvbXBvbmVudHMvbG9hZGVyL2xvYWRlci5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5sb2dvIHtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG59XG5cbi5sb2FkZXIsXG4ubG9hZGVyOmJlZm9yZSxcbi5sb2FkZXI6YWZ0ZXIge1xuICBib3JkZXItcmFkaXVzOiA1MCU7XG4gIHdpZHRoOiAyLjVlbTtcbiAgaGVpZ2h0OiAyLjVlbTtcbiAgLXdlYmtpdC1hbmltYXRpb24tZmlsbC1tb2RlOiBib3RoO1xuICBhbmltYXRpb24tZmlsbC1tb2RlOiBib3RoO1xuICAtd2Via2l0LWFuaW1hdGlvbjogbG9hZDcgMS44cyBpbmZpbml0ZSBlYXNlLWluLW91dDtcbiAgYW5pbWF0aW9uOiBsb2FkNyAxLjhzIGluZmluaXRlIGVhc2UtaW4tb3V0O1xufVxuXG4ubG9hZGVyIHtcbiAgY29sb3I6ICM0OEEwRjg7XG4gIGZvbnQtc2l6ZTogMTBweDtcbiAgbWFyZ2luOiAtNTVweCBhdXRvO1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIHRleHQtaW5kZW50OiAtOTk5OWVtO1xuICAtd2Via2l0LXRyYW5zZm9ybTogdHJhbnNsYXRlWigwKTtcbiAgLW1zLXRyYW5zZm9ybTogdHJhbnNsYXRlWigwKTtcbiAgdHJhbnNmb3JtOiB0cmFuc2xhdGVaKDApO1xuICAtd2Via2l0LWFuaW1hdGlvbi1kZWxheTogLTAuMTZzO1xuICBhbmltYXRpb24tZGVsYXk6IC0wLjE2cztcbn1cblxuLmxvYWRlcjpiZWZvcmUsXG4ubG9hZGVyOmFmdGVyIHtcbiAgY29udGVudDogJyc7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgdG9wOiAwO1xufVxuXG4ubG9hZGVyOmJlZm9yZSB7XG4gIGxlZnQ6IC0zLjVlbTtcbiAgLXdlYmtpdC1hbmltYXRpb24tZGVsYXk6IC0wLjMycztcbiAgYW5pbWF0aW9uLWRlbGF5OiAtMC4zMnM7XG59XG5cbi5sb2FkZXI6YWZ0ZXIge1xuICBsZWZ0OiAzLjVlbTtcbn1cblxuQC13ZWJraXQta2V5ZnJhbWVzIGxvYWQ3IHtcblxuICAwJSxcbiAgODAlLFxuICAxMDAlIHtcbiAgICBib3gtc2hhZG93OiAwIDIuNWVtIDAgLTEuM2VtO1xuICB9XG5cbiAgNDAlIHtcbiAgICBib3gtc2hhZG93OiAwIDIuNWVtIDAgMDtcbiAgfVxufVxuXG5Aa2V5ZnJhbWVzIGxvYWQ3IHtcblxuICAwJSxcbiAgODAlLFxuICAxMDAlIHtcbiAgICBib3gtc2hhZG93OiAwIDIuNWVtIDAgLTEuM2VtO1xuICB9XG5cbiAgNDAlIHtcbiAgICBib3gtc2hhZG93OiAwIDIuNWVtIDAgMDtcbiAgfVxufVxuIiwiLmxvZ28ge1xuICBkaXNwbGF5OiBmbGV4O1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbn1cblxuLmxvYWRlcixcbi5sb2FkZXI6YmVmb3JlLFxuLmxvYWRlcjphZnRlciB7XG4gIGJvcmRlci1yYWRpdXM6IDUwJTtcbiAgd2lkdGg6IDIuNWVtO1xuICBoZWlnaHQ6IDIuNWVtO1xuICAtd2Via2l0LWFuaW1hdGlvbi1maWxsLW1vZGU6IGJvdGg7XG4gIGFuaW1hdGlvbi1maWxsLW1vZGU6IGJvdGg7XG4gIC13ZWJraXQtYW5pbWF0aW9uOiBsb2FkNyAxLjhzIGluZmluaXRlIGVhc2UtaW4tb3V0O1xuICBhbmltYXRpb246IGxvYWQ3IDEuOHMgaW5maW5pdGUgZWFzZS1pbi1vdXQ7XG59XG5cbi5sb2FkZXIge1xuICBjb2xvcjogIzQ4QTBGODtcbiAgZm9udC1zaXplOiAxMHB4O1xuICBtYXJnaW46IC01NXB4IGF1dG87XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgdGV4dC1pbmRlbnQ6IC05OTk5ZW07XG4gIC13ZWJraXQtdHJhbnNmb3JtOiB0cmFuc2xhdGVaKDApO1xuICAtbXMtdHJhbnNmb3JtOiB0cmFuc2xhdGVaKDApO1xuICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVooMCk7XG4gIC13ZWJraXQtYW5pbWF0aW9uLWRlbGF5OiAtMC4xNnM7XG4gIGFuaW1hdGlvbi1kZWxheTogLTAuMTZzO1xufVxuXG4ubG9hZGVyOmJlZm9yZSxcbi5sb2FkZXI6YWZ0ZXIge1xuICBjb250ZW50OiBcIlwiO1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIHRvcDogMDtcbn1cblxuLmxvYWRlcjpiZWZvcmUge1xuICBsZWZ0OiAtMy41ZW07XG4gIC13ZWJraXQtYW5pbWF0aW9uLWRlbGF5OiAtMC4zMnM7XG4gIGFuaW1hdGlvbi1kZWxheTogLTAuMzJzO1xufVxuXG4ubG9hZGVyOmFmdGVyIHtcbiAgbGVmdDogMy41ZW07XG59XG5cbkAtd2Via2l0LWtleWZyYW1lcyBsb2FkNyB7XG4gIDAlLCA4MCUsIDEwMCUge1xuICAgIGJveC1zaGFkb3c6IDAgMi41ZW0gMCAtMS4zZW07XG4gIH1cbiAgNDAlIHtcbiAgICBib3gtc2hhZG93OiAwIDIuNWVtIDAgMDtcbiAgfVxufVxuQGtleWZyYW1lcyBsb2FkNyB7XG4gIDAlLCA4MCUsIDEwMCUge1xuICAgIGJveC1zaGFkb3c6IDAgMi41ZW0gMCAtMS4zZW07XG4gIH1cbiAgNDAlIHtcbiAgICBib3gtc2hhZG93OiAwIDIuNWVtIDAgMDtcbiAgfVxufSJdfQ== */";
+    __webpack_exports__["default"] = ".logo {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.loader,\n.loader:before,\n.loader:after {\n  border-radius: 50%;\n  width: 2.5em;\n  height: 2.5em;\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both;\n  -webkit-animation: load7 1.8s infinite ease-in-out;\n  animation: load7 1.8s infinite ease-in-out;\n}\n\n.loader {\n  color: #48A0F8;\n  font-size: 10px;\n  margin: -55px auto;\n  position: relative;\n  text-indent: -9999em;\n  transform: translateZ(0);\n  -webkit-animation-delay: -0.16s;\n  animation-delay: -0.16s;\n}\n\n.loader:before,\n.loader:after {\n  content: \"\";\n  position: absolute;\n  top: 0;\n}\n\n.loader:before {\n  left: -3.5em;\n  -webkit-animation-delay: -0.32s;\n  animation-delay: -0.32s;\n}\n\n.loader:after {\n  left: 3.5em;\n}\n\n@-webkit-keyframes load7 {\n  0%, 80%, 100% {\n    box-shadow: 0 2.5em 0 -1.3em;\n  }\n  40% {\n    box-shadow: 0 2.5em 0 0;\n  }\n}\n\n@keyframes load7 {\n  0%, 80%, 100% {\n    box-shadow: 0 2.5em 0 -1.3em;\n  }\n  40% {\n    box-shadow: 0 2.5em 0 0;\n  }\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oZWN0b3Jjb2xvbi9Eb2N1bWVudHMvZ2l0aHViLXJlcG8va2NkLWluc3BlY3Rpb24vc3JjL2FwcC9zaGFyZWQvY29tcG9uZW50cy9sb2FkZXIvbG9hZGVyLmNvbXBvbmVudC5zY3NzIiwic3JjL2FwcC9zaGFyZWQvY29tcG9uZW50cy9sb2FkZXIvbG9hZGVyLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksYUFBQTtFQUNBLHVCQUFBO0VBQ0EsbUJBQUE7QUNDSjs7QURFQTs7O0VBR0Usa0JBQUE7RUFDQSxZQUFBO0VBQ0EsYUFBQTtFQUNBLGlDQUFBO0VBQ0EseUJBQUE7RUFDQSxrREFBQTtFQUNBLDBDQUFBO0FDQ0Y7O0FERUE7RUFDRSxjQUFBO0VBQ0EsZUFBQTtFQUNBLGtCQUFBO0VBQ0Esa0JBQUE7RUFDQSxvQkFBQTtFQUdBLHdCQUFBO0VBQ0EsK0JBQUE7RUFDQSx1QkFBQTtBQ0NGOztBREVBOztFQUVFLFdBQUE7RUFDQSxrQkFBQTtFQUNBLE1BQUE7QUNDRjs7QURFQTtFQUNFLFlBQUE7RUFDQSwrQkFBQTtFQUNBLHVCQUFBO0FDQ0Y7O0FERUE7RUFDRSxXQUFBO0FDQ0Y7O0FERUE7RUFFRTtJQUdFLDRCQUFBO0VDRkY7RURLQTtJQUNFLHVCQUFBO0VDSEY7QUFDRjs7QURNQTtFQUVFO0lBR0UsNEJBQUE7RUNQRjtFRFVBO0lBQ0UsdUJBQUE7RUNSRjtBQUNGIiwiZmlsZSI6InNyYy9hcHAvc2hhcmVkL2NvbXBvbmVudHMvbG9hZGVyL2xvYWRlci5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5sb2dvIHtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG59XG5cbi5sb2FkZXIsXG4ubG9hZGVyOmJlZm9yZSxcbi5sb2FkZXI6YWZ0ZXIge1xuICBib3JkZXItcmFkaXVzOiA1MCU7XG4gIHdpZHRoOiAyLjVlbTtcbiAgaGVpZ2h0OiAyLjVlbTtcbiAgLXdlYmtpdC1hbmltYXRpb24tZmlsbC1tb2RlOiBib3RoO1xuICBhbmltYXRpb24tZmlsbC1tb2RlOiBib3RoO1xuICAtd2Via2l0LWFuaW1hdGlvbjogbG9hZDcgMS44cyBpbmZpbml0ZSBlYXNlLWluLW91dDtcbiAgYW5pbWF0aW9uOiBsb2FkNyAxLjhzIGluZmluaXRlIGVhc2UtaW4tb3V0O1xufVxuXG4ubG9hZGVyIHtcbiAgY29sb3I6ICM0OEEwRjg7XG4gIGZvbnQtc2l6ZTogMTBweDtcbiAgbWFyZ2luOiAtNTVweCBhdXRvO1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIHRleHQtaW5kZW50OiAtOTk5OWVtO1xuICAtd2Via2l0LXRyYW5zZm9ybTogdHJhbnNsYXRlWigwKTtcbiAgLW1zLXRyYW5zZm9ybTogdHJhbnNsYXRlWigwKTtcbiAgdHJhbnNmb3JtOiB0cmFuc2xhdGVaKDApO1xuICAtd2Via2l0LWFuaW1hdGlvbi1kZWxheTogLTAuMTZzO1xuICBhbmltYXRpb24tZGVsYXk6IC0wLjE2cztcbn1cblxuLmxvYWRlcjpiZWZvcmUsXG4ubG9hZGVyOmFmdGVyIHtcbiAgY29udGVudDogJyc7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgdG9wOiAwO1xufVxuXG4ubG9hZGVyOmJlZm9yZSB7XG4gIGxlZnQ6IC0zLjVlbTtcbiAgLXdlYmtpdC1hbmltYXRpb24tZGVsYXk6IC0wLjMycztcbiAgYW5pbWF0aW9uLWRlbGF5OiAtMC4zMnM7XG59XG5cbi5sb2FkZXI6YWZ0ZXIge1xuICBsZWZ0OiAzLjVlbTtcbn1cblxuQC13ZWJraXQta2V5ZnJhbWVzIGxvYWQ3IHtcblxuICAwJSxcbiAgODAlLFxuICAxMDAlIHtcbiAgICBib3gtc2hhZG93OiAwIDIuNWVtIDAgLTEuM2VtO1xuICB9XG5cbiAgNDAlIHtcbiAgICBib3gtc2hhZG93OiAwIDIuNWVtIDAgMDtcbiAgfVxufVxuXG5Aa2V5ZnJhbWVzIGxvYWQ3IHtcblxuICAwJSxcbiAgODAlLFxuICAxMDAlIHtcbiAgICBib3gtc2hhZG93OiAwIDIuNWVtIDAgLTEuM2VtO1xuICB9XG5cbiAgNDAlIHtcbiAgICBib3gtc2hhZG93OiAwIDIuNWVtIDAgMDtcbiAgfVxufVxuIiwiLmxvZ28ge1xuICBkaXNwbGF5OiBmbGV4O1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbn1cblxuLmxvYWRlcixcbi5sb2FkZXI6YmVmb3JlLFxuLmxvYWRlcjphZnRlciB7XG4gIGJvcmRlci1yYWRpdXM6IDUwJTtcbiAgd2lkdGg6IDIuNWVtO1xuICBoZWlnaHQ6IDIuNWVtO1xuICAtd2Via2l0LWFuaW1hdGlvbi1maWxsLW1vZGU6IGJvdGg7XG4gIGFuaW1hdGlvbi1maWxsLW1vZGU6IGJvdGg7XG4gIC13ZWJraXQtYW5pbWF0aW9uOiBsb2FkNyAxLjhzIGluZmluaXRlIGVhc2UtaW4tb3V0O1xuICBhbmltYXRpb246IGxvYWQ3IDEuOHMgaW5maW5pdGUgZWFzZS1pbi1vdXQ7XG59XG5cbi5sb2FkZXIge1xuICBjb2xvcjogIzQ4QTBGODtcbiAgZm9udC1zaXplOiAxMHB4O1xuICBtYXJnaW46IC01NXB4IGF1dG87XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgdGV4dC1pbmRlbnQ6IC05OTk5ZW07XG4gIC13ZWJraXQtdHJhbnNmb3JtOiB0cmFuc2xhdGVaKDApO1xuICAtbXMtdHJhbnNmb3JtOiB0cmFuc2xhdGVaKDApO1xuICB0cmFuc2Zvcm06IHRyYW5zbGF0ZVooMCk7XG4gIC13ZWJraXQtYW5pbWF0aW9uLWRlbGF5OiAtMC4xNnM7XG4gIGFuaW1hdGlvbi1kZWxheTogLTAuMTZzO1xufVxuXG4ubG9hZGVyOmJlZm9yZSxcbi5sb2FkZXI6YWZ0ZXIge1xuICBjb250ZW50OiBcIlwiO1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIHRvcDogMDtcbn1cblxuLmxvYWRlcjpiZWZvcmUge1xuICBsZWZ0OiAtMy41ZW07XG4gIC13ZWJraXQtYW5pbWF0aW9uLWRlbGF5OiAtMC4zMnM7XG4gIGFuaW1hdGlvbi1kZWxheTogLTAuMzJzO1xufVxuXG4ubG9hZGVyOmFmdGVyIHtcbiAgbGVmdDogMy41ZW07XG59XG5cbkAtd2Via2l0LWtleWZyYW1lcyBsb2FkNyB7XG4gIDAlLCA4MCUsIDEwMCUge1xuICAgIGJveC1zaGFkb3c6IDAgMi41ZW0gMCAtMS4zZW07XG4gIH1cbiAgNDAlIHtcbiAgICBib3gtc2hhZG93OiAwIDIuNWVtIDAgMDtcbiAgfVxufVxuQGtleWZyYW1lcyBsb2FkNyB7XG4gIDAlLCA4MCUsIDEwMCUge1xuICAgIGJveC1zaGFkb3c6IDAgMi41ZW0gMCAtMS4zZW07XG4gIH1cbiAgNDAlIHtcbiAgICBib3gtc2hhZG93OiAwIDIuNWVtIDAgMDtcbiAgfVxufSJdfQ== */";
     /***/
   },
 
@@ -2621,6 +3151,188 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   },
 
   /***/
+  "./src/app/shared/components/user-login/user-login.component.scss":
+  /*!************************************************************************!*\
+    !*** ./src/app/shared/components/user-login/user-login.component.scss ***!
+    \************************************************************************/
+
+  /*! exports provided: default */
+
+  /***/
+  function srcAppSharedComponentsUserLoginUserLoginComponentScss(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+
+    __webpack_require__.r(__webpack_exports__);
+    /* harmony default export */
+
+
+    __webpack_exports__["default"] = "user-login {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 100% !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9oZWN0b3Jjb2xvbi9Eb2N1bWVudHMvZ2l0aHViLXJlcG8va2NkLWluc3BlY3Rpb24vc3JjL2FwcC9zaGFyZWQvY29tcG9uZW50cy91c2VyLWxvZ2luL3VzZXItbG9naW4uY29tcG9uZW50LnNjc3MiLCJzcmMvYXBwL3NoYXJlZC9jb21wb25lbnRzL3VzZXItbG9naW4vdXNlci1sb2dpbi5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLGFBQUE7RUFDQSx1QkFBQTtFQUNBLG1CQUFBO0VBQ0Esc0JBQUE7QUNDSiIsImZpbGUiOiJzcmMvYXBwL3NoYXJlZC9jb21wb25lbnRzL3VzZXItbG9naW4vdXNlci1sb2dpbi5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbInVzZXItbG9naW4ge1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICB3aWR0aDogMTAwJSAhaW1wb3J0YW50O1xufSIsInVzZXItbG9naW4ge1xuICBkaXNwbGF5OiBmbGV4O1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgd2lkdGg6IDEwMCUgIWltcG9ydGFudDtcbn0iXX0= */";
+    /***/
+  },
+
+  /***/
+  "./src/app/shared/components/user-login/user-login.component.ts":
+  /*!**********************************************************************!*\
+    !*** ./src/app/shared/components/user-login/user-login.component.ts ***!
+    \**********************************************************************/
+
+  /*! exports provided: UserLoginComponent */
+
+  /***/
+  function srcAppSharedComponentsUserLoginUserLoginComponentTs(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+
+    __webpack_require__.r(__webpack_exports__);
+    /* harmony export (binding) */
+
+
+    __webpack_require__.d(__webpack_exports__, "UserLoginComponent", function () {
+      return UserLoginComponent;
+    });
+    /* harmony import */
+
+
+    var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+    /*! tslib */
+    "./node_modules/tslib/tslib.es6.js");
+    /* harmony import */
+
+
+    var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+    /*! @angular/core */
+    "./node_modules/@angular/core/fesm2015/core.js");
+    /* harmony import */
+
+
+    var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+    /*! @angular/forms */
+    "./node_modules/@angular/forms/fesm2015/forms.js");
+    /* harmony import */
+
+
+    var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    /*! rxjs/operators */
+    "./node_modules/rxjs/_esm2015/operators/index.js");
+    /* harmony import */
+
+
+    var src_app_services_carwash_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    /*! src/app/services/carwash.service */
+    "./src/app/services/carwash.service.ts");
+    /* harmony import */
+
+
+    var lz_string__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+    /*! lz-string */
+    "./node_modules/lz-string/libs/lz-string.js");
+    /* harmony import */
+
+
+    var lz_string__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lz_string__WEBPACK_IMPORTED_MODULE_5__);
+    /* harmony import */
+
+
+    var _angular_material__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+    /*! @angular/material */
+    "./node_modules/@angular/material/esm2015/material.js");
+    /* harmony import */
+
+
+    var _angular_common_http__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
+    /*! @angular/common/http */
+    "./node_modules/@angular/common/fesm2015/http.js");
+
+    var UserLoginComponent = /*#__PURE__*/function () {
+      function UserLoginComponent(_carWashService, _http, dialogRef) {
+        _classCallCheck(this, UserLoginComponent);
+
+        this._carWashService = _carWashService;
+        this._http = _http;
+        this.dialogRef = dialogRef;
+        this.users = [];
+        this.isPasswordIncorrect = false;
+        this.passwordFormControl = new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('');
+        this.remember = new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('');
+      }
+
+      _createClass(UserLoginComponent, [{
+        key: "getIP",
+        value: function getIP() {
+          return this._http.get("http://api.ipify.org/?format=json");
+        }
+      }, {
+        key: "ngOnInit",
+        value: function ngOnInit() {
+          var _this12 = this;
+
+          this._carWashService.getUsers().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["take"])(1)).subscribe(function (res) {
+            _this12.users = res;
+          });
+        }
+      }, {
+        key: "login",
+        value: function login() {
+          var _this13 = this;
+
+          var existUser = this.users.find(function (u) {
+            return lz_string__WEBPACK_IMPORTED_MODULE_5__["decompressFromBase64"](u.password) === _this13.passwordFormControl.value;
+          }); // GET IP ADDRESS TO STAY LOGGED
+
+          this.getIP().subscribe(function (res) {
+            if (existUser) {
+              existUser.isLoggedIn = _this13.remember.value;
+              existUser.ip = _this13.remember.value ? lz_string__WEBPACK_IMPORTED_MODULE_5__["compressToBase64"](res.ip) : '';
+
+              _this13.dialogRef.close(existUser);
+
+              _this13.isPasswordIncorrect = false;
+            } else {
+              _this13.isPasswordIncorrect = true;
+            }
+          });
+        }
+      }, {
+        key: "createPin",
+        value: function createPin(number) {
+          if (number) {
+            var pin = this.passwordFormControl.value;
+            pin += number;
+            this.passwordFormControl.setValue(pin);
+          } else {
+            var _pin = this.passwordFormControl.value;
+            _pin = _pin.slice(0, -1);
+            this.passwordFormControl.setValue(_pin);
+          }
+        }
+      }]);
+
+      return UserLoginComponent;
+    }();
+
+    UserLoginComponent.ctorParameters = function () {
+      return [{
+        type: src_app_services_carwash_service__WEBPACK_IMPORTED_MODULE_4__["CarWashService"]
+      }, {
+        type: _angular_common_http__WEBPACK_IMPORTED_MODULE_7__["HttpClient"]
+      }, {
+        type: _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatDialogRef"]
+      }];
+    };
+
+    UserLoginComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+      selector: 'app-user-login',
+      template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
+      /*! raw-loader!./user-login.component.html */
+      "./node_modules/raw-loader/dist/cjs.js!./src/app/shared/components/user-login/user-login.component.html"))["default"],
+      encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewEncapsulation"].None,
+      styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
+      /*! ./user-login.component.scss */
+      "./src/app/shared/components/user-login/user-login.component.scss"))["default"]]
+    })], UserLoginComponent);
+    /***/
+  },
+
+  /***/
   "./src/app/shared/models/constants/terms-and-conditions.const.ts":
   /*!***********************************************************************!*\
     !*** ./src/app/shared/models/constants/terms-and-conditions.const.ts ***!
@@ -2646,7 +3358,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /*! tslib */
     "./node_modules/tslib/tslib.es6.js");
 
-    var termsAndConditions = "<p><strong>Precios.</strong> Los precios de los paquetes y servicios que ofrece el &ldquo;Car Wash&rdquo; pueden cambiar sin aviso. No se f&iacute;a ni se otorgan cr&eacute;ditos. Pagos con ATH M&oacute;vil se deber&aacute; presentar evidencia del pago. Se paga antes de otorgar el servicio o el <strong>50%</strong> del mismo. No todas las formas de pago ofertadas por &eacute;l &ldquo;Car Wash&rdquo; estar&aacute;n disponibles en todo momento. <strong><em>Servicios de Cita Previa</em></strong> deber&aacute;n pagar un deposito no reembolsable a la cita ya pautada, el porciento de este depender&aacute; del servicio solicitado.</p>\n<p><strong>Descripci&oacute;n</strong>. Los servicios ofertados por el &ldquo;Car Wash&rdquo;, no necesariamente corresponden con la descripci&oacute;n de dicho servicio, si por alguna raz&oacute;n no se pudiera dar el servicio completo se le otorgara al cliente un servicio por un valor equivalente al promocionado, si el cliente no lo desea; se le otorgara un cup&oacute;n para canjearlo en otra fecha por la diferencia. &ldquo;Car Wash&rdquo; puede cambiar, modificar o cancelar sus servicios en cualquier momento.</p>\n<p><strong>Horario.</strong> El horario publicado en la pagina de Facebook como en cartelones en el establecimiento no necesariamente ser&aacute; en forzado, puede el &ldquo;Car Wash&rdquo; cerrar el servicio sin previo aviso durante d&iacute;as festivos, fines de semana o cuando as&iacute; convenga sus intereses. El horario regular se publica de la pagina de Facebook.</p>\n<p><strong>Riesgos.</strong> El &ldquo;Car Wash&rdquo; utiliza maquinas a presi&oacute;n, agua, qu&iacute;micos y aspiradoras, El cliente deber&aacute; de tomar sus precauciones e informar al lavador de cualquier condici&oacute;n especial que tenga su autom&oacute;vil.</p>\n<p><strong>&Aacute;reas.</strong> El &ldquo;Car Wash&rdquo; ofrece &aacute;rea de espera adem&aacute;s de el &aacute;rea de enjuagado y secado. Las &aacute;reas comunes del Car Wash son de uso exclusivo de sus empleados. Las &aacute;reas de mantenimiento y de trabajo est&aacute;n prohibidas para los clientes, estas &aacute;reas no siempre est&aacute;n marcadas.</p>\n<p>Si el cliente llegara a tener alg&uacute;n accidente en estas &aacute;reas, el &ldquo;Car Wash&rdquo; y sus empleados no se hace responsable de los da&ntilde;os que este pudiera llegar a tener.</p>\n<p><strong>Generalidades.</strong> El consumo de drogas y bebidas alcoh&oacute;licas queda estrictamente prohibido y la administraci&oacute;n se reserva el derecho de admisi&oacute;n. Ni&ntilde;os menores de edad deber&aacute;n de estar siempre acompa&ntilde;ados por padres o supervisor.</p>\n<p>No hay derecho de tanto ni preferencial a ning&uacute;n cliente, el orden con el que lleguen ser&aacute; con el que ser&aacute;n atendidos. Cualquier da&ntilde;o que el cliente genere a las instalaciones de, el &ldquo;Car Wash&rdquo; ser&aacute; responsabilidad del cliente.</p>\n<p>Caf&eacute; y agua gratuita que se otorga en la sala de espera se limita a 1 tasa o su equivalente por cliente, el &ldquo;Car Wash&rdquo; no se obliga a tener disponible esta cortes&iacute;a.</p>\n<p>Si alg&uacute;n cliente se comporta de manera agresiva el servicio se cancelar&aacute; sin devoluci&oacute;n al cliente.</p>\n<p><strong>Acerca del COVID-19</strong></p>\n<p><strong>Uso de mascarilla en el establecimiento es completamente obligatorio y mantener los 6 pies de distancia.</strong></p>";
+    var termsAndConditions = "<p><strong>Precios.</strong> Los precios de los paquetes y servicios que ofrece el &ldquo;Car Wash&rdquo; pueden cambiar sin aviso. No se f&iacute;a ni se otorgan cr&eacute;ditos. Pagos con ATH M&oacute;vil se deber&aacute; presentar evidencia del pago. Se paga antes de otorgar el servicio o el <strong>50%</strong> del mismo. No todas las formas de pago ofertadas por &eacute;l &ldquo;Car Wash&rdquo; estar&aacute;n disponibles en todo momento. <strong><em>Servicios de Cita Previa</em></strong> deber&aacute;n pagar un deposito no reembolsable a la cita ya pautada, el porciento de este depender&aacute; del servicio solicitado.</p>\n<p><strong>Descripci&oacute;n</strong>. Los servicios ofertados por el &ldquo;Car Wash&rdquo;, no necesariamente corresponden con la descripci&oacute;n de dicho servicio, si por alguna raz&oacute;n no se pudiera dar el servicio completo se le otorgara al cliente un servicio por un valor equivalente al promocionado, si el cliente no lo desea; se le otorgara un cup&oacute;n para canjearlo en otra fecha por la diferencia. &ldquo;Car Wash&rdquo; puede cambiar, modificar o cancelar sus servicios en cualquier momento.</p>\n<p><strong>Horario.</strong> El horario publicado en la pagina de Facebook como en cartelones en el establecimiento no necesariamente ser&aacute; en forzado, puede el &ldquo;Car Wash&rdquo; cerrar el servicio sin previo aviso durante d&iacute;as festivos, fines de semana o cuando as&iacute; convenga sus intereses. El horario regular se publica de la pagina de Facebook.</p>\n<p><strong>Riesgos.</strong> El &ldquo;Car Wash&rdquo; utiliza maquinas a presi&oacute;n, agua, qu&iacute;micos y aspiradoras, El cliente deber&aacute; de tomar sus precauciones e informar al lavador de cualquier condici&oacute;n especial que tenga su autom&oacute;vil.</p>\n<p><strong>&Aacute;reas.</strong> El &ldquo;Car Wash&rdquo; ofrece &aacute;rea de espera adem&aacute;s de el &aacute;rea de enjuagado y secado. Las &aacute;reas comunes del Car Wash son de uso exclusivo de sus empleados. Las &aacute;reas de mantenimiento y de trabajo est&aacute;n prohibidas para los clientes, estas &aacute;reas no siempre est&aacute;n marcadas.</p>\n<p>Si el cliente llegara a tener alg&uacute;n accidente en estas &aacute;reas, el &ldquo;Car Wash&rdquo; y sus empleados no se hace responsable de los da&ntilde;os que este pudiera llegar a tener.</p>\n<p><strong>Generalidades.</strong> El consumo de drogas y bebidas alcoh&oacute;licas queda estrictamente prohibido y la administraci&oacute;n se reserva el derecho de admisi&oacute;n. Ni&ntilde;os menores de edad deber&aacute;n de estar siempre acompa&ntilde;ados por padres o supervisor.</p>\n<p>No hay derecho de tanto ni preferencial a ning&uacute;n cliente, el orden con el que lleguen ser&aacute; con el que ser&aacute;n atendidos. Cualquier da&ntilde;o que el cliente genere a las instalaciones de, el &ldquo;Car Wash&rdquo; ser&aacute; responsabilidad del cliente.</p>\n<p>Caf&eacute; y agua gratuita que se otorga en la sala de espera se limita a 1 taza o su equivalente por cliente, el &ldquo;Car Wash&rdquo; no se obliga a tener disponible esta cortes&iacute;a.</p>\n<p>Si alg&uacute;n cliente se comporta de manera agresiva el servicio se cancelar&aacute; sin devoluci&oacute;n al cliente.</p>\n<p><strong>Acerca del COVID-19</strong></p>\n<p><strong>Uso de mascarilla en el establecimiento es completamente obligatorio y mantener los 6 pies de distancia.</strong></p>";
     /***/
   },
 
@@ -2684,66 +3396,122 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony import */
 
 
-    var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+    var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+    /*! @angular/flex-layout */
+    "./node_modules/@angular/flex-layout/esm2015/flex-layout.js");
+    /* harmony import */
+
+
+    var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
     /*! @angular/platform-browser/animations */
     "./node_modules/@angular/platform-browser/fesm2015/animations.js");
     /* harmony import */
 
 
-    var _ng_plus_signature_pad__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    var _ng_plus_signature_pad__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
     /*! @ng-plus/signature-pad */
     "./node_modules/@ng-plus/signature-pad/fesm2015/ng-plus-signature-pad.js");
     /* harmony import */
 
 
-    var ng_whiteboard__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    var ng_whiteboard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
     /*! ng-whiteboard */
     "./node_modules/ng-whiteboard/fesm2015/ng-whiteboard.js");
     /* harmony import */
 
 
-    var ngx_mask__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+    var ngx_mask__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
     /*! ngx-mask */
     "./node_modules/ngx-mask/fesm2015/ngx-mask.js");
     /* harmony import */
 
 
-    var ngx_toastr__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+    var ngx_toastr__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
     /*! ngx-toastr */
     "./node_modules/ngx-toastr/fesm2015/ngx-toastr.js");
     /* harmony import */
 
 
-    var _app_material_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
+    var _app_material_module__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
     /*! ../app-material.module */
     "./src/app/app-material.module.ts");
     /* harmony import */
 
 
-    var _components_inspection_document_inspection_document_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
+    var _components_inspection_document_inspection_document_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(
     /*! ./components/inspection-document/inspection-document.component */
     "./src/app/shared/components/inspection-document/inspection-document.component.ts");
     /* harmony import */
 
 
-    var _components_loader_loader_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(
+    var _components_loader_loader_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(
     /*! ./components/loader/loader.component */
     "./src/app/shared/components/loader/loader.component.ts");
+    /* harmony import */
+
+
+    var _components_user_login_user_login_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(
+    /*! ./components/user-login/user-login.component */
+    "./src/app/shared/components/user-login/user-login.component.ts");
 
     var SharedModule = /*#__PURE__*/_createClass(function SharedModule() {
       _classCallCheck(this, SharedModule);
     });
 
     SharedModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
-      imports: [_app_material_module__WEBPACK_IMPORTED_MODULE_7__["AngularMaterialModule"], ngx_mask__WEBPACK_IMPORTED_MODULE_5__["NgxMaskModule"].forRoot(), _ng_plus_signature_pad__WEBPACK_IMPORTED_MODULE_3__["SignaturePadModule"], ng_whiteboard__WEBPACK_IMPORTED_MODULE_4__["NgWhiteboardModule"], ngx_toastr__WEBPACK_IMPORTED_MODULE_6__["ToastrModule"].forRoot({
+      imports: [_app_material_module__WEBPACK_IMPORTED_MODULE_8__["AngularMaterialModule"], ngx_mask__WEBPACK_IMPORTED_MODULE_6__["NgxMaskModule"].forRoot(), _ng_plus_signature_pad__WEBPACK_IMPORTED_MODULE_4__["SignaturePadModule"], ng_whiteboard__WEBPACK_IMPORTED_MODULE_5__["NgWhiteboardModule"], ngx_toastr__WEBPACK_IMPORTED_MODULE_7__["ToastrModule"].forRoot({
         timeOut: 10000,
         positionClass: 'toast-bottom-right',
         preventDuplicates: true
-      }), _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_2__["BrowserAnimationsModule"]],
-      exports: [_app_material_module__WEBPACK_IMPORTED_MODULE_7__["AngularMaterialModule"], ngx_mask__WEBPACK_IMPORTED_MODULE_5__["NgxMaskModule"], _ng_plus_signature_pad__WEBPACK_IMPORTED_MODULE_3__["SignaturePadModule"], ng_whiteboard__WEBPACK_IMPORTED_MODULE_4__["NgWhiteboardModule"], ngx_toastr__WEBPACK_IMPORTED_MODULE_6__["ToastrModule"], _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_2__["BrowserAnimationsModule"], _components_loader_loader_component__WEBPACK_IMPORTED_MODULE_9__["LoaderComponent"], _components_inspection_document_inspection_document_component__WEBPACK_IMPORTED_MODULE_8__["InspectionDocumentComponent"]],
-      providers: [ng_whiteboard__WEBPACK_IMPORTED_MODULE_4__["NgWhiteboardService"]],
-      declarations: [_components_loader_loader_component__WEBPACK_IMPORTED_MODULE_9__["LoaderComponent"], _components_inspection_document_inspection_document_component__WEBPACK_IMPORTED_MODULE_8__["InspectionDocumentComponent"]]
+      }), _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_3__["BrowserAnimationsModule"], _angular_flex_layout__WEBPACK_IMPORTED_MODULE_2__["FlexModule"]],
+      exports: [_app_material_module__WEBPACK_IMPORTED_MODULE_8__["AngularMaterialModule"], ngx_mask__WEBPACK_IMPORTED_MODULE_6__["NgxMaskModule"], _ng_plus_signature_pad__WEBPACK_IMPORTED_MODULE_4__["SignaturePadModule"], ng_whiteboard__WEBPACK_IMPORTED_MODULE_5__["NgWhiteboardModule"], ngx_toastr__WEBPACK_IMPORTED_MODULE_7__["ToastrModule"], _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_3__["BrowserAnimationsModule"], _components_loader_loader_component__WEBPACK_IMPORTED_MODULE_10__["LoaderComponent"], _components_inspection_document_inspection_document_component__WEBPACK_IMPORTED_MODULE_9__["InspectionDocumentComponent"], _components_user_login_user_login_component__WEBPACK_IMPORTED_MODULE_11__["UserLoginComponent"], _angular_flex_layout__WEBPACK_IMPORTED_MODULE_2__["FlexModule"]],
+      providers: [ng_whiteboard__WEBPACK_IMPORTED_MODULE_5__["NgWhiteboardService"]],
+      declarations: [_components_loader_loader_component__WEBPACK_IMPORTED_MODULE_10__["LoaderComponent"], _components_inspection_document_inspection_document_component__WEBPACK_IMPORTED_MODULE_9__["InspectionDocumentComponent"], _components_user_login_user_login_component__WEBPACK_IMPORTED_MODULE_11__["UserLoginComponent"]],
+      entryComponents: [_components_inspection_document_inspection_document_component__WEBPACK_IMPORTED_MODULE_9__["InspectionDocumentComponent"], _components_user_login_user_login_component__WEBPACK_IMPORTED_MODULE_11__["UserLoginComponent"]]
     })], SharedModule);
+    /***/
+  },
+
+  /***/
+  "./src/assets/js/smtp.js":
+  /*!*******************************!*\
+    !*** ./src/assets/js/smtp.js ***!
+    \*******************************/
+
+  /*! no static exports found */
+
+  /***/
+  function srcAssetsJsSmtpJs(module, exports) {
+    /* SmtpJS.com - v3.0.0 */
+    var Email = {
+      send: function send(a) {
+        return new Promise(function (n, e) {
+          a.nocache = Math.floor(1e6 * Math.random() + 1), a.Action = "Send";
+          var t = JSON.stringify(a);
+          Email.ajaxPost("https://smtpjs.com/v3/smtpjs.aspx?", t, function (e) {
+            n(e);
+          });
+        });
+      },
+      ajaxPost: function ajaxPost(e, n, t) {
+        var a = Email.createCORSRequest("POST", e);
+        a.setRequestHeader("Content-type", "application/x-www-form-urlencoded"), a.onload = function () {
+          var e = a.responseText;
+          null != t && t(e);
+        }, a.send(n);
+      },
+      ajax: function ajax(e, n) {
+        var t = Email.createCORSRequest("GET", e);
+        t.onload = function () {
+          var e = t.responseText;
+          null != n && n(e);
+        }, t.send();
+      },
+      createCORSRequest: function createCORSRequest(e, n) {
+        var t = new XMLHttpRequest();
+        return "withCredentials" in t ? t.open(e, n, !0) : "undefined" != typeof XDomainRequest ? (t = new XDomainRequest()).open(e, n) : t = null, t;
+      }
+    };
     /***/
   },
 
@@ -2865,7 +3633,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   /***/
   function _(module, exports, __webpack_require__) {
     module.exports = __webpack_require__(
-    /*! /Users/hectorcolon/Repositories/kathy-carwash-detailing/src/main.ts */
+    /*! /Users/hectorcolon/Documents/github-repo/kcd-inspection/src/main.ts */
     "./src/main.ts");
     /***/
   }

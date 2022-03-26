@@ -13,6 +13,7 @@ export class CarWashService {
     
     user = new Subject<User>();
     logout = new Subject<any>();
+    logged = new Subject<any>();
 
     constructor(private firestore: AngularFirestore) { }
 
@@ -59,6 +60,6 @@ export class CarWashService {
 
     //UPDATE
     updateUserStatus(user: User): void {
-      this.firestore.collection('Users').doc(user.userId).update({isLoggedIn: user.isLoggedIn});
+      this.firestore.collection('Users').doc(user.userId).update({isLoggedIn: user.isLoggedIn, ip: user.ip});
     }
 }

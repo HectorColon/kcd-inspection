@@ -24,6 +24,7 @@
               <mat-error>Nombre del cliente no debe ser vacio</mat-error>
               <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedClient($event.option.value)"
                 [displayWith]="displayWith">
+                <mat-option *ngIf="filteredClientList && filteredClientList.length <= 0" [disabled]="true">Cliente no existe</mat-option>
                 <mat-option *ngFor="let option of filteredClientList" [value]="option">
                   {{option.clientFullName}}
                 </mat-option>
@@ -104,7 +105,7 @@
         <mat-divider></mat-divider>
         <div class='section'>
           <h3>Firma del Cliente</h3>
-          <ng-signature-pad style="height: 150px !important;" format="base64" doneButtonText="Completar firma" clearButtonText="Borrar firma"
+          <ng-signature-pad #signaturePad style="height: 150px !important;" format="base64" doneButtonText="Completar firma" clearButtonText="Borrar firma"
             (done)="saveSignatureImage($event)">
           </ng-signature-pad>
         </div>

@@ -6,7 +6,7 @@ export const termsAndConditions = `<p><strong>Precios.</strong> Los precios de l
 <p>Si el cliente llegara a tener alg&uacute;n accidente en estas &aacute;reas, el &ldquo;Car Wash&rdquo; y sus empleados no se hace responsable de los da&ntilde;os que este pudiera llegar a tener.</p>
 <p><strong>Generalidades.</strong> El consumo de drogas y bebidas alcoh&oacute;licas queda estrictamente prohibido y la administraci&oacute;n se reserva el derecho de admisi&oacute;n. Ni&ntilde;os menores de edad deber&aacute;n de estar siempre acompa&ntilde;ados por padres o supervisor.</p>
 <p>No hay derecho de tanto ni preferencial a ning&uacute;n cliente, el orden con el que lleguen ser&aacute; con el que ser&aacute;n atendidos. Cualquier da&ntilde;o que el cliente genere a las instalaciones de, el &ldquo;Car Wash&rdquo; ser&aacute; responsabilidad del cliente.</p>
-<p>Caf&eacute; y agua gratuita que se otorga en la sala de espera se limita a 1 tasa o su equivalente por cliente, el &ldquo;Car Wash&rdquo; no se obliga a tener disponible esta cortes&iacute;a.</p>
+<p>Caf&eacute; y agua gratuita que se otorga en la sala de espera se limita a 1 taza o su equivalente por cliente, el &ldquo;Car Wash&rdquo; no se obliga a tener disponible esta cortes&iacute;a.</p>
 <p>Si alg&uacute;n cliente se comporta de manera agresiva el servicio se cancelar&aacute; sin devoluci&oacute;n al cliente.</p>
 <p><strong>Acerca del COVID-19</strong></p>
 <p><strong>Uso de mascarilla en el establecimiento es completamente obligatorio y mantener los 6 pies de distancia.</strong></p>`

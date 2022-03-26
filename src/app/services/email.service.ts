@@ -178,7 +178,7 @@ export class EmailService {
 
                         <p>No hay derecho de tanto ni preferencial a ningún cliente, el orden con el que lleguen será con el que serán atendidos. Cualquier daño que el cliente genere a las instalaciones de, el “Car Wash” será responsabilidad del cliente.</p>
 
-                        <p>Café y agua gratuita que se otorga en la sala de espera se limita a 1 tasa o su equivalente por cliente, el “Car Wash” no se obliga a tener disponible esta cortesía.</p>
+                        <p>Café y agua gratuita que se otorga en la sala de espera se limita a 1 taza o su equivalente por cliente, el “Car Wash” no se obliga a tener disponible esta cortesía.</p>
 
                         <p>Si algún cliente se comporta de manera agresiva el servicio se cancelará sin devolución al cliente.</p>
 
@@ -189,7 +189,7 @@ export class EmailService {
                         </div>
                         <div fxLayout="row">
                         <div>
-                            <span style="border-bottom: 1px solid;">${carInspection.termsAndConditionAccepted ? '✓' : '𐄂'}</span>
+                            <span style="border-bottom: 1px solid;">${carInspection.termsAndConditionAccepted ? '✓' : 'x'}</span>
                             <span style="padding-left: 8px;">Aceptó términos y condiciones</span>
                         </div>
                         </div>
@@ -204,7 +204,7 @@ export class EmailService {
                     <td style="border-color: #000000; text-align: left; vertical-align: top border-color: black; border-style: solid;
                                     border-width: 1px;
                                     font-family: Arial, sans-serif;
-                                    font-size: 14px;
+                                    font-size: 14px; 
                                     overflow: hidden;
                                     padding: 10px 5px;
                                     word-break: normal;" colspan="2">

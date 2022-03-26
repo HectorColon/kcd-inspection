@@ -4,4 +4,5 @@ export class User {
     userName?: string;
     password?: string;
     isLoggedIn?: boolean;
+    ip?: string;
 }

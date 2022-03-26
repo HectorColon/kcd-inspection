@@ -66,7 +66,8 @@ export class InspectionsListComponent implements OnInit, OnDestroy {
         const dialogRef = this._dialog.open(InspectionDocumentComponent, {
             width: '816px',
             height: '850px',
-            data: { carInspection: carInspection }
+            data: { carInspection: carInspection },
+            autoFocus: false
         });
 
         dialogRef.afterClosed().subscribe();

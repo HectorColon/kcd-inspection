@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { Router } from '@angular/router';
+import { SignaturePadComponent, SignaturePadModule } from '@ng-plus/signature-pad';
 import * as _moment from 'moment';
 import { FormatType, NgWhiteboardService, WhiteboardOptions } from 'ng-whiteboard';
 import { ToastrService } from 'ngx-toastr';
@@ -14,7 +14,6 @@ import { UserLoginComponent } from '../shared/components/user-login/user-login.c
 import { CarInspection } from '../shared/models/carInspection.model';
 import { Client } from '../shared/models/client.model';
 import { termsAndConditions } from '../shared/models/constants/terms-and-conditions.const';
-import { User } from '../shared/models/user.model';
 
 @Component({
     selector: 'inspection-home',
@@ -55,15 +54,17 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
         private _httpClient: HttpClient,
         private _emailService: EmailService,
         private _dialog: MatDialog,
-        private _route: Router) { this._unsubscribeAll }
+        private _http: HttpClient) { this._unsubscribeAll }
 
     ngOnInit() {
-        // OPEN PIN PAD IF THE USER IS LOGGED OUT
-        if (!this._carWashService.isLoggedIn) {
-            this.initPinPad();
-        } else {
-            this.initProgram();
-        }
+        this._carWashService.logged.subscribe(logged => {
+            // OPEN PIN PAD IF THE USER IS LOGGED OUT
+            if (!logged) {
+                this.initPinPad();
+            } else {
+                this.initProgram();
+            }
+        });
 
         // LOGGOUT EVENT TO OPEN PINPAD
         this._carWashService.logout.subscribe(() => {
@@ -78,7 +79,6 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
             this.onClear();
             this.isInspectionDrawingSaved = false;
             this.isSignatureDrawingSaved = false;
-            this._route.navigate(['/inspection-home']);
         });
     }
 
@@ -99,9 +99,9 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
             this._ngxToastrService.success('Inicio de sección completado');
             this._carWashService.isLoggedIn = true;
             this.initProgram(); //START INSPECTION PROGRAM
-            let userLogged: User = user;
-            userLogged.isLoggedIn = true;
-            this._carWashService.updateUserStatus(userLogged);
+           
+            this._carWashService.updateUserStatus(user);
+            this.isLoading = true;
         });
     }
 
@@ -127,8 +127,18 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
 
     subscribeToField(): void {
         this.carInspectionForm.get('clientFullName').valueChanges.pipe(takeUntil(this._unsubscribeAll)).subscribe(formValue => {
-            return this.filteredClientList.filter(x => x.clientFullName.toLowerCase() === formValue.toLowerCase());
+            if (formValue && formValue != '') {
+                this.filteredClientList = this._filter(formValue);
+            } else {
+                this.filteredClientList = this.clientDefaultList;
+            }
         });
+    }
+
+    private _filter(value: string): Client[] {
+        const filterValue = value.toLowerCase();
+
+        return this.filteredClientList.filter(option => option.clientFullName.toLowerCase().includes(filterValue));
     }
 
     setCarInspectionForm(): void {
