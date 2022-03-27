@@ -1,11 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialogRef } from '@angular/material';
+import * as lzString from 'lz-string';
 import { take } from 'rxjs/operators';
 import { CarWashService } from 'src/app/services/carwash.service';
 import { User } from '../../models/user.model';
-import * as lzString from 'lz-string';
-import { MatDialogRef } from '@angular/material';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-user-login',
@@ -21,7 +21,7 @@ export class UserLoginComponent implements OnInit {
     remember: FormControl = new FormControl('');
 
     private getIP(): any {
-        return this._http.get("http://api.ipify.org/?format=json");
+        return this._http.get("https://api.ipify.org/?format=json");
     }
 
     constructor(private _carWashService: CarWashService,

@@ -18,10 +18,9 @@ export class EmailService {
     constructor(private _ngxToastrService: ToastrService) { }
 
     sendEmail(carInspection: CarInspection): void {
-        let date = _moment(new Date(carInspection.dateTime.replace('T', ' '))).locale('es');
-        this.inspectionDate = date.format('LL');
-        this.inspectionDateTime = _moment(new Date(carInspection.dateTime.replace('T', ' '))).format('h:mm:ss a');
-
+        let dateFormat = new Date(carInspection.dateTime.replace('T', ' '));
+        let date = _moment(dateFormat).locale('es'); 
+        
         Email.send({
             Host: 'smtp.elasticemail.com',
             Port: 2525,
@@ -79,14 +78,14 @@ export class EmailService {
                                     font-size: 14px;
                                     overflow: hidden;
                                     padding: 10px 5px;
-                                    word-break: normal;">Fecha: <strong>${this.inspectionDate}</strong></td>
+                                    word-break: normal;">Fecha: <strong>${date.format('LL')}</strong></td>
                     <td style="border-color: #000000; text-align: left; vertical-align: top border-color: black; border-style: solid;
                                     border-width: 1px;
                                     font-family: Arial, sans-serif;
                                     font-size: 14px;
                                     overflow: hidden;
                                     padding: 10px 5px;
-                                    word-break: normal;">Hora: <strong>${this.inspectionDateTime}</strong></td>
+                                    word-break: normal;">Hora: <strong>${_moment(dateFormat).format('h:mm:ss a')}</strong></td>
                     </tr>
                     <tr>
                     <td style="border-color: #000000; text-align: left; vertical-align: top border-color: black; border-style: solid;
@@ -233,5 +232,9 @@ export class EmailService {
                 this._ngxToastrService.error(message);
             }
         });
+    }
+
+    convertToDate(date?: any): string {
+        return 
     }
 } 

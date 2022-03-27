@@ -1,8 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { SignaturePadComponent, SignaturePadModule } from '@ng-plus/signature-pad';
 import * as _moment from 'moment';
 import { FormatType, NgWhiteboardService, WhiteboardOptions } from 'ng-whiteboard';
 import { ToastrService } from 'ngx-toastr';
@@ -61,6 +60,8 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
         private _http: HttpClient) { this._unsubscribeAll }
 
     ngOnInit() {
+        if (this.getIsLoggedIn()) { this.initProgram(); }
+        
         this._carWashService.logged.subscribe(logged => {
             // OPEN PIN PAD IF THE USER IS LOGGED OUT
             if (!logged) {
@@ -133,11 +134,15 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
 
     subscribeToField(): void {
         this.carInspectionForm.get('clientFullName').valueChanges.pipe(takeUntil(this._unsubscribeAll)).subscribe(formValue => {
-            if (formValue && formValue != '') {
-                this.filteredClientList = this._filter(formValue);
-            } else {
+            if (formValue && typeof formValue === 'string') {
+               if (formValue != '') {
+                   this.filteredClientList = this._filter(formValue);
+               } else {
+                   this.filteredClientList = this.clientDefaultList;
+               }
+           } else {
                 this.filteredClientList = this.clientDefaultList;
-            }
+           }
         });
     }
 

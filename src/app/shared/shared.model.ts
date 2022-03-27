@@ -9,6 +9,7 @@ import { AngularMaterialModule } from '../app-material.module';
 import { InspectionDocumentComponent } from './components/inspection-document/inspection-document.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { UserLoginComponent } from './components/user-login/user-login.component';
+import { DateTimeConverterPipe } from './pipe/date-time-converter.pipe';
 
 @NgModule({
     imports: [
@@ -34,10 +35,11 @@ import { UserLoginComponent } from './components/user-login/user-login.component
         LoaderComponent,
         InspectionDocumentComponent,
         UserLoginComponent,
-        FlexModule
+        FlexModule,
+        DateTimeConverterPipe
     ],
     providers: [NgWhiteboardService],
-    declarations: [LoaderComponent, InspectionDocumentComponent, UserLoginComponent],
+    declarations: [LoaderComponent, InspectionDocumentComponent, UserLoginComponent, DateTimeConverterPipe],
     entryComponents: [InspectionDocumentComponent, UserLoginComponent]
 })
 export class SharedModule { }
