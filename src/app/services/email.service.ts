@@ -18,9 +18,7 @@ export class EmailService {
     constructor(private _ngxToastrService: ToastrService) { }
 
     sendEmail(carInspection: CarInspection): void {
-        let dateFormat = new Date(carInspection.dateTime.replace('T', ' '));
-        let date = _moment(dateFormat).locale('es'); 
-        
+        let date = _moment(carInspection.inspectionDate).locale('es');
         Email.send({
             Host: 'smtp.elasticemail.com',
             Port: 2525,
@@ -85,7 +83,7 @@ export class EmailService {
                                     font-size: 14px;
                                     overflow: hidden;
                                     padding: 10px 5px;
-                                    word-break: normal;">Hora: <strong>${_moment(dateFormat).format('h:mm:ss a')}</strong></td>
+                                    word-break: normal;">Hora: <strong>${_moment(carInspection.inspectionDate).format('h:mm:ss a')}</strong></td>
                     </tr>
                     <tr>
                     <td style="border-color: #000000; text-align: left; vertical-align: top border-color: black; border-style: solid;

@@ -25,9 +25,9 @@ export class InspectionDocumentComponent implements OnInit {
 
     ngOnInit(): void {
         this.carInspection = this.data.carInspection;
-        let date = _moment(new Date(this.carInspection.dateTime.replace('T', ' '))).locale('es');
+        let date = _moment(this.carInspection.inspectionDate.toDate()).locale('es');
         this.inspectionDate = date.format('LL');
-        this.inspectionDateTime = _moment(new Date(this.carInspection.dateTime.replace('T', ' '))).format('h:mm:ss a');
+        this.inspectionDateTime = _moment(this.carInspection.inspectionDate.toDate()).format('h:mm:ss a');
     }
 
     close(): void {

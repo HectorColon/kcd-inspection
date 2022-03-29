@@ -1,6 +1,5 @@
 export class CarInspection {
     inspectionId?: string;
-    dateTime?: any;
     clientFullName?: string;
     clientEmail?: string;
     clientPhoneNumber?: string;
@@ -8,4 +7,5 @@ export class CarInspection {
     inspectionNote?: string;
     termsAndConditionAccepted?: boolean;
     clientSignature?: any;
+    inspectionDate?: any;
 }

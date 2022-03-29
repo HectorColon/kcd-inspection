@@ -6,12 +6,12 @@ import * as _moment from 'moment';
 })
 export class DateTimeConverterPipe implements PipeTransform {
 
-    transform(value: string): any {
+    transform(value: any): any {
         let dateFormatted: string = '';
-        let dateFormat = new Date(value.replace('T', ' '));
-        let date = _moment(dateFormat).locale('es');
-        dateFormatted = date.format('LL') + ' | ' + _moment(dateFormat).format('h:mm:ss a');
-        
+
+        let date = _moment(value.toDate()).locale('es');
+        dateFormatted = date.format('LL') + ' | ' + _moment(value.toDate()).format('h:mm:ss a');
+
         return dateFormatted;
     }
 

@@ -13,6 +13,7 @@ import { UserLoginComponent } from '../shared/components/user-login/user-login.c
 import { CarInspection } from '../shared/models/carInspection.model';
 import { Client } from '../shared/models/client.model';
 import { termsAndConditions } from '../shared/models/constants/terms-and-conditions.const';
+import * as firebase from 'firebase';
 
 @Component({
     selector: 'inspection-home',
@@ -205,7 +206,7 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
         this._whiteboardService.save(FormatType.Base64);
     }
 
-    onSave(e: string): void {
+    onSave(e: any): void {
         this.isInspectionDrawingSaved = true;
         this._ngxToastrService.success('Dibujo de inspección guardado exitosamente');
         this.carInspectionForm.get('inspectionDrawing').setValue(e);
@@ -220,7 +221,6 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
 
     createCarInspection(action?: string): void {
         let carInspectionRequest: CarInspection = {
-            dateTime: _moment(this.inspectionDate).format('MM-DD-YYYYTHH:mm:ss'),
             clientFullName: this.carInspectionForm.get('clientFullName').value && this.carInspectionForm.get('clientFullName').value.clientFullName ? this.carInspectionForm.get('clientFullName').value.clientFullName : this.carInspectionForm.get('clientFullName').value,
             clientPhoneNumber: this.carInspectionForm.get('clientPhoneNumber').value,
             clientEmail: this.carInspectionForm.get('clientEmail').value,
@@ -228,8 +228,9 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
             inspectionDrawing: this.carInspectionForm.get('inspectionDrawing').value,
             termsAndConditionAccepted: this.carInspectionForm.get('termsAndConditionAccepted').value,
             clientSignature: this.carInspectionForm.get('clientSignature').value,
+            inspectionDate: new Date()
         }
-
+        
         // CREATE CAR INSPECTION
         this._carWashService.addInspection(carInspectionRequest);
 
@@ -255,11 +256,11 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
         if (action === 'send') {
             this._ngxToastrService.info('Enviando inspección...');
             this._emailService.sendEmail(carInspectionRequest);
+            this.resetInspectionForm(true);
         } else {
             this._ngxToastrService.success('Formulario Guardado exitosamente');
+            this.resetInspectionForm(true);
         }
-
-        this.resetInspectionForm(true);
     }
 
     setCanvasImage(model: string = 'car_model.jpg'): void {
