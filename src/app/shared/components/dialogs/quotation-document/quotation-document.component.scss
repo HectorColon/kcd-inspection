@@ -1,0 +1,14 @@
+quotation-document {
+    overflow: auto;
+    width: 100%;
+    
+    .qoute {
+        padding: 32px;
+        display: flex;
+        .quote-number-align {
+             transform: rotate(-90deg);
+             letter-spacing:0.1em;
+             float:left;
+        }
+    }
+}

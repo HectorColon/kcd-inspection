@@ -43,6 +43,7 @@ export class AppComponent implements OnInit {
                 this.user = userLogged;
                 this._carWashService.logged.next(true);
                 this._carWashService.isLoggedIn = true;
+                this._carWashService.setUserLogged = userLogged;
             } else {
                 this._carWashService.logged.next(false);
                 this._carWashService.isLoggedIn = false;

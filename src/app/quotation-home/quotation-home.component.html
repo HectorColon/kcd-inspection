@@ -1,0 +1,14 @@
+<div *ngIf="isLoading" class="loader-spacing">
+    <loader></loader>
+</div>
+<div *ngIf="!isLoading">
+    <div fxLayout="row" fxLayoutAlign="end center">
+        <button mat-raised-button color="accent" (click)="createQuotation()">
+            <mat-icon>receipt</mat-icon>
+            <span style="margin-left: 8px;">Crear Cotización</span>
+        </button>
+    </div>
+    <div>
+        <!-- TABLE HERE -->
+    </div>
+</div>

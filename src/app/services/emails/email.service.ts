@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
-import { CarInspection } from "../shared/models/carInspection.model";
-import '../../assets/js/smtp.js';
+import { CarInspection } from "../../shared/models/carInspection.model";
+import '../../../assets/js/smtp.js';
 import { ToastrService } from "ngx-toastr";
-import { termsAndConditions } from "../shared/models/constants/terms-and-conditions.const";
+import { termsAndConditions } from "../../shared/models/constants/terms-and-conditions.const";
 declare let Email: any;
 import * as _moment from 'moment';
 

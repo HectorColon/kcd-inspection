@@ -1,8 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { CarInspection } from '../../models/carInspection.model';
-import { termsAndConditions } from '../../models/constants/terms-and-conditions.const';
+import { CarInspection } from '../../../models/carInspection.model';
+import { termsAndConditions } from '../../../models/constants/terms-and-conditions.const';
 import * as _moment from 'moment';
 
 @Component({

@@ -1,133 +1,138 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
- .accent {
-   color: #1976d2 !important;
- }
+.accent {
+	color: #1976d2 !important;
+}
 
- .loader-spacing {
-   padding-top: 120px !important;
- }
+.loader-spacing {
+	padding-top: 120px !important;
+}
 
- .component-spacing {
-   padding: 24px !important;
- }
+.component-spacing {
+	padding: 24px !important;
+}
 
- .is-active {
-   color: black;
- }
+.is-active {
+	color: black;
+}
 
- p {
-   font-family: Roboto,
-     "Helvetica Neue",
-     sans-serif;
- }
+p {
+	font-family: Roboto,
+		"Helvetica Neue",
+		sans-serif;
+	font-size: 14px;
+}
 
- h1,
- h2,
- h3,
- h4,
- h5,
- h6 {
-   font-family: Roboto,
-     "Helvetica Neue",
-     sans-serif;
- }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: Roboto,
+		"Helvetica Neue",
+		sans-serif;
+}
 
- .mat-button.mat-accent,
- .mat-icon-button.mat-accent,
- .mat-stroked-button.mat-accent {
-   color: #1976d2;
- }
+.mat-button.mat-accent,
+.mat-icon-button.mat-accent,
+.mat-stroked-button.mat-accent {
+	color: #1976d2;
+}
 
- .mat-button.mat-primary,
- .mat-icon-button.mat-primary,
- .mat-stroked-button.mat-primary {
-   color: #7BB9F2;
- }
+.mat-button.mat-primary,
+.mat-icon-button.mat-primary,
+.mat-stroked-button.mat-primary {
+	color: #7BB9F2;
+}
 
- .mat-button.mat-primary .mat-button-focus-overlay {
-   background-color: #7BB9F2;
-   ;
- }
+.mat-button.mat-primary .mat-button-focus-overlay {
+	background-color: #7BB9F2;
+	;
+}
 
- .mat-button.mat-accent .mat-button-focus-overlay {
-   background-color: #7BB9F2;
-   ;
- }
+.mat-button.mat-accent .mat-button-focus-overlay {
+	background-color: #7BB9F2;
+	;
+}
 
- .mat-button .mat-ripple-element {
-   background-color: #7BB9F2 !important;
- }
+.mat-button .mat-ripple-element {
+	background-color: #7BB9F2 !important;
+}
 
- .mat-checkbox-checked.mat-accent .mat-checkbox-background {
-   background-color: #1976d2 !important;
- }
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+	background-color: #1976d2 !important;
+}
 
- .mat-checkbox-ripple .mat-ripple-element {
-   background-color: #7BB9F2 !important;
- }
+.mat-checkbox-ripple .mat-ripple-element {
+	background-color: #7BB9F2 !important;
+}
 
- //STANDARD
- .mat-form-field {
+//STANDARD
+.mat-form-field {
 
-   .mat-input-element:disabled {
-     color: rgba(0, 0, 0, .26);
-     ;
-   }
+	.mat-input-element:disabled {
+		color: rgba(0, 0, 0, .26);
+		;
+	}
 
-   .mat-form-field-label {
-     color: #1976d2;
-   }
+	.mat-form-field-label {
+		color: #1976d2;
+	}
 
-   .mat-form-field-underline {
-     background-color: #1976d2;
-   }
+	.mat-form-field-underline {
+		background-color: #1976d2;
+	}
 
-   .mat-form-field-ripple {
-     background-color: #1976d2;
-   }
+	.mat-form-field-ripple {
+		background-color: #1976d2;
+	}
 
-   .mat-form-field-required-marker {
-     color: #1976d2;
-   }
- }
+	.mat-form-field-required-marker {
+		color: #1976d2;
+	}
+}
 
- //FOCUSED
- .mat-form-field.mat-focused {
-   .mat-form-field-label {
-     color: #7BB9F2;
-   }
+//FOCUSED
+.mat-form-field.mat-focused {
+	.mat-form-field-label {
+		color: #7BB9F2;
+	}
 
-   .mat-form-field-ripple {
-     background-color: #7BB9F2;
-   }
+	.mat-form-field-ripple {
+		background-color: #7BB9F2;
+	}
 
-   .mat-form-field-required-marker {
-     color: #7BB9F2;
-   }
+	.mat-form-field-required-marker {
+		color: #7BB9F2;
+	}
 
- }
+}
 
- //INVALID
- .mat-form-field.mat-form-field-invalid {
-   .mat-input-element {
-     color: red;
-   }
+//INVALID
+.mat-form-field.mat-form-field-invalid {
+	.mat-input-element {
+		color: red;
+	}
 
-   .mat-form-field-label {
-     color: red;
+	.mat-form-field-label {
+		color: red;
 
-     .mat-form-field-required-marker {
-       color: red;
-     }
-   }
+		.mat-form-field-required-marker {
+			color: red;
+		}
+	}
 
-   .mat-form-field-ripple {
-     background-color: red;
-   }
- }
+	.mat-form-field-ripple {
+		background-color: red;
+	}
+}
 
- .mat-icon.mat-accent {
-   color: #1976d2;
- }
+.mat-icon.mat-accent {
+	color: #1976d2;
+}
+
+.mat-raised-button.mat-accent {
+	background-color: #1976d2;
+}

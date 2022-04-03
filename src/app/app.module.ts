@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { ClientsHomeComponent } from './clients-home/clients-home.component';
 import { InspectionHomeComponent } from './inspection-home/inspection-home.component';
 import { InspectionsListComponent } from './inspections-list/inspections-list.component';
+import { QuotationHomeComponent } from './quotation-home/quotation-home.component';
 import { SharedModule } from './shared/shared.model';
 
 @NgModule({
@@ -21,7 +22,8 @@ import { SharedModule } from './shared/shared.model';
     AppComponent,
     InspectionHomeComponent,
     ClientsHomeComponent,
-    InspectionsListComponent
+    InspectionsListComponent,
+    QuotationHomeComponent
   ],
   imports: [
     BrowserModule,

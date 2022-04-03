@@ -8,12 +8,11 @@ import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { CarWashService } from '../services/carwash.service';
-import { EmailService } from '../services/email.service';
+import { EmailService } from '../services/emails/email.service';
 import { UserLoginComponent } from '../shared/components/user-login/user-login.component';
 import { CarInspection } from '../shared/models/carInspection.model';
 import { Client } from '../shared/models/client.model';
 import { termsAndConditions } from '../shared/models/constants/terms-and-conditions.const';
-import * as firebase from 'firebase';
 
 @Component({
     selector: 'inspection-home',

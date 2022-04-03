@@ -1,0 +1,193 @@
+<!-- EDIT MODE -->
+<div fxLayout="row" fxLayoutAlign="end center">
+    <button mat-icon-button><mat-icon>close</mat-icon></button>
+</div>
+<div fxLayout="row" fxLayoutAlign="space-evenly center" *ngIf="data && data.isForEdit">
+    <div fxLayout="row" fxLayoutAlign="start center" *ngIf="quotationForm">
+        <form name="quotationForm" [formGroup]="quotationForm">
+            <div fxLayout="column" fxFlex style="width: 450px;">
+                <h1>Cotización</h1>
+                <mat-divider></mat-divider>
+                <h3>Información Cliente</h3>
+                <div fxLayout="row">
+                    <mat-form-field appearance="fill" style="width: 320px">
+                        <mat-label>Fecha de Cotización</mat-label>
+                        <input matInput [matDatepicker]="picker" disabled [value]="quotationDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row">
+                    <mat-form-field class="example-full-width" appearance="fill" style="width: 320px">
+                        <mat-label>Nombre Completo del Cliente</mat-label>
+                        <input type="text" matInput formControlName="clientFullName" placeholder="Ej. Juan Del Pueblo"
+                            [matAutocomplete]="auto">
+                        <mat-error>Nombre del cliente no debe ser vacio</mat-error>
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedClient($event.option.value)"
+                            [displayWith]="displayWith">
+                            <mat-option *ngIf="filteredClientList && filteredClientList.length <= 0" [disabled]="true">
+                                Cliente no existe</mat-option>
+                            <mat-option *ngFor="let option of filteredClientList" [value]="option">
+                                {{option.clientFullName}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxFlex>
+                    <mat-form-field class="example-full-width" appearance="fill" style="width: 320px">
+                        <mat-label>Telefono</mat-label>
+                        <input matInput placeholder="Ej. (787) 555-5555" formControlName="clientPhoneNumber"
+                            mask="(000) 000 - 0000">
+                        <mat-error>Número de telefono invalido</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row">
+                    <mat-form-field class="example-full-width" appearance="fill" style="width: 320px">
+                        <mat-label>Correo Electrónico (email)</mat-label>
+                        <input matInput placeholder="Ej. juandelpueblo@example.com" formControlName="clientEmail">
+                        <mat-error>Correo Electrónico invalido</mat-error>
+                    </mat-form-field>
+                </div>
+                <mat-divider></mat-divider>
+                <h3>Servicios a Cotizar</h3>
+                <div formArrayName="services" style="padding-bottom: 8px;">
+                    <div *ngFor="let service of services.controls; let i=index">
+                        <div [formGroupName]="i" fxLayout="row" fxLayoutAlign="space-between center">
+                            <mat-checkbox [checked]="services.controls[i].value.checked"
+                                (change)="activeAmount(i, $event.checked)">
+                                {{services.controls[i].value.display}}</mat-checkbox>
+                            <div style="padding-left: 24px;" *ngIf="services.controls[i].value.checked">
+                                <mat-form-field appearance="fill" style="width: 100px">
+                                    <mat-label>Cantidad</mat-label>
+                                    <input matInput currencyMask min="1"
+                                        [options]="{ prefix: '$ ', thousands: ',', decimal: '.' }"
+                                        formControlName="amount" required>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+                <div style="padding-top: 24px;">
+                    <mat-form-field appearance="fill" style="width: 320px;">
+                        <mat-label>Nota de Cotización</mat-label>
+                        <textarea matInput placeholder="Ej. cotizacion no tiene cambio..."
+                            formControlName="quotationNote"></textarea>
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="start center" style="padding-top: 32px;">
+                    <div>
+                        <button mat-button color="accent" (click)="convertToQuotation()">Convertir a Cotización</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- / EDIT MODE -->
+
+<!-- QUOTATION -->
+<div *ngIf="data && !data.isForEdit && quotation" class="qoute" fxLayout="column">
+    <div fxLayout="row" fxLayoutAlign="space-evenly center" style="padding: 12px;">
+        <button mat-button color="accent" (click)="convertToQuotation(false)">
+            <mat-icon>edit</mat-icon><span style="margin-left: 8px;">Editar Cotización</span>
+        </button>
+        <button mat-button color="accent">
+            <mat-icon>send</mat-icon> <span style="margin-left: 8px;">Enviar Cotización</span>
+        </button>
+        <button mat-button color="accent">
+            <mat-icon>add</mat-icon> <span style="margin-left: 8px;">Crear Cotización</span>
+        </button>
+    </div>
+    <mat-divider></mat-divider>
+    <div style="width: 100%;">
+        <div>
+            <div fxLayout="column">
+                <div fxLayout="row" fxLayoutAlign="space-evenly center">
+                    <div style="width: 100%;">
+                        <h1 style="color: #1976d2">Kathy's Car Wash and Detailing</h1>
+                        <p>
+                            Address,
+                            Phone Number
+                        </p>
+                        <p>kathyscarwashanddetailing@gmail.com</p>
+                    </div>
+                    <div>
+                        <div> <img style="width: 150px;" src="../../../../assets/images/kcd_logo.png"></div>
+                    </div>
+                </div>
+                <div style="height: 32px" fxLayout="row" fxLayoutAlign="end center">
+                    <span style="font-size: 14px; color: #1976d2"><strong>Cotización</strong></span>
+                    <span style="font-size: 14px;">&nbsp; #{{quotation.quotationNumber}}</span>
+                </div>
+                <!-- <div style="height: 32px"></div>
+                <div style="height: 32px"></div>
+                <div style="height: 32px"></div> -->
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <div style="width: 25%;">
+                        <span>Cliente:</span>
+                        <p>{{quotation.client.clientFullName}}</p>
+                        <p>{{quotation.client.clientPhoneNumber}}</p>
+                        <p>{{quotation.client.clientEmail}}</p>
+                    </div>
+                    <div style="width: 25%;"></div>
+                    <div style="width: 25%;"></div>
+                    <div style="width: 25%;">
+                        <p>Fecha de Cotización: {{quotationDateFormat}}</p>
+                        <p>Valido por 14 días</p>
+                    </div>
+                </div>
+                <div style="width: 100%; padding-top: 14px;">
+                  <table style="width: 100%">
+                      <thead>
+                          <tr>
+                              <th style="background-color: #1976d2; color: #ffffff">Descripción</th>
+                              <th style="background-color: #1976d2; color: #ffffff">Total</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let item of quotation.services">
+                              <td>{{item.service}}</td>
+                              <td>
+                                <div fxLayout="row" fxLayoutAlign="end center">
+                                    {{item.amount | currency}}
+                                </div>
+                                </td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  <div fxLayout="row" fxLayoutAlign="end center">
+                                      <span><strong>Total</strong></span>
+                                  </div>
+                              </td>
+                              <td>
+                                  <div fxLayout="row" fxLayoutAlign="end center">
+                                      {{totalSum | currency}}
+                                  </div>
+                              </td>
+                          </tr>
+                          <tr *ngIf="quotation.quotationNote && quotation.quotationNote != ''">
+                              <td>
+                                  <p style="color: #1976d2"><strong>Nota:</strong></p>
+                                  <p>{{quotation.quotationNote}}</p>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                </div>
+                <div fxLayout="column" fxLayoutAlign="center center">
+                    <div>
+                        <p>Para poder separar tu espacio deberá llamar con al menos 24hrs de anticipación (Sujeto a
+                            disponibilidad)</p>
+                    </div>
+                    <div>
+                        <p>Trabajos serán comenzados a trabajar con un 50% del total adeudado en esta cotización</p>
+                    </div>
+                    <div>
+                        <p>Gracias por su patrocinio</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / QUOTATION -->

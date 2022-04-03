@@ -6,8 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { CarWashService } from '../services/carwash.service';
-import { EmailService } from '../services/email.service';
-import { InspectionDocumentComponent } from '../shared/components/inspection-document/inspection-document.component';
+import { EmailService } from '../services/emails/email.service';
+import { InspectionDocumentComponent } from '../shared/components/dialogs/inspection-document/inspection-document.component';
 import { CarInspection } from '../shared/models/carInspection.model';
 
 @Component({
