@@ -6,6 +6,7 @@ import { SignaturePadModule } from '@ng-plus/signature-pad';
 import { NgWhiteboardModule, NgWhiteboardService } from 'ng-whiteboard';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { NgxMaskModule } from 'ngx-mask';
+import { NgxPrintElementModule } from 'ngx-print-element';
 import { ToastrModule } from 'ngx-toastr';
 import { AngularMaterialModule } from '../app-material.module';
 import { InspectionDocumentComponent } from './components/dialogs/inspection-document/inspection-document.component';
@@ -13,6 +14,7 @@ import { QuotationDocumentComponent } from './components/dialogs/quotation-docum
 import { LoaderComponent } from './components/loader/loader.component';
 import { UserLoginComponent } from './components/user-login/user-login.component';
 import { DateTimeConverterPipe } from './pipe/date-time-converter.pipe';
+import { TotalConverterPipe } from './pipe/total-converter.pipe';
 
 @NgModule({
     imports: [
@@ -29,7 +31,8 @@ import { DateTimeConverterPipe } from './pipe/date-time-converter.pipe';
         FlexModule,
         FormsModule,
         ReactiveFormsModule,
-        CurrencyMaskModule
+        CurrencyMaskModule,
+        NgxPrintElementModule
     ],
     exports: [
         AngularMaterialModule,
@@ -46,10 +49,12 @@ import { DateTimeConverterPipe } from './pipe/date-time-converter.pipe';
         QuotationDocumentComponent,
         FormsModule,
         ReactiveFormsModule,
-        CurrencyMaskModule
+        CurrencyMaskModule,
+        NgxPrintElementModule,
+        TotalConverterPipe
     ],
     providers: [NgWhiteboardService],
-    declarations: [LoaderComponent, InspectionDocumentComponent, UserLoginComponent, DateTimeConverterPipe, QuotationDocumentComponent],
+    declarations: [LoaderComponent, InspectionDocumentComponent, UserLoginComponent, DateTimeConverterPipe, QuotationDocumentComponent, TotalConverterPipe],
     entryComponents: [InspectionDocumentComponent, UserLoginComponent, QuotationDocumentComponent]
 })
 export class SharedModule { }

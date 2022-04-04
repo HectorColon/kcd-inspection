@@ -1,10 +1,13 @@
-import { Injectable } from "@angular/core";
+import { Inject, Injectable, LOCALE_ID } from "@angular/core";
 import { CarInspection } from "../../shared/models/carInspection.model";
 import '../../../assets/js/smtp.js';
 import { ToastrService } from "ngx-toastr";
 import { termsAndConditions } from "../../shared/models/constants/terms-and-conditions.const";
 declare let Email: any;
 import * as _moment from 'moment';
+import { Quotation } from "src/app/shared/models/quotation.model";
+import { Service } from "src/app/shared/models/service.model";
+import { formatCurrency } from '@angular/common';
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +18,8 @@ export class EmailService {
     inspectionDate: string;
     inspectionDateTime: string;
 
-    constructor(private _ngxToastrService: ToastrService) { }
+    constructor(private _ngxToastrService: ToastrService,
+        @Inject(LOCALE_ID) public locale: string) { }
 
     sendEmail(carInspection: CarInspection): void {
         let date = _moment(carInspection.inspectionDate).locale('es');
@@ -34,7 +38,6 @@ export class EmailService {
                 <meta charset="utf-8">
                 <title>Kathy's CarWash and Detailing</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1">
-                <link rel="icon" type="image/x-icon" href="favicon.ico">
                 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
                     <style type="text/css">
@@ -57,7 +60,7 @@ export class EmailService {
                                     overflow: hidden;
                                     padding: 10px 5px;
                                     word-break: normal;">
-                        <div> <img style="width: 200px;" src="https://i.postimg.cc/XXS4SXXW/Untitled-design-3.png"></div>
+                        <div> <img style="width: 200px;" src="https://i.postimg.cc/XXS4SXXW/Untitled-design-3.png" alt="img"></div>
                         <strong>
                         <h2 style="margin-top: -32px;">Inspección</h2>
                         </strong>
@@ -232,7 +235,152 @@ export class EmailService {
         });
     }
 
-    convertToDate(date?: any): string {
-        return 
+    sendQuotationEmail(quotation: Quotation): void {
+        // SUM TOTAL OF AMOUNTS
+        let sum: number = 0;
+        let sumFormatted: string;
+        quotation.services.forEach(a => sum += a.amount);
+        sumFormatted = formatCurrency(sum, this.locale,'$')
+
+        Email.send({
+            Host: 'smtp.elasticemail.com',
+            Port: 2525,
+            Username: 'kathycarwashanddetailing@gmail.com',
+            Password: 'B684CD1EDC13E93B9A05C5C3611D2AA5374B',
+            To: quotation.client.clientEmail,
+            From: 'kathycarwashanddetailing@gmail.com',
+            Subject: `Cotización | ${quotation.client.clientFullName}`,
+            Body: `
+            <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                <meta charset="utf-8">
+                <title>Kathy's CarWash and Detailing</title>
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+                    <style type="text/css">
+                            width: 100% !important;
+                            .tg  {border-collapse:collapse;border-spacing:0; }
+                            .tg td{font-family:Arial, sans-serif;font-size:14px;
+                            overflow:hidden;padding:10px 5px;word-break:normal;}
+                            .tg th{font-family:Arial, sans-serif;font-size:14px;
+                            font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+                            .tg .tg-j1i3{border-color:inherit;position:-webkit-sticky;position:sticky;text-align:center;top:-1px;vertical-align:top;
+                            will-change:transform}
+                            .tg .tg-dvpl{border-color:inherit;text-align:right;vertical-align:top}
+                            .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+                            .tg .tg-0lax{text-align:left;vertical-align:top}
+                    </style>
+                </head>
+                </html>
+                <body>
+                    <table class="tg">
+                    <thead>
+                    <tr>
+                        <th class="tg-j1i3" colspan="4">
+                            <div> <img style="width: 200px;" src="https://i.postimg.cc/XXS4SXXW/Untitled-design-3.png" alt="img"></div>
+                            <strong>
+                            <h2 style="margin-top: -32px;">Cotización</h2>
+                            </strong>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                     <tr>
+                        <td class="tg-dvpl" colspan="4">
+                        <span style="font-size: 14px; color: #1976d2">&nbsp; #${quotation.quotationNumber}</span>
+                        </td>
+                        </tr>
+                        <tr>
+                            <td class="tg-0pky">
+                                <p>${quotation.client.clientFullName}</p>
+                                <p>${quotation.client.clientPhoneNumber}</p>
+                                <p>${quotation.client.clientEmail}</p>
+                            </td>
+                            <td class="tg-0lax"></td>
+                            <td class="tg-0lax"></td>
+                            <td class="tg-0lax">
+                                <p>Fecha de Cotización: ${_moment(_moment.isDate(quotation.quotationDate) ? quotation.quotationDate : quotation.quotationDate.toDate()).format('MM/DD/YYYY')}</p>
+                                <p>Valido por 14 días</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tg-0lax" colspan="4">
+                            <table style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th style="background-color: #1976d2; color: #ffffff">Descripción</th>
+                                <th style="background-color: #1976d2; color: #ffffff">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${this.serviceTableGenerator(quotation.services)}
+                            <tr>
+                                <td style="text-align:left">
+                                    <div fxLayout="row" fxLayoutAlign="end center">
+                                        <span><strong>Total</strong></span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div fxLayout="row" fxLayoutAlign="end center">
+                                        ${sumFormatted}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p style="color: #1976d2"><strong>Nota:</strong></p>
+                                    <p>${quotation.quotationNote}</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tg-0lax" colspan="4">
+                             <div fxLayout="column" fxLayoutAlign="center center">
+                        <div>
+                            <p>Para poder separar tu espacio deberá llamar con al menos 24hrs de anticipación (Sujeto a
+                                disponibilidad)</p>
+                        </div>
+                        <div>
+                            <p>Trabajos serán comenzados a trabajar con un 50% del total adeudado en esta cotización</p>
+                        </div>
+                        <div>
+                            <p>Gracias por su patrocinio</p>
+                        </div>
+                    </div>
+                            </td>
+                    </tr>
+                    </tbody>
+                    </table>
+                </body>
+            `
+        }).then(message => {
+            if (message === 'OK') {
+                this._ngxToastrService.success('Cotización enviada correctamente');
+            } else {
+                this._ngxToastrService.error(message);
+            }
+        });
     }
+
+    serviceTableGenerator(services: Service[]): string {
+        let servicesTable = ``;
+
+        services.forEach(s => {
+            servicesTable += `
+            <tr>
+            <td>${s.service}</td>
+            <td>
+                <div fxLayout="row" fxLayoutAlign="end center">${formatCurrency(s.amount, this.locale, '$')}</div>
+            </td>
+            </tr>`
+        });
+
+        return servicesTable;
+    }
+
 } 

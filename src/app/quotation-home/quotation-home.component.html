@@ -1,14 +1,76 @@
-<div *ngIf="isLoading" class="loader-spacing">
-    <loader></loader>
-</div>
-<div *ngIf="!isLoading">
-    <div fxLayout="row" fxLayoutAlign="end center">
-        <button mat-raised-button color="accent" (click)="createQuotation()">
-            <mat-icon>receipt</mat-icon>
-            <span style="margin-left: 8px;">Crear Cotización</span>
-        </button>
+<div>
+    <div *ngIf="isLoading" class="loader-spacing">
+        <loader></loader>
     </div>
-    <div>
-        <!-- TABLE HERE -->
+    <div *ngIf="!isLoading">
+        <div fxLayout="row" fxLayoutAlign="end center">
+            <button mat-raised-button color="accent" (click)="createQuotation()">
+                <mat-icon>receipt</mat-icon>
+                <span style="margin-left: 8px;">Crear Cotización</span>
+            </button>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="space-around center" *ngIf="quotationList && quotationList.length > 0">
+            <table mat-table #quotationTable [dataSource]="dataSource">
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="clientFullName">
+                    <th mat-header-cell *matHeaderCellDef> Nombre del Cliente </th>
+                    <td mat-cell *matCellDef="let quotation"> {{quotation.client.clientFullName}} </td>
+                </ng-container>
+
+                <!-- date Column -->
+                <ng-container matColumnDef="dateTime">
+                    <th mat-header-cell *matHeaderCellDef> Fecha de Cotizacion </th>
+                    <td mat-cell *matCellDef="let quotation"> {{(quotation.quotationDate | dateTimeConverter)}}
+                    </td>
+                </ng-container>
+
+                <!-- quotation Column -->
+                <ng-container matColumnDef="quotationNumber">
+                    <th mat-header-cell *matHeaderCellDef> Numero de Cotización </th>
+                    <td mat-cell *matCellDef="let quotation"> #{{(quotation.quotationNumber)}}
+                </ng-container>
+
+                <!-- termsAndConditions Column -->
+                <ng-container matColumnDef="total">
+                    <th mat-header-cell *matHeaderCellDef> Total </th>
+                    <td mat-cell *matCellDef="let quotation">{{(quotation.services | totalConverter | currency)}}
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let quotation" style="width: 125px;">
+                        <div>
+                            <button mat-icon-button (click)="createQuotation(false, quotation)">
+                                <mat-icon matTooltip="Ver Cotización" color="">description</mat-icon>
+                            </button>
+                            <button mat-icon-button (click)="sendQuotation(quotation)">
+                                <mat-icon matTooltip="Enviar Cotización" color="">send</mat-icon>
+                            </button>
+                            <button mat-icon-button [disabled]="!quotation.quotationId"
+                                (click)="deleteQuotation(quotation.quotationId)">
+                                <mat-icon matTooltip="Borrar Cotización" color="">delete</mat-icon>
+                            </button>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
     </div>
+    <!-- EMPTY DISPLAY -->
+    <div *ngIf="!isLoading && quotationList.length <= 0" class="empty-display">
+        <div fxLayout="column" fxLayoutAlign="space-around center">
+            <div><img style="width: 350px;" src="../../../../assets/images/kcd_logo.png">
+            </div>
+            <div style="margin-top: -75px;">
+                <strong>
+                    <h3>No hay cotizaciones disponibles</h3>
+                </strong></div>
+        </div>
+    </div>
+    <!-- / EMPTY DISPLAY -->
 </div>

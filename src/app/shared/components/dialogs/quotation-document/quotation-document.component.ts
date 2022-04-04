@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Client } from 'src/app/shared/models/client.model';
@@ -8,6 +8,8 @@ import { CarWashService } from 'src/app/services/carwash.service';
 import { ToastrService } from 'ngx-toastr';
 import { Quotation } from 'src/app/shared/models/quotation.model';
 import { uid } from 'uid';
+import { EmailService } from 'src/app/services/emails/email.service';
+import { NgxPrintElementService } from 'ngx-print-element';
 
 @Component({
 	selector: 'quotation-document',
@@ -16,6 +18,8 @@ import { uid } from 'uid';
 	encapsulation: ViewEncapsulation.None
 })
 export class QuotationDocumentComponent implements OnInit {
+
+	@ViewChild('quotationPDF', { static: false }) quotationPDF: ElementRef;
 
 	clientList: Client[] = [];
 	filteredClientList: Client[] = [];
@@ -26,6 +30,9 @@ export class QuotationDocumentComponent implements OnInit {
 	quotationDateFormat: string;
 	isClientSelected: boolean = false; //To create the Client Object
 	totalSum: number;
+	createDisabled: boolean = false;
+	canDoActions: boolean = true;
+	createQuotation: boolean = true;
 	detailingServices = [{
 		value: 0,
 		display: 'Shampoo interiores',
@@ -74,6 +81,8 @@ export class QuotationDocumentComponent implements OnInit {
 		private _changeDetectRef: ChangeDetectorRef,
 		private _carWashService: CarWashService,
 		private _ngxToastrService: ToastrService,
+		private _emailService: EmailService,
+		private _print: NgxPrintElementService,
 		@Inject(MAT_DIALOG_DATA) public data: any) { }
 
 	ngOnInit() {
@@ -86,8 +95,10 @@ export class QuotationDocumentComponent implements OnInit {
 			this.quotation = this.data.quotation;
 
 			// TO FIX
-			// let date = _moment(this.data.quotation.quotationDate.toDate()).locale('es');
-			// this.quotationDateFormat = date.format('MM/DD/YYYY');
+			this.quotationDateFormat = _moment(this.data.quotation.quotationDate).format('MM/DD/YYYY');
+
+			this.canDoActions = this.quotation.quotationId && this.quotation.quotationId != '' ? false : true;
+			this.createQuotation = this.quotation.quotationId && this.quotation.quotationId != '' ? false : true;
 
 			// SUM TOTAL OF AMOUNTS
 			let sum: number = 0;
@@ -99,6 +110,7 @@ export class QuotationDocumentComponent implements OnInit {
 		if (this.data.isForEdit) {
 			this.buildQuotationForm();
 			this.subscribeToField();
+			this.isClientSelected = this.data.quotation ? !this.isClientSelected : this.isClientSelected;
 		}
 	}
 
@@ -117,7 +129,7 @@ export class QuotationDocumentComponent implements OnInit {
 			this.services.push(this._formBuilder.group({
 				value: [ds.value],
 				display: [ds.display],
-				amount: [0, [Validators.required]],
+				amount: [0],
 				checked: [ds.checked]
 			}));
 		});
@@ -209,24 +221,24 @@ export class QuotationDocumentComponent implements OnInit {
 				}
 			});
 
-			// //CREATE CLIENT IF IT'S NOT SELECTED FROM THE LIST
-			// if (!this.isClientSelected) {
-			// 	this.isClientSelected = false; //RESTE VARIABLE TO THEIR ORIGINAL STATE
-			// 	this._carWashService.addClient({
-			// 		clientFullName: this.quotationForm.get('clientFullName').value,
-			// 		clientPhoneNumber: this.quotationForm.get('clientPhoneNumber').value,
-			// 		clientEmail: this.quotationForm.get('clientEmail').value,
-			// 	});
+			//CREATE CLIENT IF IT'S NOT SELECTED FROM THE LIST
+			if (!this.isClientSelected) {
+				this.isClientSelected = false; //RESTE VARIABLE TO THEIR ORIGINAL STATE
+				this._carWashService.addClient({
+					clientFullName: this.quotationForm.get('clientFullName').value,
+					clientPhoneNumber: this.quotationForm.get('clientPhoneNumber').value,
+					clientEmail: this.quotationForm.get('clientEmail').value,
+				});
 
-			// 	//ADD MANUALLY TO THE CLIENT LIST
-			// 	this.clientList.push({
-			// 		clientFullName: this.quotationForm.get('clientFullName').value,
-			// 		clientPhoneNumber: this.quotationForm.get('clientPhoneNumber').value,
-			// 		clientEmail: this.quotationForm.get('clientEmail').value,
-			// 	});
+				//ADD MANUALLY TO THE CLIENT LIST
+				this.clientList.push({
+					clientFullName: this.quotationForm.get('clientFullName').value,
+					clientPhoneNumber: this.quotationForm.get('clientPhoneNumber').value,
+					clientEmail: this.quotationForm.get('clientEmail').value,
+				});
 
-			// 	this._ngxToastrService.success('Información del Cliente guardado correctamente');
-			// }
+				this._ngxToastrService.success('Información del Cliente guardado correctamente');
+			}
 
 			// CONTINUE
 			this.dialogRef.close({
@@ -242,6 +254,43 @@ export class QuotationDocumentComponent implements OnInit {
 				quotation: this.quotation
 			});
 		}
+	}
+
+	quotationActions(action?: string): void {
+		if (action && action === 'send') {
+			this._ngxToastrService.info('Enviando cotización...');
+			this._emailService.sendQuotationEmail(this.quotation);
+
+			if (this.createQuotation) {
+				this.createDisabled = false;
+				this._carWashService.addQuotation(this.quotation);
+				this._carWashService.quotation.next(this.quotation);
+			}
+		} else {
+			this._carWashService.addQuotation(this.quotation);
+			this._ngxToastrService.success('Cotización creada correctamente');
+			this.canDoActions = false;
+			this.createDisabled = false;
+			this._carWashService.quotation.next(this.quotation);
+		}
+		
+		this.canDoActions = false;
+	}
+
+	printQuotation(): void {
+		this.canDoActions = false;
+		if (this.createQuotation) {
+			this.createDisabled = true;
+			this.createQuotation = false;
+			this._carWashService.addQuotation(this.quotation);
+			this._carWashService.quotation.next(this.quotation);
+		}
+
+		this._print.print('quotation-document');
+	}
+
+	close(){
+		this.dialogRef.close({continue: false})
 	}
 
 }

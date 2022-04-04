@@ -16,6 +16,7 @@ export class CarWashService {
     user = new Subject<User>();
     logout = new Subject<any>();
     logged = new Subject<any>();
+    quotation = new Subject<any>();
 
     get userLogged(): User {
         return this._user;
@@ -46,6 +47,15 @@ export class CarWashService {
         });
     }
 
+    addQuotation(quotation: Quotation): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            this.firestore.collection("Quotation").add(quotation)
+                .then(res => {
+                    resolve(res);
+                }, err => reject(err));
+        });
+    }
+
     //GET
     getInspections(): Observable<CarInspection[]> {
         return this.firestore.collection('CarInspection').valueChanges({ idField: 'inspectionId' });
@@ -70,6 +80,10 @@ export class CarWashService {
 
     deleteClient(clientId: string): void {
         this.firestore.collection('Client').doc(clientId).delete();
+    }
+
+    deleteQuotation(quotationId: string): void {
+        this.firestore.collection('Quotation').doc(quotationId).delete();
     }
 
     //UPDATE

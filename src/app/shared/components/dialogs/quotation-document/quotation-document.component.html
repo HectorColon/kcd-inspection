@@ -1,6 +1,6 @@
 <!-- EDIT MODE -->
 <div fxLayout="row" fxLayoutAlign="end center">
-    <button mat-icon-button><mat-icon>close</mat-icon></button>
+    <button mat-icon-button (click)="close()"><mat-icon>close</mat-icon></button>
 </div>
 <div fxLayout="row" fxLayoutAlign="space-evenly center" *ngIf="data && data.isForEdit">
     <div fxLayout="row" fxLayoutAlign="start center" *ngIf="quotationForm">
@@ -61,7 +61,7 @@
                                     <mat-label>Cantidad</mat-label>
                                     <input matInput currencyMask min="1"
                                         [options]="{ prefix: '$ ', thousands: ',', decimal: '.' }"
-                                        formControlName="amount" required>
+                                        formControlName="amount">
                                 </mat-form-field>
                             </div>
                         </div>
@@ -75,9 +75,11 @@
                             formControlName="quotationNote"></textarea>
                     </mat-form-field>
                 </div>
-                <div fxLayout="row" fxLayoutAlign="start center" style="padding-top: 32px;">
+                <div fxLayout="row" fxLayoutAlign="center center" style="padding-top: 32px;">
                     <div>
-                        <button mat-button color="accent" (click)="convertToQuotation()">Convertir a Cotización</button>
+                        <button mat-button color="accent" (click)="convertToQuotation()">
+                            <mat-icon>receipt_long</mat-icon>
+                            <span style="margin-left: 8px;">Convertir a Cotización</span></button>
                     </div>
                 </div>
             </div>
@@ -89,18 +91,21 @@
 <!-- QUOTATION -->
 <div *ngIf="data && !data.isForEdit && quotation" class="qoute" fxLayout="column">
     <div fxLayout="row" fxLayoutAlign="space-evenly center" style="padding: 12px;">
-        <button mat-button color="accent" (click)="convertToQuotation(false)">
+        <button mat-button color="accent" (click)="convertToQuotation(false)" *ngIf="canDoActions">
             <mat-icon>edit</mat-icon><span style="margin-left: 8px;">Editar Cotización</span>
         </button>
-        <button mat-button color="accent">
+        <button mat-button color="accent" [disabled]="!quotation.client || (quotation.client && quotation.client.clientEmail === '')" (click)="quotationActions('send')">
             <mat-icon>send</mat-icon> <span style="margin-left: 8px;">Enviar Cotización</span>
         </button>
-        <button mat-button color="accent">
-            <mat-icon>add</mat-icon> <span style="margin-left: 8px;">Crear Cotización</span>
+        <button mat-button color="accent" (click)="printQuotation()">
+            <mat-icon>print</mat-icon> <span style="margin-left: 8px;">Imprimir Cotización</span>
+        </button>
+        <button mat-button color="accent" [disabled]="createDisabled" (click)="quotationActions()" *ngIf="canDoActions">
+            <mat-icon>check_circle</mat-icon> <span style="margin-left: 8px;">Completar Cotización</span>
         </button>
     </div>
     <mat-divider></mat-divider>
-    <div style="width: 100%;">
+    <div style="width: 100%;" id="quotation-document">
         <div>
             <div fxLayout="column">
                 <div fxLayout="row" fxLayoutAlign="space-evenly center">
@@ -120,12 +125,8 @@
                     <span style="font-size: 14px; color: #1976d2"><strong>Cotización</strong></span>
                     <span style="font-size: 14px;">&nbsp; #{{quotation.quotationNumber}}</span>
                 </div>
-                <!-- <div style="height: 32px"></div>
-                <div style="height: 32px"></div>
-                <div style="height: 32px"></div> -->
                 <div fxLayout="row" fxLayoutAlign="space-between center">
                     <div style="width: 25%;">
-                        <span>Cliente:</span>
                         <p>{{quotation.client.clientFullName}}</p>
                         <p>{{quotation.client.clientPhoneNumber}}</p>
                         <p>{{quotation.client.clientEmail}}</p>

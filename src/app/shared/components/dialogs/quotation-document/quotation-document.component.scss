@@ -11,4 +11,10 @@ quotation-document {
              float:left;
         }
     }
+
+    table {
+        td:last-child {
+            border-bottom: 1px solid
+        }
+    }
 }

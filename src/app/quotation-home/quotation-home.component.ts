@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatDialog, MatTableDataSource } from '@angular/material';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatDialog, MatTable, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { CarWashService } from '../services/carwash.service';
+import { EmailService } from '../services/emails/email.service';
 import { QuotationDocumentComponent } from '../shared/components/dialogs/quotation-document/quotation-document.component';
 import { Client } from '../shared/models/client.model';
 import { Quotation } from '../shared/models/quotation.model';
@@ -16,17 +18,22 @@ import { User } from '../shared/models/user.model';
 	encapsulation: ViewEncapsulation.None
 })
 export class QuotationHomeComponent implements OnInit {
+
+	@ViewChild('quotationTable', { static: false }) quotationTable: MatTable<any>;
 	
 	isLoading: boolean = false;
 	quotationList: Quotation[] = [];
 	userList: User[] = [];
 	clientList: Client[] = [];
+	displayedColumns: string[] = ['clientFullName', 'dateTime', 'quotationNumber', 'total', 'actions'];
 	dataSource = new MatTableDataSource<Quotation>(this.quotationList);
 	private _unsubscribeAll = new Subject();
 
 	constructor(private _carWashService: CarWashService,
 				private _route: Router,
-				private _dialog: MatDialog) { this._unsubscribeAll }
+				private _dialog: MatDialog,
+				private _emailService: EmailService,
+				private _ngxToastrService: ToastrService) { this._unsubscribeAll }
 
 	ngOnInit(): void {
 		if (!this._carWashService.isLoggedIn) { this._route.navigate(['/inspection-home']); return; }
@@ -46,9 +53,27 @@ export class QuotationHomeComponent implements OnInit {
 		this._carWashService.user.subscribe(res => {
 			this._carWashService.setUserLogged = res;
 		});
+
+		// MANUALLY ADD FROM THE DIALOG
+		this._carWashService.quotation.subscribe(res => {
+			if (res) {
+				if (this.quotationList && this.quotationList.length <= 0) {
+					this.quotationList.push(res);
+				} else {
+					let list = [...this.quotationList];
+					this.quotationList = undefined;
+					this.quotationList = [];
+					list.unshift(res);
+					this.quotationList = list;
+
+					this.quotationTable.renderRows();
+					this.dataSource = new MatTableDataSource(this.quotationList);
+				}
+			}
+		});
 	}
 
-	createQuotation(isForEdit: boolean = true, quotation: Quotation): void {
+	createQuotation(isForEdit: boolean = true, quotation?: Quotation): void {
 		const dialogRef = this._dialog.open(QuotationDocumentComponent, {
 			width: isForEdit ? '650px' : '816px',
 			height: isForEdit ? '775px' : '850px',
@@ -67,6 +92,25 @@ export class QuotationHomeComponent implements OnInit {
 				this.createQuotation(res.isForEdit, res.quotation);
 			}
 		});
+	}
+
+	sendQuotation(quotation?: Quotation): void {
+		this._ngxToastrService.info('Enviando cotización...');
+		this._emailService.sendQuotationEmail(quotation);
+	}
+
+	deleteQuotation(quotationId: string): void {
+		let list = [...this.quotationList];
+		let index = list.findIndex(x => x.quotationId === quotationId);
+		this.quotationList = undefined;
+		this.quotationList = [];
+		list.splice(index, 1);
+		this.quotationList = list;
+
+		this._ngxToastrService.success('Cotización eliminada exitosamente');
+		this.quotationTable.renderRows();
+		this.dataSource = new MatTableDataSource(this.quotationList);
+		this._carWashService.deleteQuotation(quotationId);
 	}
 
 }
