@@ -30,6 +30,7 @@ export class ClientsHomeComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         if (!this._carWashService.isLoggedIn) { this._route.navigate(['/inspection-home']); return; }
+
         this._carWashService.getClients().pipe(take(1), takeUntil(this._unsubscribeAll)).subscribe(res => {
             this.clientList = res.filter(x => x.clientId != 'dummy');
             this.dataSource = new MatTableDataSource(this.clientList);

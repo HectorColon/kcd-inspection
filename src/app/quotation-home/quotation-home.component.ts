@@ -9,7 +9,6 @@ import { EmailService } from '../services/emails/email.service';
 import { QuotationDocumentComponent } from '../shared/components/dialogs/quotation-document/quotation-document.component';
 import { Client } from '../shared/models/client.model';
 import { Quotation } from '../shared/models/quotation.model';
-import { User } from '../shared/models/user.model';
 
 @Component({
 	selector: 'quotation-home',
@@ -21,9 +20,8 @@ export class QuotationHomeComponent implements OnInit {
 
 	@ViewChild('quotationTable', { static: false }) quotationTable: MatTable<any>;
 	
-	isLoading: boolean = false;
+	isLoading: boolean = true;
 	quotationList: Quotation[] = [];
-	userList: User[] = [];
 	clientList: Client[] = [];
 	displayedColumns: string[] = ['clientFullName', 'dateTime', 'quotationNumber', 'total', 'actions'];
 	dataSource = new MatTableDataSource<Quotation>(this.quotationList);
@@ -47,11 +45,6 @@ export class QuotationHomeComponent implements OnInit {
 
 		this._carWashService.getClients().pipe(take(1), takeUntil(this._unsubscribeAll)).subscribe(res => {
 			this.clientList = res.filter(x => x.clientId != 'dummy');
-		});
-
-		// SET USER INFORMATION
-		this._carWashService.user.subscribe(res => {
-			this._carWashService.setUserLogged = res;
 		});
 
 		// MANUALLY ADD FROM THE DIALOG
@@ -79,7 +72,6 @@ export class QuotationHomeComponent implements OnInit {
 			height: isForEdit ? '775px' : '850px',
 			data: {
 				clientList: this.clientList,
-				user: this._carWashService.userLogged,
 				isForEdit: isForEdit,
 				...quotation && { quotation: quotation}
 			},

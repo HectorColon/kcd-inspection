@@ -1,15 +1,14 @@
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Client } from 'src/app/shared/models/client.model';
-import { User } from 'src/app/shared/models/user.model';
 import * as _moment from 'moment';
-import { CarWashService } from 'src/app/services/carwash.service';
+import { NgxPrintElementService } from 'ngx-print-element';
 import { ToastrService } from 'ngx-toastr';
+import { CarWashService } from 'src/app/services/carwash.service';
+import { EmailService } from 'src/app/services/emails/email.service';
+import { Client } from 'src/app/shared/models/client.model';
 import { Quotation } from 'src/app/shared/models/quotation.model';
 import { uid } from 'uid';
-import { EmailService } from 'src/app/services/emails/email.service';
-import { NgxPrintElementService } from 'ngx-print-element';
 
 @Component({
 	selector: 'quotation-document',
@@ -23,7 +22,6 @@ export class QuotationDocumentComponent implements OnInit {
 
 	clientList: Client[] = [];
 	filteredClientList: Client[] = [];
-	user: User;
 	quotation: Quotation;
 	quotationForm: FormGroup;
 	quotationDate = new Date;
@@ -88,7 +86,6 @@ export class QuotationDocumentComponent implements OnInit {
 	ngOnInit() {
 		this.clientList = this.data.clientList;
 		this.filteredClientList = [...this.clientList];
-		this.user = this.data.user;
 
 		// ISFOREDIT = FALSE
 		if (!this.data.isForEdit && this.data.quotation) {
@@ -202,12 +199,9 @@ export class QuotationDocumentComponent implements OnInit {
 					clientPhoneNumber: this.quotationForm.get('clientPhoneNumber').value,
 					clientEmail: this.quotationForm.get('clientEmail').value,
 				},
-				user: {
-					userId: this.user.userId,
-					userFullName: this.user.userFullName,
-				},
 				quotationNote: this.quotationForm.get('quotationNote').value,
-				services: []
+				services: [],
+				...this._carWashService.userLogged && { user: this._carWashService.userLogged }
 			}
 
 			// SERVICES

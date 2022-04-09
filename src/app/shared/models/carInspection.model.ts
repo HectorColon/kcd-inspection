@@ -1,3 +1,5 @@
+import { User } from "./user.model";
+
 export class CarInspection {
     inspectionId?: string;
     clientFullName?: string;
@@ -8,4 +10,5 @@ export class CarInspection {
     termsAndConditionAccepted?: boolean;
     clientSignature?: any;
     inspectionDate?: any;
+    user?: User;
 }

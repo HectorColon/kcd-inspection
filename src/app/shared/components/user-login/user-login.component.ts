@@ -41,6 +41,7 @@ export class UserLoginComponent implements OnInit {
             if (existUser) {
                 existUser.isLoggedIn = this.remember.value;
                 existUser.ip = this.remember.value ? lzString.compressToBase64(res.ip) : '';
+                this._carWashService.user.next(existUser);
                 this.dialogRef.close(existUser);
                 this.isPasswordIncorrect = false;
             } else {

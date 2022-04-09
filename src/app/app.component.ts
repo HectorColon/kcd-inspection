@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
+import * as lzString from 'lz-string';
 import { take } from 'rxjs/operators';
 import { CarWashService } from './services/carwash.service';
 import { User } from './shared/models/user.model';
-import * as lzString from 'lz-string';
-import { throwToolbarMixedModesError } from '@angular/material';
 
 @Component({
     selector: 'app-root',
@@ -22,7 +22,8 @@ export class AppComponent implements OnInit {
     }
 
     constructor(private _carWashService: CarWashService,
-                private _http: HttpClient) { }
+                private _http: HttpClient,
+                private _route: Router) { }
     title = `Kathy's Car Was and Detailing`;
 
     ngOnInit(): void {
