@@ -137,3 +137,82 @@ h6 {
 .mat-raised-button.mat-accent {
 	background-color: #1976d2;
 }
+
+// MOBILE
+@media only screen and (max-width: 390px) {
+	.show-menu {
+		display: none;
+	}
+
+	.show-mobile-menu {
+		display: block !important;
+	}
+
+	.inspection-home .section {
+		justify-content: center !important;
+		align-items: center !important;
+
+		mat-form-field {
+			width: 320px !important;
+		}
+
+		.white-board {
+			width: 500px !important;
+			padding-left: 120px;
+			overflow-x: auto;
+		}
+
+		.signature-pad {
+			width: 350px;
+		}
+
+		.legend,
+		.terms {
+			width: 320px;
+		}
+	}
+
+	.inspection-home .align-buttons {
+		padding-top: 0px !important;
+	}
+
+	.quotationEditForm {
+		
+		justify-content: center !important;
+		align-items: center !important;
+
+		mat-form-field {
+			width: 250px !important;
+		}
+
+		.quotation-list {
+			flex-direction: column !important;
+			align-items: unset !important;
+		}
+
+	}
+
+	.hide {
+		display: none !important;
+	}
+	
+	.align-buttons {
+		flex-direction: column !important;
+	}
+
+	.client-info {
+		flex-direction: column !important;
+		display: block !important;
+	}
+
+}
+
+@media only screen and (min-width: 768px) {
+	.show-mobile-menu {
+		display: none;
+	}
+
+	.align-buttons {
+		flex-direction: column !important;
+	}
+}

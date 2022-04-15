@@ -5,7 +5,7 @@
 <div fxLayout="row" fxLayoutAlign="space-evenly center" *ngIf="data && data.isForEdit">
     <div fxLayout="row" fxLayoutAlign="start center" *ngIf="quotationForm">
         <form name="quotationForm" [formGroup]="quotationForm">
-            <div fxLayout="column" fxFlex style="width: 450px;">
+            <div fxLayout="column" fxFlex style="width: 450px;" class="quotationEditForm">
                 <h1>Cotización</h1>
                 <mat-divider></mat-divider>
                 <h3>Información Cliente</h3>
@@ -52,7 +52,7 @@
                 <h3>Servicios a Cotizar</h3>
                 <div formArrayName="services" style="padding-bottom: 8px;">
                     <div *ngFor="let service of services.controls; let i=index">
-                        <div [formGroupName]="i" fxLayout="row" fxLayoutAlign="space-between center">
+                        <div [formGroupName]="i" fxLayout="row" fxLayoutAlign="space-between center" class="quotation-list">
                             <mat-checkbox [checked]="services.controls[i].value.checked"
                                 (change)="activeAmount(i, $event.checked)">
                                 {{services.controls[i].value.display}}</mat-checkbox>
@@ -77,7 +77,8 @@
                 </div>
                 <div fxLayout="row" fxLayoutAlign="center center" style="padding-top: 32px;">
                     <div>
-                        <button mat-button color="accent" (click)="convertToQuotation()">
+                        <button mat-button color="accent" (click)="convertToQuotation()"
+                            [disabled]="!quotationForm.get('clientFullName').value">
                             <mat-icon>receipt_long</mat-icon>
                             <span style="margin-left: 8px;">Convertir a Cotización</span></button>
                     </div>
@@ -90,7 +91,7 @@
 
 <!-- QUOTATION -->
 <div *ngIf="data && !data.isForEdit && quotation" class="qoute" fxLayout="column">
-    <div fxLayout="row" fxLayoutAlign="space-evenly center" style="padding: 12px;">
+    <div fxLayout="row" fxLayoutAlign="space-evenly center" style="padding: 12px;" class="align-buttons">
         <button mat-button color="accent" (click)="convertToQuotation(false)" *ngIf="canDoActions">
             <mat-icon>edit</mat-icon><span style="margin-left: 8px;">Editar Cotización</span>
         </button>
@@ -108,12 +109,12 @@
     <div style="width: 100%;" id="quotation-document">
         <div>
             <div fxLayout="column">
-                <div fxLayout="row" fxLayoutAlign="space-evenly center">
+                <div fxLayout="row" fxLayoutAlign="space-evenly center" class="hide">
                     <div style="width: 100%;">
                         <h1 style="color: #1976d2">Kathy's Car Wash and Detailing</h1>
                         <p>
-                            Address,
-                            Phone Number
+                            Carr. 132 Bo. Canas, Ponce P.R., al lado de la Iglesia Cristiana Tabernaculo,
+                            (787)472-9430
                         </p>
                         <p>kathyscarwashanddetailing@gmail.com</p>
                     </div>
@@ -125,7 +126,7 @@
                     <span style="font-size: 14px; color: #1976d2"><strong>Cotización</strong></span>
                     <span style="font-size: 14px;">&nbsp; #{{quotation.quotationNumber}}</span>
                 </div>
-                <div fxLayout="row" fxLayoutAlign="space-between center">
+                <div fxLayout="row" fxLayoutAlign="space-between center" class="client-info">
                     <div style="width: 25%;">
                         <p>{{quotation.client.clientFullName}}</p>
                         <p>{{quotation.client.clientPhoneNumber}}</p>

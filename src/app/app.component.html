@@ -1,10 +1,40 @@
 <!-- Toolbar -->
 <div class="toolbar" role="banner" fxLayout="row" fxLayoutAlign="space-between center">
-  <div style="padding: 8px;">
-    <button mat-button [routerLink]="['/inspection-home']" [routerLinkActive]="'is-active'">Home</button>
-    <button mat-button [routerLink]="['/inspections-list']" [routerLinkActive]="'is-active'">Inspecciones</button>
-    <button mat-button [routerLink]="['/clients-home']" [routerLinkActive]="'is-active'">Clientes</button>
-    <button mat-button [routerLink]="['/quotation-home']" [routerLinkActive]="'is-active'">Cotizaciones</button>
+  <!-- REGULAR MENU -->
+  <div style="padding: 8px;" class="show-menu">
+    <button mat-button [routerLink]="['/inspection-home']" [routerLinkActive]="'is-active'">
+      <mat-icon color="" style="margin-right: 8px;">home</mat-icon>Home
+    </button>
+    <button mat-button [routerLink]="['/inspections-list']" [routerLinkActive]="'is-active'">
+      <mat-icon color="" style="margin-right: 8px;">description</mat-icon>Inspecciones
+    </button>
+    <button mat-button [routerLink]="['/clients-home']" [routerLinkActive]="'is-active'">
+      <mat-icon color="" style="margin-right: 8px;">groups</mat-icon>Clientes
+    </button>
+    <button mat-button [routerLink]="['/quotation-home']" [routerLinkActive]="'is-active'">
+      <mat-icon color="" style="margin-right: 8px;">receipt</mat-icon>Cotizaciones
+    </button>
+  </div>
+
+  <!-- MOBILE MENU -->
+  <div style="padding: 8px;" class="show-mobile-menu">
+    <button mat-button [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item [routerLink]="['/inspection-home']" [routerLinkActive]="'is-active'">
+        <mat-icon color="" style="margin-right: 8px;">home</mat-icon> Home
+      </button>
+      <button mat-menu-item [routerLink]="['/inspections-list']" [routerLinkActive]="'is-active'">
+        <mat-icon color="" style="margin-right: 8px;">description</mat-icon> Inspecciones
+      </button>
+      <button mat-menu-item [routerLink]="['/clients-home']" [routerLinkActive]="'is-active'">
+        <mat-icon color="" style="margin-right: 8px;">groups</mat-icon> Clientes
+      </button>
+      <button mat-menu-item [routerLink]="['/quotation-home']" [routerLinkActive]="'is-active'">
+        <mat-icon color="" style="margin-right: 8px;">receipt</mat-icon> Cotizaciones
+      </button>
+    </mat-menu>
   </div>
   <div *ngIf="user" style="margin-right: 24px;">
     <div fxLayout="row" fxLayoutAlign="space-evenly center">

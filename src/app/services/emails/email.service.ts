@@ -60,10 +60,18 @@ export class EmailService {
                                     overflow: hidden;
                                     padding: 10px 5px;
                                     word-break: normal;">
-                        <div> <img style="width: 200px;" src="https://i.postimg.cc/XXS4SXXW/Untitled-design-3.png" alt="img"></div>
-                        <strong>
-                        <h2 style="margin-top: -32px;">Inspección</h2>
-                        </strong>
+                        <div> 
+                        <img style="width: 200px;" src="https://i.postimg.cc/XXS4SXXW/Untitled-design-3.png" alt="img">
+                        <p>
+                        Carr. 132 Bo. Canas, Ponce P.R., al lado de la Iglesia Cristiana Tabernaculo,
+                        (787) 472-9430
+                        </p>
+                        </div>
+                        <div style="padding-top: 24px">
+                            <strong>
+                            <h2 style="margin-top: -32px;">Inspección</h2>
+                            </strong>
+                        </div>
                     </th>
                     </tr>
                 </thead>
@@ -279,10 +287,18 @@ export class EmailService {
                     <thead>
                     <tr>
                         <th class="tg-j1i3" colspan="4">
-                            <div> <img style="width: 200px;" src="https://i.postimg.cc/XXS4SXXW/Untitled-design-3.png" alt="img"></div>
-                            <strong>
-                            <h2 style="margin-top: -32px;">Cotización</h2>
-                            </strong>
+                            <div> 
+                            <img style="width: 200px;" src="https://i.postimg.cc/XXS4SXXW/Untitled-design-3.png" alt="img">
+                            <p>
+                            Carr. 132 Bo. Canas, Ponce P.R., al lado de la Iglesia Cristiana Tabernaculo,
+                            (787) 472-9430
+                            </p>
+                            </div>
+                            <div style="padding-top: 24px">
+                                <strong>
+                                <h2 style="margin-top: -32px;">Cotización</h2>
+                                </strong>
+                            </div>
                         </th>
                     </tr>
                     </thead>
