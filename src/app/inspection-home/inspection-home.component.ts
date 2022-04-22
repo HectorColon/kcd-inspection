@@ -41,6 +41,7 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
         linejoin: 'round',
         linecap: 'round'
     }
+    inspectionDrawing: any;
 
     httpOptions = { headers: new HttpHeaders({ 'Content-type': 'application/json' })}
 
@@ -85,6 +86,7 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
             this.onClear();
             this.isInspectionDrawingSaved = false;
             this.isSignatureDrawingSaved = false;
+            this.inspectionDrawing = '';
         });
     }
 
@@ -159,7 +161,6 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
             clientPhoneNumber: ['', [Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
             clientEmail: ['', [Validators.email]],
             inspectionNote: [''],
-            inspectionDrawing: [''],
             termsAndConditionAccepted: [false],
             clientSignature: ['']
         });
@@ -185,6 +186,7 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
         // SET CANVAS IMAGE
         this.setCanvasImage('car_model.jpg');
         this.isInspectionDrawingSaved = false;
+        this.inspectionDrawing = '';
     }
 
     onRedo(): void {
@@ -208,7 +210,7 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
     onSave(e: any): void {
         this.isInspectionDrawingSaved = true;
         this._ngxToastrService.success('Dibujo de inspección guardado exitosamente');
-        this.carInspectionForm.get('inspectionDrawing').setValue(e);
+        this.inspectionDrawing = e;
     }
 
     // SIGNATURE HELPERS
@@ -224,7 +226,7 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
             clientPhoneNumber: this.carInspectionForm.get('clientPhoneNumber').value,
             clientEmail: this.carInspectionForm.get('clientEmail').value,
             inspectionNote: this.carInspectionForm.get('inspectionNote').value,
-            inspectionDrawing: this.carInspectionForm.get('inspectionDrawing').value,
+            inspectionDrawing: this.inspectionDrawing,
             termsAndConditionAccepted: this.carInspectionForm.get('termsAndConditionAccepted').value,
             clientSignature: this.carInspectionForm.get('clientSignature').value,
             inspectionDate: new Date()
@@ -285,6 +287,8 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
         this.onClear();
         this.isInspectionDrawingSaved = false;
         this.isSignatureDrawingSaved = false;
+        this.inspectionDrawing = undefined;
+        this.inspectionDrawing = '';
 
         if (!fromButton) {
             this._ngxToastrService.warning('Formulario ha sido anulado');

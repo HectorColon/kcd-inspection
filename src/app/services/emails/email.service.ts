@@ -22,12 +22,15 @@ export class EmailService {
         @Inject(LOCALE_ID) public locale: string) { }
 
     sendEmail(carInspection: CarInspection): void {
-        let date = _moment(carInspection.inspectionDate).locale('es');
+        let date = _moment.isDate(carInspection.inspectionDate) ? _moment(carInspection.inspectionDate).locale('es') : _moment(carInspection.inspectionDate.toDate()).locale('es');
+        let lFormat = date.format('LL');
+        let hourFormat = _moment.isDate(carInspection.inspectionDate) ? _moment(carInspection.inspectionDate).format('h:mm:ss a') : date.format('h:mm:ss a');
+       
         Email.send({
             Host: 'smtp.elasticemail.com',
             Port: 2525,
             Username: 'kathycarwashanddetailing@gmail.com',
-            Password: 'B684CD1EDC13E93B9A05C5C3611D2AA5374B',
+            Password: 'C4BDDD75DE19BB453EA4C20F804B4142CB7D',
             To: carInspection.clientEmail,
             From: 'kathycarwashanddetailing@gmail.com',
             Subject: `Inspección Vehiculo de Motor | ${carInspection.clientFullName}`,
@@ -87,14 +90,14 @@ export class EmailService {
                                     font-size: 14px;
                                     overflow: hidden;
                                     padding: 10px 5px;
-                                    word-break: normal;">Fecha: <strong>${date.format('LL')}</strong></td>
+                                    word-break: normal;">Fecha: <strong>${lFormat}</strong></td>
                     <td style="border-color: #000000; text-align: left; vertical-align: top border-color: black; border-style: solid;
                                     border-width: 1px;
                                     font-family: Arial, sans-serif;
                                     font-size: 14px;
                                     overflow: hidden;
                                     padding: 10px 5px;
-                                    word-break: normal;">Hora: <strong>${_moment(carInspection.inspectionDate).format('h:mm:ss a')}</strong></td>
+                                    word-break: normal;">Hora: <strong>${hourFormat}</strong></td>
                     </tr>
                     <tr>
                     <td style="border-color: #000000; text-align: left; vertical-align: top border-color: black; border-style: solid;
@@ -254,7 +257,7 @@ export class EmailService {
             Host: 'smtp.elasticemail.com',
             Port: 2525,
             Username: 'kathycarwashanddetailing@gmail.com',
-            Password: 'B684CD1EDC13E93B9A05C5C3611D2AA5374B',
+            Password: 'C4BDDD75DE19BB453EA4C20F804B4142CB7D',
             To: quotation.client.clientEmail,
             From: 'kathycarwashanddetailing@gmail.com',
             Subject: `Cotización | ${quotation.client.clientFullName}`,
