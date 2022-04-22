@@ -127,8 +127,6 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
 
         setTimeout(() => {
             this.isLoading = false;
-            // SET CANVAS IMAGE
-            this.setCanvasImage('car_model.jpg');
         }, 3500);
 
         this.subscribeToField();
@@ -183,8 +181,6 @@ export class InspectionHomeComponent implements OnInit, OnDestroy {
     // WHITEBOARD-HELPERS
     onClear(): void {
         this._whiteboardService.erase();
-        // SET CANVAS IMAGE
-        this.setCanvasImage('car_model.jpg');
         this.isInspectionDrawingSaved = false;
         this.inspectionDrawing = '';
     }
