@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { CarWashService } from '../services/carwash.service';
 import { EmailService } from '../services/emails/email.service';
+import { ConfirmDialogComponent } from '../shared/components/dialogs/confirm-dialog/confirm-dialog.component';
 import { InspectionDocumentComponent } from '../shared/components/dialogs/inspection-document/inspection-document.component';
 import { CarInspection } from '../shared/models/carInspection.model';
 
@@ -48,18 +49,32 @@ export class InspectionsListComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
 
-    deleteInspection(inspectionId: string): void {
-        let list = [...this.inspectionsList];
-        let index = list.findIndex(x => x.inspectionId === inspectionId);
-        this.inspectionsList = undefined;
-        this.inspectionsList = [];
-        list.splice(index, 1);
-        this.inspectionsList = list;
+    deleteInspection(inspection: CarInspection): void {
+        const dialogRef = this._dialog.open(ConfirmDialogComponent, {
+            width: '500px',
+            height: '250px',
+            data: {
+                title: '¿Desea eliminar esta inspección?',
+                content: [`${this._carWashService.getDateFormat(inspection.inspectionDate)} - ${inspection.clientFullName}`]
+            },
+            autoFocus: false,
+        });
 
-        this._ngxToastrService.success('Inspección eliminada exitosamente');
-        this.inspectionTable.renderRows();
-        this.dataSource = new MatTableDataSource(this.inspectionsList);
-        this._carWashService.deleteInspection(inspectionId);
+        dialogRef.afterClosed().subscribe(confirmed => {
+            if (confirmed) {
+                let list = [...this.inspectionsList];
+                let index = list.findIndex(x => x.inspectionId === inspection.inspectionId);
+                this.inspectionsList = undefined;
+                this.inspectionsList = [];
+                list.splice(index, 1);
+                this.inspectionsList = list;
+
+                this._ngxToastrService.success('Inspección eliminada exitosamente');
+                this.inspectionTable.renderRows();
+                this.dataSource = new MatTableDataSource(this.inspectionsList);
+                this._carWashService.deleteInspection(inspection.inspectionId);
+            }
+        });
     }
 
     openTransactionDocument(carInspection: CarInspection): void {

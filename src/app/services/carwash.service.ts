@@ -5,6 +5,7 @@ import { CarInspection } from '../shared/models/carInspection.model';
 import { Client } from '../shared/models/client.model';
 import { Quotation } from '../shared/models/quotation.model';
 import { User } from '../shared/models/user.model';
+import * as _moment from 'moment';
 
 @Injectable({
     providedIn: 'root'
@@ -89,5 +90,20 @@ export class CarWashService {
     //UPDATE
     updateUserStatus(user: User): void {
       this.firestore.collection('Users').doc(user.userId).update({isLoggedIn: user.isLoggedIn, ip: user.ip});
+    }
+
+    //HELPERS
+    getDateFormat(value: any): string {
+        let dateFormatted: string = '';
+
+        if (_moment.isDate(value)) {
+            let date = _moment(value).locale('es');
+            dateFormatted = date.format('LL') + ' | ' + _moment(value).format('h:mm:ss a');
+        } else {
+            let date = _moment(value.toDate()).locale('es');
+            dateFormatted = date.format('LL') + ' | ' + _moment(value.toDate()).format('h:mm:ss a');
+        }
+
+        return dateFormatted;
     }
 }

@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { CarWashService } from '../services/carwash.service';
 import { EmailService } from '../services/emails/email.service';
+import { ConfirmDialogComponent } from '../shared/components/dialogs/confirm-dialog/confirm-dialog.component';
 import { QuotationDocumentComponent } from '../shared/components/dialogs/quotation-document/quotation-document.component';
 import { Client } from '../shared/models/client.model';
 import { Quotation } from '../shared/models/quotation.model';
@@ -91,18 +92,32 @@ export class QuotationHomeComponent implements OnInit {
 		this._emailService.sendQuotationEmail(quotation);
 	}
 
-	deleteQuotation(quotationId: string): void {
-		let list = [...this.quotationList];
-		let index = list.findIndex(x => x.quotationId === quotationId);
-		this.quotationList = undefined;
-		this.quotationList = [];
-		list.splice(index, 1);
-		this.quotationList = list;
+	deleteQuotation(quotation: Quotation): void {
+		const dialogRef = this._dialog.open(ConfirmDialogComponent, {
+			width: '500px',
+			height: '250px',
+			data: {
+				title: '¿Desea eliminar esta cotización?',
+				content: [`${this._carWashService.getDateFormat(quotation.quotationDate)} - ${quotation.client.clientFullName}`]
+			},
+			autoFocus: false,
+		});
 
-		this._ngxToastrService.success('Cotización eliminada exitosamente');
-		this.quotationTable.renderRows();
-		this.dataSource = new MatTableDataSource(this.quotationList);
-		this._carWashService.deleteQuotation(quotationId);
+		dialogRef.afterClosed().subscribe(confirmed => {
+			if (confirmed) {
+				let list = [...this.quotationList];
+				let index = list.findIndex(x => x.quotationId === quotation.quotationId);
+				this.quotationList = undefined;
+				this.quotationList = [];
+				list.splice(index, 1);
+				this.quotationList = list;
+
+				this._ngxToastrService.success('Cotización eliminada exitosamente');
+				this.quotationTable.renderRows();
+				this.dataSource = new MatTableDataSource(this.quotationList);
+				this._carWashService.deleteQuotation(quotation.quotationId);
+			}
+		});
 	}
 
 }

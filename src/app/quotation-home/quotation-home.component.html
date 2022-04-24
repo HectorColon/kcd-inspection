@@ -11,6 +11,11 @@
         </div>
         <div fxLayout="column" fxLayoutAlign="space-around center" *ngIf="quotationList && quotationList.length > 0">
             <table mat-table #quotationTable [dataSource]="dataSource">
+                <!-- quotation Column -->
+                <ng-container matColumnDef="quotationNumber">
+                    <th mat-header-cell *matHeaderCellDef> Numero de Cotización </th>
+                    <td mat-cell *matCellDef="let quotation"> #{{(quotation.quotationNumber)}}
+                </ng-container>
 
                 <!-- Name Column -->
                 <ng-container matColumnDef="clientFullName">
@@ -23,12 +28,6 @@
                     <th mat-header-cell *matHeaderCellDef> Fecha de Cotizacion </th>
                     <td mat-cell *matCellDef="let quotation"> {{(quotation.quotationDate | dateTimeConverter)}}
                     </td>
-                </ng-container>
-
-                <!-- quotation Column -->
-                <ng-container matColumnDef="quotationNumber">
-                    <th mat-header-cell *matHeaderCellDef> Numero de Cotización </th>
-                    <td mat-cell *matCellDef="let quotation"> #{{(quotation.quotationNumber)}}
                 </ng-container>
 
                 <!-- termsAndConditions Column -->
@@ -50,7 +49,7 @@
                                 <mat-icon matTooltip="Enviar Cotización" color="">send</mat-icon>
                             </button>
                             <button mat-icon-button [disabled]="!quotation.quotationId"
-                                (click)="deleteQuotation(quotation.quotationId)">
+                                (click)="deleteQuotation(quotation)">
                                 <mat-icon matTooltip="Borrar Cotización" color="">delete</mat-icon>
                             </button>
                         </div>

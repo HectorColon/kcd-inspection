@@ -28,7 +28,7 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let client" style="width: 125px;">
           <div>
-            <button mat-icon-button (click)="deleteClient(client.clientId)">
+            <button mat-icon-button (click)="deleteClient(client)">
               <mat-icon matTooltip="Borrar Cliente">delete</mat-icon>
             </button>
           </div>

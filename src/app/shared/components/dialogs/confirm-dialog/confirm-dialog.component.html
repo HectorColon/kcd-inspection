@@ -1,0 +1,21 @@
+<div *ngIf="data">
+    <div fxLayout="row" fxLayoutAlign="end center">
+        <button mat-icon-button (click)="close()">
+            <mat-icon class="close">close</mat-icon>
+        </button>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="space-between center">
+        <div>
+            <h3>{{data.title}}</h3>
+        </div>
+        <div class="content">
+            <div *ngFor="let content of data.content">
+                <span>{{content}}</span>
+            </div>
+        </div>
+        <div class="actions-buttons" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="24px">
+            <button mat-raised-button color="primary" (click)="confirmAction(false)">Cerrar</button>
+            <button mat-raised-button color="accent" (click)="confirmAction(true)">Eliminar</button>
+        </div>
+    </div>
+</div>

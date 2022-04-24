@@ -9,6 +9,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { NgxPrintElementModule } from 'ngx-print-element';
 import { ToastrModule } from 'ngx-toastr';
 import { AngularMaterialModule } from '../app-material.module';
+import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
 import { InspectionDocumentComponent } from './components/dialogs/inspection-document/inspection-document.component';
 import { QuotationDocumentComponent } from './components/dialogs/quotation-document/quotation-document.component';
 import { LoaderComponent } from './components/loader/loader.component';
@@ -51,10 +52,11 @@ import { TotalConverterPipe } from './pipe/total-converter.pipe';
         ReactiveFormsModule,
         CurrencyMaskModule,
         NgxPrintElementModule,
-        TotalConverterPipe
+        TotalConverterPipe,
+        ConfirmDialogComponent
     ],
     providers: [NgWhiteboardService],
-    declarations: [LoaderComponent, InspectionDocumentComponent, UserLoginComponent, DateTimeConverterPipe, QuotationDocumentComponent, TotalConverterPipe],
-    entryComponents: [InspectionDocumentComponent, UserLoginComponent, QuotationDocumentComponent]
+    declarations: [LoaderComponent, InspectionDocumentComponent, UserLoginComponent, DateTimeConverterPipe, QuotationDocumentComponent, TotalConverterPipe, ConfirmDialogComponent],
+    entryComponents: [InspectionDocumentComponent, UserLoginComponent, QuotationDocumentComponent, ConfirmDialogComponent]
 })
 export class SharedModule { }
