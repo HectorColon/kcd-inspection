@@ -10,6 +10,7 @@ import { NgxPrintElementModule } from 'ngx-print-element';
 import { ToastrModule } from 'ngx-toastr';
 import { AngularMaterialModule } from '../app-material.module';
 import { ConfirmDialogComponent } from './components/dialogs/confirm-dialog/confirm-dialog.component';
+import { CreateReceiptDialogComponent } from './components/dialogs/create-receipt-dialog/create-receipt-dialog.component';
 import { InspectionDocumentComponent } from './components/dialogs/inspection-document/inspection-document.component';
 import { QuotationDocumentComponent } from './components/dialogs/quotation-document/quotation-document.component';
 import { LoaderComponent } from './components/loader/loader.component';
@@ -53,10 +54,11 @@ import { TotalConverterPipe } from './pipe/total-converter.pipe';
         CurrencyMaskModule,
         NgxPrintElementModule,
         TotalConverterPipe,
-        ConfirmDialogComponent
+        ConfirmDialogComponent,
+        CreateReceiptDialogComponent
     ],
     providers: [NgWhiteboardService],
-    declarations: [LoaderComponent, InspectionDocumentComponent, UserLoginComponent, DateTimeConverterPipe, QuotationDocumentComponent, TotalConverterPipe, ConfirmDialogComponent],
-    entryComponents: [InspectionDocumentComponent, UserLoginComponent, QuotationDocumentComponent, ConfirmDialogComponent]
+    declarations: [LoaderComponent, InspectionDocumentComponent, UserLoginComponent, DateTimeConverterPipe, QuotationDocumentComponent, TotalConverterPipe, ConfirmDialogComponent, CreateReceiptDialogComponent],
+    entryComponents: [InspectionDocumentComponent, UserLoginComponent, QuotationDocumentComponent, ConfirmDialogComponent, CreateReceiptDialogComponent]
 })
 export class SharedModule { }

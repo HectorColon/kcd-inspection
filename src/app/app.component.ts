@@ -27,18 +27,19 @@ export class AppComponent implements OnInit {
     title = `Kathy's Car Was and Detailing`;
 
     ngOnInit(): void {
-        this._carWashService.user.subscribe(res => {
-            this.user = res;
-        });
-
         // GET IP ADDRESS
         this.getIP().subscribe(res => {
             this.currentIP = res.ip;
         })
 
+        this._carWashService.user.subscribe(res => {
+            this.user = res;
+            this._carWashService.setUserLogged = res;
+        });
+
         // USER LOGGED
         this._carWashService.getUsers().pipe(take(1)).subscribe(res => {
-            let userLogged = res.find(x => lzString.decompressFromBase64(x.ip) === this.currentIP && x.isLoggedIn === true);
+            let userLogged = res.find(x => (lzString.decompressFromBase64(x.ip) === this.currentIP) && x.isLoggedIn === true)
 
             if (userLogged) {
                 this.user = userLogged;

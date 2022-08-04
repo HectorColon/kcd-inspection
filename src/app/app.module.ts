@@ -16,6 +16,8 @@ import { InspectionHomeComponent } from './inspection-home/inspection-home.compo
 import { InspectionsListComponent } from './inspections-list/inspections-list.component';
 import { QuotationHomeComponent } from './quotation-home/quotation-home.component';
 import { SharedModule } from './shared/shared.model';
+import { ReceiptHomeComponent } from './receipt-home/receipt-home.component';
+import { CreateReceiptDialogComponent } from './shared/components/dialogs/create-receipt-dialog/create-receipt-dialog.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { SharedModule } from './shared/shared.model';
     InspectionHomeComponent,
     ClientsHomeComponent,
     InspectionsListComponent,
-    QuotationHomeComponent
+    QuotationHomeComponent,
+    ReceiptHomeComponent
   ],
   imports: [
     BrowserModule,

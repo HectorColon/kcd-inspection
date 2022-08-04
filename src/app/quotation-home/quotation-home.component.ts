@@ -41,7 +41,7 @@ export class QuotationHomeComponent implements OnInit {
 			this.dataSource = new MatTableDataSource(this.quotationList);
 			setTimeout(() => {
 				this.isLoading = false;
-			}, 3000);
+			}, 1200);
 		});
 
 		this._carWashService.getClients().pipe(take(1), takeUntil(this._unsubscribeAll)).subscribe(res => {

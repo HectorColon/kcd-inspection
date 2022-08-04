@@ -1,0 +1,220 @@
+<!-- EDIT MODE -->
+<div fxLayout="row" fxLayoutAlign="end center">
+    <button mat-icon-button (click)="close()">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<div fxLayout="row" fxLayoutAlign="space-evenly center" *ngIf="!convertReceipt">
+    <div fxLayout="row" fxLayoutAlign="start center" *ngIf="receiptForm">
+        <form name="receiptForm" [formGroup]="receiptForm">
+            <div fxLayout="column" fxFlex style="width: 450px;" class="quotationEditForm">
+                <h1>Receibo</h1>
+                <mat-divider></mat-divider>
+                <h3>Información Cliente</h3>
+                <div fxLayout="row">
+                    <mat-form-field appearance="fill" style="width: 320px">
+                        <mat-label>Fecha de Recibo</mat-label>
+                        <input matInput [matDatepicker]="picker" disabled [value]="receiptDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row">
+                    <mat-form-field class="example-full-width" appearance="fill" style="width: 320px">
+                        <mat-label>Nombre Completo del Cliente</mat-label>
+                        <input type="text" matInput formControlName="clientFullName" placeholder="Ej. Juan Del Pueblo"
+                            [matAutocomplete]="auto">
+                        <mat-error>Nombre del cliente no debe ser vacio</mat-error>
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedClient($event.option.value)"
+                            [displayWith]="displayWith">
+                            <mat-option *ngIf="filteredClientList && filteredClientList.length <= 0" [disabled]="true">
+                                Cliente no existe</mat-option>
+                            <mat-option *ngFor="let option of filteredClientList" [value]="option">
+                                {{option.clientFullName}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxFlex>
+                    <mat-form-field class="example-full-width" appearance="fill" style="width: 320px">
+                        <mat-label>Telefono</mat-label>
+                        <input matInput placeholder="Ej. (787) 555-5555" formControlName="clientPhoneNumber"
+                            mask="(000) 000 - 0000">
+                        <mat-error>Número de telefono invalido</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row">
+                    <mat-form-field class="example-full-width" appearance="fill" style="width: 320px">
+                        <mat-label>Correo Electrónico (email)</mat-label>
+                        <input matInput placeholder="Ej. juandelpueblo@example.com" formControlName="clientEmail">
+                        <mat-error>Correo Electrónico invalido</mat-error>
+                    </mat-form-field>
+                </div>
+                <mat-divider></mat-divider>
+                <h3>Servicios realizados</h3>
+                <div formArrayName="services" style="padding-bottom: 8px;">
+                    <div *ngFor="let service of services.controls; let i=index">
+                        <div [formGroupName]="i" fxLayout="row" fxLayoutAlign="space-between center"
+                            class="quotation-list">
+                            <mat-checkbox [checked]="services.controls[i].value.checked"
+                                (change)="activeAmount(i, $event.checked, services.controls[i].value.isManual)">
+                                {{services.controls[i].value.isManual ? '' : services.controls[i].value.display}}
+                            </mat-checkbox>
+                            <div *ngIf="services.controls[i].value.isManual">
+                                <mat-form-field appearance="fill" style="width: 300px">
+                                    <mat-label>Servicio</mat-label>
+                                    <input matInput formControlName="display">
+                                </mat-form-field>
+                            </div>
+                            <div style="padding-left: 24px;" *ngIf="services.controls[i].value.checked">
+                                <mat-form-field appearance="fill" style="width: 100px">
+                                    <mat-label>Cantidad</mat-label>
+                                    <input matInput currencyMask min="1"
+                                        [options]="{ prefix: '$ ', thousands: ',', decimal: '.' }"
+                                        formControlName="amount">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="start center" style="padding-bottom: 16px;">
+                    <div>
+                        <button mat-button color="accent" (click)="createManualService()">
+                            <mat-icon>add</mat-icon>
+                            <span style="margin-left: 8px;">Agregar Servicio Manual</span>
+                        </button>
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+                <div style="padding-bottom: 8px;">
+                    <h3>Metodo de Pago</h3>
+                    <div fxLayout="row" fxLayoutGap="14px">
+                        <mat-radio-group>
+                            <mat-radio-button *ngFor="let payment of paymentMethod" [value]="payment.value"
+                                (change)="paymentMethodCtrl.setValue(payment.value)">{{payment.display}}
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div style="padding-top: 8px; padding-bottom: 8px;" *ngIf="amountDueCtrl.value > 0">
+                        <button mat-button color="accent"
+                            (click)="amountReceivedCtrl.setValue(amountDueCtrl.value)"><mat-icon>paid</mat-icon>
+                            <span style="padding-left: 8px;">Pagar Total Adeudado</span></button>
+                    </div>
+                    <div>
+                        <mat-form-field appearance="fill" style="width: 320px; padding-top: 16px;">
+                            <mat-label>Cantidad Adeudada</mat-label>
+                            <input matInput currencyMask min="1"
+                                [options]="{ prefix: '$ ', thousands: ',', decimal: '.' }"
+                                [formControl]="amountDueCtrl" readonly>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field appearance="fill" style="width: 320px; padding-top: 16px;">
+                            <mat-label>Cantidad Pagada</mat-label>
+                            <input matInput currencyMask min="1"
+                                [options]="{ prefix: '$ ', thousands: ',', decimal: '.' }"
+                                [formControl]="amountReceivedCtrl">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+                <div style="padding-top: 24px;">
+                    <mat-form-field appearance="fill" style="width: 320px;">
+                        <mat-label>Nota de Recibo</mat-label>
+                        <textarea matInput placeholder="Ej. Se incluyo dentro del servicio el lavado de motor..."
+                            formControlName="receiptNote"></textarea>
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="center center" style="padding-top: 32px;">
+                    <div>
+                        <button mat-button color="accent" (click)="convertToReceipt()" [disabled]="!receiptForm.get('clientFullName').value 
+                                || !paymentMethodCtrl.value || !amountReceivedCtrl.value">
+                            <mat-icon>receipt_long</mat-icon>
+                            <span style="margin-left: 8px;">Convertir a Recibo</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- / EDIT MODE -->
+
+<div *ngIf="convertReceipt" fxLayout="column" fxLayoutAlign="space-around center">
+    <div style="padding: 16px;width: 375px; box-shadow: 4px 4px 12px 1px rgb(211, 216, 222);height: 100%;">
+        <div style="text-align: center;"><img style="text-align: center;width: 150px;"
+                src="../../../../assets/images/kcd_logo.png"></div>
+        <div style="text-align: center;"><span style="font-size: 16px;"><strong>Kathy's Car Wash and
+                    Detailing</strong></span></div>
+        <div style="text-align: center;"><span style="font-size: 12px;">Carr. 132 Bo. Canas, Ponce
+                P.R., al lado de la Iglesia Cristiana Tabernaculo</span></div>
+        <div style="text-align: center;"><span style="font-size: 12px;">(787) 472 - 9430
+                |&nbsp;kathyscarwashanddetailing@gmail.com</span></div>
+        <div
+            style="text-align: center;border-bottom: 1px dotted rgb(157, 169, 183); opacity: 0.34;padding-top: 8px;/*padding-bottom: 0px;*/">
+        </div>
+        <div style="text-align: center; padding-top: 8px;"><span
+                style="font-size: 32px;">{{subTotalSum | currency:'USD'}}</span></div>
+        <div style="text-align: center;"><span style="font-size: 16px;color: #9DA9B7;">Total</span></div>
+        <div style="text-align: center;border-bottom: 1px dotted rgb(157, 169, 183); opacity: 0.34;padding-top:
+             8px;/*padding-bottom: 0px;*/">
+        </div>
+        <div style="text-align: left;height: 48px;">
+            <div><span style="font-size: 14px;color: #9DA9B7;">Cajero:
+                    {{_carWashService.userLogged.userFullName}}</span></div>
+            <div><span style="font-size: 14px;color: #9DA9B7;">Kiosko #1</span>
+            </div>
+        </div>
+        <div style="text-align: left;"><span style="font-size: 14px;color: #9DA9B7;">Cliente:
+                {{receipt.client.clientFullName}}</span>
+        </div>
+        <div style="text-align: left;"><span
+                style="font-size: 14px;color: #9DA9B7;">{{receipt.client.clientPhoneNumber}} |
+                {{receipt.client.clientEmail}}</span></div>
+        <div
+            style="text-align: center;border-bottom: 1px dotted rgb(157, 169, 183);opacity: 0.34;padding-top: 8px;/*padding-bottom: 0px;*/">
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 8px;"
+            *ngFor="let service of receipt.services">
+            <div style="text-align: left;"><span style="font-size: 14px;">{{service.service}}</span></div>
+            <div style="text-align: right;"><span style="font-size: 14px;">{{service.amount | currency:'USD'}}</span>
+            </div>
+        </div>
+        <div
+            style="text-align: center;border-bottom: 1px dotted rgb(157, 169, 183);opacity: 0.34;padding-top: 8px;/*padding-bottom: 0px;*/">
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 8px;">
+            <div style="text-align: left;"><span style="font-size: 14px;">Total</span></div>
+            <div style="text-align: right;/*width: 50%;*//*float: left;*/"><span
+                    style="font-size: 14px;">{{subTotalSum | currency:'USD'}}</span>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 8px;">
+            <div style="text-align: left;"><span style="font-size: 14px;">PaymentMethod</span></div>
+            <div style="text-align: right;/*width: 50%;*//*float: left;*/"><span
+                    style="font-size: 14px;">{{amountReceived | currency:'USD'}}</span>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 8px;" *ngIf="change > 0">
+            <div style="text-align: left;"><span style="font-size: 14px;">Cambio</span></div>
+            <div style="text-align: right;/*width: 50%;*//*float: left;*/"><span
+                    style="font-size: 14px;">{{change | currency:'USD'}}</span>
+            </div>
+        </div>
+        <div
+            style="/*text-align: center;*/border-bottom: 1px dotted rgb(157, 169, 183);opacity: 0.34;/*padding-top: 8px;*//*padding-bottom: 0px;*/">
+        </div>
+        <div style="/*background: rgba(255,255,255,0.5);*/height: 48px;">
+            <div style="text-align: center;"><span
+                    style="font-size: 14px;background: rgba(255,255,255,0.5);color: var(--bs-gray-500);">Gracias por su
+                    patrocinio</span></div>
+            <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 8px;" *ngIf="change > 0">
+                <div style="text-align: left;"><span
+                        style="font-size: 14px;">{{receipt.receiptDate | dateTimeConverter}}</span></div>
+                <div style="text-align: right;/*width: 50%;*//*float: left;*/"><span
+                        style="font-size: 14px;">N<sup><u>o:</u></sup>&nbsp;{{receipt.receiptNumber}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

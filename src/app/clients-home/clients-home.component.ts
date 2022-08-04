@@ -38,7 +38,7 @@ export class ClientsHomeComponent implements OnInit, OnDestroy {
             this.dataSource = new MatTableDataSource(this.clientList);
             setTimeout(() => {
                 this.isLoading = false;
-            }, 3000);
+            }, 1200);
         });
     }
 
