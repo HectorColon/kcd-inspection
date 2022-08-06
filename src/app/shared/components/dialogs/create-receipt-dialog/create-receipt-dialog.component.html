@@ -14,7 +14,7 @@
                 <div fxLayout="row">
                     <mat-form-field appearance="fill" style="width: 320px">
                         <mat-label>Fecha de Recibo</mat-label>
-                        <input matInput [matDatepicker]="picker" disabled [value]="receiptDate">
+                        <input matInput [matDatepicker]="picker" [value]="receiptDate">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
@@ -95,7 +95,7 @@
                             </mat-radio-button>
                         </mat-radio-group>
                     </div>
-                    <div style="padding-top: 8px; padding-bottom: 8px;" *ngIf="amountDueCtrl.value > 0">
+                    <div style="padding-top: 16px;" *ngIf="amountDueCtrl.value > 0">
                         <button mat-button color="accent"
                             (click)="amountReceivedCtrl.setValue(amountDueCtrl.value)"><mat-icon>paid</mat-icon>
                             <span style="padding-left: 8px;">Pagar Total Adeudado</span></button>
@@ -141,6 +141,29 @@
 <!-- / EDIT MODE -->
 
 <div *ngIf="convertReceipt" fxLayout="column" fxLayoutAlign="space-around center">
+    <div style="padding-top: 24px; padding-bottom: 24px;">
+        <div fxLayout="row" fxLayoutAlign="space-around center">
+            <div>
+                 <button mat-button color="accent" (click)="convertReceipt = !convertReceipt">
+                     <mat-icon>receipt_long</mat-icon>
+                     <span style="margin-left: 8px;">Editar Recibo</span>
+                 </button>
+            </div>
+            <div>
+                <button mat-button color="accent" (click)="convertToReceipt()">
+                    <mat-icon>send</mat-icon>
+                    <span style="margin-left: 8px;">Enviar recibo</span>
+                </button>
+            </div>
+            <div>
+                <button mat-button color="accent" (click)="convertToReceipt()">
+                    <mat-icon>save</mat-icon>
+                    <span style="margin-left: 8px;">Guardar recibo</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
     <div style="padding: 16px;width: 375px; box-shadow: 4px 4px 12px 1px rgb(211, 216, 222);height: 100%;">
         <div style="text-align: center;"><img style="text-align: center;width: 150px;"
                 src="../../../../assets/images/kcd_logo.png"></div>
@@ -168,10 +191,9 @@
         <div style="text-align: left;"><span style="font-size: 14px;color: #9DA9B7;">Cliente:
                 {{receipt.client.clientFullName}}</span>
         </div>
-        <div style="text-align: left;"><span
-                style="font-size: 14px;color: #9DA9B7;">{{receipt.client.clientPhoneNumber}} |
-                {{receipt.client.clientEmail}}</span></div>
-        <div
+        <div style="text-align: left;" *ngIf="clientAdditionalInfo && clientAdditionalInfo != ''">
+            <span style="font-size: 14px;color: #9DA9B7;">{{clientAdditionalInfo}}</span></div>
+        <div *ngIf="receipt.services && receipt.services.length > 0"
             style="text-align: center;border-bottom: 1px dotted rgb(157, 169, 183);opacity: 0.34;padding-top: 8px;/*padding-bottom: 0px;*/">
         </div>
         <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 8px;"
@@ -204,11 +226,11 @@
         <div
             style="/*text-align: center;*/border-bottom: 1px dotted rgb(157, 169, 183);opacity: 0.34;/*padding-top: 8px;*//*padding-bottom: 0px;*/">
         </div>
-        <div style="/*background: rgba(255,255,255,0.5);*/height: 48px;">
-            <div style="text-align: center;"><span
+        <div style="height: 48px;">
+            <div style="text-align: center; padding-top: 12px;"><span
                     style="font-size: 14px;background: rgba(255,255,255,0.5);color: var(--bs-gray-500);">Gracias por su
                     patrocinio</span></div>
-            <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 8px;" *ngIf="change > 0">
+            <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 8px;">
                 <div style="text-align: left;"><span
                         style="font-size: 14px;">{{receipt.receiptDate | dateTimeConverter}}</span></div>
                 <div style="text-align: right;/*width: 50%;*//*float: left;*/"><span

@@ -9,6 +9,7 @@ import { Client } from 'src/app/shared/models/client.model';
 import * as _moment from 'moment';
 import { Receipt } from 'src/app/shared/models/receipt.mode';
 import { uid } from 'uid';
+import { inflate } from 'zlib';
 
 @Component({
     selector: 'create-receipt-dialog',
@@ -33,6 +34,7 @@ export class CreateReceiptDialogComponent implements OnInit {
     subTotalSum: Number = 0;
     change: Number = 0;
     amountReceived: Number = 0;
+    clientAdditionalInfo: string = '';
 
     detailingServices = [{
         value: 0,
@@ -143,6 +145,10 @@ export class CreateReceiptDialogComponent implements OnInit {
         });
     }
 
+    displayWith(c: Client | any): string {
+        return c ? c.clientFullName ? c.clientFullName : c : undefined;
+    }
+
     createManualService(): void {
         this.services.push(this._formBuilder.group({
             value: this.services.length + 1,
@@ -207,8 +213,30 @@ export class CreateReceiptDialogComponent implements OnInit {
                 this.subTotalSum = this.subTotalSum + s.amount;
             }
         });
+
+        // IF ONLY NEED A RECEIPT
+        if (receiptRequest.services && receiptRequest.services.length <= 0) {
+            this.subTotalSum = this.amountReceivedCtrl.value
+        }
+
         this.amountReceived = this.amountReceivedCtrl.value;
         this.change = +this.amountReceivedCtrl.value - +this.subTotalSum;
+
+        if(receiptRequest.client) {
+            if (receiptRequest.client.clientPhoneNumber && receiptRequest.client.clientPhoneNumber != '' && !receiptRequest.client.clientEmail){
+                this.clientAdditionalInfo = receiptRequest.client.clientPhoneNumber;
+            }
+
+            if (receiptRequest.client.clientEmail && receiptRequest.client.clientEmail != '' && !receiptRequest.client.clientPhoneNumber) {
+                this.clientAdditionalInfo = receiptRequest.client.clientEmail;
+            }
+
+            if (receiptRequest.client.clientPhoneNumber && receiptRequest.client.clientPhoneNumber != '' &&
+                receiptRequest.client.clientEmail && receiptRequest.client.clientEmail != '') {
+
+                this.clientAdditionalInfo = receiptRequest.client.clientPhoneNumber + " | " + receiptRequest.client.clientEmail;
+            }
+        }
         this.receipt = receiptRequest;
     }
 
